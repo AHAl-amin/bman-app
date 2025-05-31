@@ -48,6 +48,7 @@ export const ApiSlice = createApi({
       query: () => "/api/recipe/v1/all/",
       providesTags: ["ChefDashboard"],
     }),
+
     getRecipeDettails: builder.query({
       query: (id) => `/api/recipe/v1/details/${id}/`,
 
@@ -74,12 +75,12 @@ export const ApiSlice = createApi({
     }),
     // recipe update
     recipeUpdate: builder.mutation({
-      query: ({ id, form }) => ({
-        url: `/api/recipe/v1/update/${id}/`,
+      query: ({ recipeId, form }) => ({
+        url: `/api/recipe/v1/update/${recipeId}/`,
         method: 'PUT',
         body: JSON.stringify(form)// Use the form data directly
       }),
-      invalidatesTags: ['updateRecipes'], // Invalidate cache to refresh recipe list
+      invalidatesTags: ['ChefDashboard'], // Invalidate cache to refresh recipe list
     }),
     // ingradients instruction and chaf note part
     getIngradientsData: builder.query({

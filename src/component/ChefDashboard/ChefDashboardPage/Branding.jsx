@@ -198,20 +198,20 @@ const Branding = () => {
                       <img
                         src={formData.logo.startsWith('http') ? formData.logo : `http://192.168.10.124:3000${formData.logo}`}
                         alt="Preview Logo"
-                        className="h-[100px] rounded-b-[10px]"
+                        className="h-[100px] rounded-[10px]"
                       />
                     ) : (
                       <img
                         src={URL.createObjectURL(formData.logo)}
                         alt="Preview Logo"
-                        className="h-[100px] rounded-b-[10px]"
+                        className="h-[100px] rounded-[10px]"
                       />
                     )
                   ) : (
                     <img
                       src="https://i.ibb.co.com/pBTdN8Bn/image-2.jpg"
                       alt="Default Logo"
-                      className="h-[100px] rounded-b-[10px]"
+                      className="h-[100px] rounded-[10px]"
                     />
                   )}
                 </div>
@@ -236,20 +236,20 @@ const Branding = () => {
                   <img
                     src={formData.logo.startsWith('http') ? formData.logo : `http://192.168.10.124:3000${formData.logo}`}
                     alt="Preview Logo"
-                    className="h-[100px] rounded-b-[10px]"
+                    className="h-[100px] rounded-[10px]"
                   />
                 ) : (
                   <img
                     src={URL.createObjectURL(formData.logo)}
                     alt="Preview Logo"
-                    className="h-[100px] rounded-b-[10px]"
+                    className="h-[100px] rounded-[10px]"
                   />
                 )
               ) : (
                 <img
                   src="https://i.ibb.co.com/pBTdN8Bn/image-2.jpg"
                   alt="Default Logo"
-                  className="h-[100px] rounded-b-[10px]"
+                  className="h-[100px] rounded-[10px]"
                 />
               )}
               <div className="space-y-2">
