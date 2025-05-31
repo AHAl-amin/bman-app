@@ -5,7 +5,8 @@ import React, { useState } from 'react';
 import { CiFilter } from 'react-icons/ci';
 import { IoIosHeartEmpty } from 'react-icons/io';
 import { IoSearchOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useGetRecipeDettailsQuery } from '../../../../Rudux/feature/ApiSlice';
 
 // JSON data for recipes (unchanged)
 const recipes = [
@@ -48,7 +49,7 @@ const recipes = [
   {
     id: 5,
     title: 'millssic Chocolate Soufflé',
-    category: 'Desserts',
+    category: '+-',
     description: 'A light and airy chocolate dessert with a molten center....',
     image: 'https://i.ibb.co/XfKX16Nq/image.png',
     rating: 4.8,
@@ -65,7 +66,10 @@ const recipes = [
   },
 ];
 
-function AllRecipes() {
+function AllRecipes({recipeData}) {
+    
+    
+     console.log('id:', recipeData);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isFilterOpen, setIsFilterOpen] = useState(false);

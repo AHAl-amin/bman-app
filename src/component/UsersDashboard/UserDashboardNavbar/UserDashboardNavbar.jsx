@@ -3,7 +3,7 @@ import { GoBellFill } from "react-icons/go";
 import { IoMdAdd } from "react-icons/io";
 import { PiChefHatFill } from "react-icons/pi";
 import { Link, NavLink } from "react-router-dom";
-import { useGetProfileQuery } from "../../../Rudux/feature/ApiSlice";
+import { useGetAllBrandsQuery, useGetProfileQuery } from "../../../Rudux/feature/ApiSlice";
 
 import { setBrandId } from "../../../Rudux/feature/BrandSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +14,11 @@ const UserDashboardNavbar = () => {
 		"https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg"
 	);
 	const { data: profileList } = useGetProfileQuery();
+	const { data: getAllBrands } = useGetAllBrandsQuery();
+    console.log("Profile List:", profileList);
+    const userData = profileList?.user || {};
+    const brands = getAllBrands?.data || [];
+    console.log("Brands:", brands);
 	const [userName, setUserName] = useState("");
 
 	useEffect(() => {
@@ -62,17 +67,17 @@ const UserDashboardNavbar = () => {
 							onChange={handleBrandChange}
 							// value={selectedBrandId}
 						>
-							<option value="" disabled>
+							<option value="" >
 								Select a Brand
 							</option>
-							{/* {brands.map((brand) => (
+							{brands.map((brand) => (
 								<option
 									key={brand.brand_id}
 									value={brand.brand_id}
 								>
 									{brand.brand_name}
 								</option>
-							))} */}
+							))}
 						</select>
 					</div>
 				</div>
@@ -87,14 +92,21 @@ const UserDashboardNavbar = () => {
 				</NavLink>
 
 				<div className="flex items-center space-x-2">
+                    <div className="mr-4">
+                        {userData?.first_name}
+
+                        
+
+                    </div>
 					<img
 						src={userImageUrl}
 						alt="User profile"
 						className="h-10 w-10 rounded-full hidden md:block"
 					/>
-					<span className="text-[17px] font-medium hidden md:block">
+					<span className="text-[17px] font-medium  text-black">
 						{userName}
 					</span>
+                    
 				</div>
 			</div>
 		</div>

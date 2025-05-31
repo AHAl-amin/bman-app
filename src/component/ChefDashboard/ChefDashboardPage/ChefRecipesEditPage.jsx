@@ -10,12 +10,15 @@ import toast, { Toaster } from 'react-hot-toast';
 import Ingredients from './Ingredients';
 import Instructions from './Instructions';
 import ChefNote from './ChefNote';
+import AllRecipes from '../../UsersDashboard/UserDashboardPages/AllRecipes/AllRecipes';
 
 function ChefRecipesEditPage() {
   const { id } = useParams();
-  console.log('Recipe ID:', id);
+
 
   const { data: getRecipeDettails, isLoading: isFetching, isError, error } = useGetRecipeDettailsQuery(id);
+  console.log('getRecipeDettails:', getRecipeDettails);
+  <AllRecipes recipeData={getRecipeDettails?.data} />
 
   const [formData, setFormData] = useState({
     title: '',

@@ -22,23 +22,7 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// const baseQuery = fetchBaseQuery({
-// 	baseUrl: apiBaseURL,
-// 	prepareHeaders: (headers, { getState, endpoint }) => {
-// 		const token = getState().auth.token;
-// 		if (token) {
-// 			headers.set("Authorization", `Bearer ${token}`);
-// 		}
-// 		if 
-//     (
-// 			!["recipeCreate", "updateProfile", "aiTraining"].includes(endpoint)
-// 		) 
-//     {
-// 			headers.set("Content-Type", "application/json");
-// 		}
-// 		return headers;
-// 	},
-// });
+
 
 
 export const ApiSlice = createApi({
