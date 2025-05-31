@@ -26,6 +26,8 @@ const Home = () => {
     const [selectedSubTitle, setSelectedSubTitle] = useState('');
     const filterRef = useRef(null);
 
+
+  
     // Compute unique taglines using useMemo for performance
     const uniqueSubTitles = useMemo(() => {
         if (!idOfItems?.about) return [];

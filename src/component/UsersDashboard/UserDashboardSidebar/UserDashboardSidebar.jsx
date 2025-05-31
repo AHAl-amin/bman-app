@@ -1,17 +1,32 @@
 
 
 
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { IoReorderThreeOutline, IoSettingsOutline } from "react-icons/io5";
 import login_img2 from '../../../assets/image/Admin_login_img.png';
-import { FaBrain, FaHeart, FaRegLightbulb } from "react-icons/fa";
-import { BsChatDotsFill, BsFillChatDotsFill } from "react-icons/bs";
+import {  FaHeart,  } from "react-icons/fa";
+import {  BsFillChatDotsFill } from "react-icons/bs";
 import { FaPeopleGroup } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiChefHatFill } from "react-icons/pi";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { logout } from "../../../Rudux/feature/authSlice";
+// import { logOut } from "../../../Rudux/authSlice
 
 const UserDashboardSidebar = () => {
+  const navigate = useNavigate();
+	const token =
+		useSelector((state) => state.auth.token) ||
+		localStorage.getItem("refresh_token");
+	useEffect(() => {
+		if (!token) {
+			navigate("/user_signin");
+		}
+		console.log("Token:", token);
+	}, [token, navigate]);
+	const dispatch = useDispatch();
   const location = useLocation();
   const isProjectActive = location.pathname.startsWith('/dashboard/user_notifications');
   const isDashboardActive =
@@ -26,6 +41,13 @@ const UserDashboardSidebar = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  	const handleLogout = () => {
+		dispatch(logout());
+		localStorage.removeItem("access_token");
+		localStorage.removeItem("refresh_token");
+		navigate("/user_signin");
+		toast.success("Logout successful!");
+	};
 
   return (
     <div className="lora">
@@ -115,9 +137,17 @@ const UserDashboardSidebar = () => {
           </NavLink>
         </div>
 
-        <NavLink to='/user_signin' className="flex items-center gap-2 justify-center text-[#5B21BD] h-full">
+        {/* <NavLink to='/user_signin' className="flex items-center gap-2 justify-center text-[#5B21BD] h-full">
           <RiLogoutCircleLine /> <p>Logout</p>
-        </NavLink>
+        </NavLink> */}
+
+
+        	<button
+					className="w-full flex items-center gap-2 justify-center text-[#5B21BD] h-full cursor-pointer"
+					onClick={handleLogout}
+				>
+					<RiLogoutCircleLine /> <p>Logout</p>
+				</button>
       </div>
 
       {/* Overlay for Small Devices */}
