@@ -27,7 +27,7 @@ const baseQuery = fetchBaseQuery({
 export const ApiSlice = createApi({
   reducerPath: "ApiSlice",
   baseQuery,
-  tagTypes: ["Profile", "ChefDashboard", "usUserDashboard", "Project", "Employees", "updateRecipes"], // Add 'updateRecipes' to tagTypes
+  tagTypes: ["Profile", "ChefDashboard", "usUserDashboard", "Project", "Employees", "updateRecipes", "ChefCommunity"], // Add 'updateRecipes' to tagTypes
   endpoints: (builder) => ({
 
     // Other endpoints remain unchanged
@@ -253,6 +253,27 @@ export const ApiSlice = createApi({
       }),
       invalidatesTags: ["ChefDashboard"],
     }),
+    getCommunityPostList: builder.query({
+      query: () => "/api/community/v1/posts/",
+      providesTags: ["CommunityPosts"],
+    }),
+
+    DeletCommunityPostList: builder.mutation({
+      query: (id) => ({
+        url: `/api/community/v1/post/delete/${id}/`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["CommunityPosts"], // Use the correct tag that `useGetCommunityPostListQuery` provides
+    }),
+    chefCommentPost: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/api/community/v1/post/${id}/comment/`,
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["ChefDashboard"],
+    }),
+
 
 
   }),
@@ -262,7 +283,7 @@ export const ApiSlice = createApi({
 export const {
   useRecipeCreateMutation,
 
-  useGetCategoryListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation
+  useGetCategoryListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation, useGetCommunityPostListQuery, useDeletCommunityPostListMutation, useChefCommentPostMutation
 } = ApiSlice;
 
 export default ApiSlice;

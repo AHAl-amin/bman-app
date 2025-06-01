@@ -2,61 +2,62 @@
 
 
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BsSave, BsShare } from 'react-icons/bs';
 
 import { IoIosHeartEmpty, IoMdAdd } from 'react-icons/io';
 import { PiChefHatFill, PiDotsThreeOutlineFill } from 'react-icons/pi';
 import { MdOutlineFileUpload } from "react-icons/md";
-import { FaRegCommentAlt } from 'react-icons/fa';
-import { useChefCommunityPostCreateMutation } from '../../../Rudux/feature/ApiSlice';
+import { FaRegBookmark, FaRegCommentAlt } from 'react-icons/fa';
+import { useChefCommentPostMutation, useChefCommunityPostCreateMutation, useDeletCommunityPostListMutation, useGetCommunityPostListQuery } from '../../../Rudux/feature/ApiSlice';
 import toast, { Toaster } from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
 
-// JSON Data (can be moved to state or fetched from an API)
-const initialCommunityPosts = [
-  {
-    id: 1,
-    role: 'Chef',
-    username: 'Chef',
-    timeAgo: '1 Day Ago',
-    title: 'New Technique: Mirror Glaze for Bonbons',
-    content:
-      "I'm excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in temperature control!",
-    imageUrl: 'https://i.ibb.co.com/NdC53ZPN/image-1.jpg',
-    avatarUrl: 'https://i.ibb.co.com/60hvPZRS/bannerimg-01.png',
-    likes: 41,
-    comments: 41,
-  },
-  {
-    id: 2,
-    role: 'User',
-    username: 'User',
-    timeAgo: '1 Day Ago',
-    title: 'New Technique: Mirror Glaze for Bonbons',
-    content:
-      "I'm excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in temperature control!",
-    imageUrl: 'https://i.ibb.co.com/NdC53ZPN/image-1.jpg',
-    avatarUrl: 'https://i.ibb.co.com/60hvPZRS/bannerimg-01.png',
-    likes: 41,
-    comments: 41,
-  },
 
-];
+
 
 const ChefCommunity = () => {
+  const id = useParams();
+  const [deletePost] = useDeletCommunityPostListMutation(id);
 
-  const [chefCommunityPostCreate, { data, isLoading, error }] = useChefCommunityPostCreateMutation();
+  const [chefCommunityPostCreate] = useChefCommunityPostCreateMutation();
 
   console.log(chefCommunityPostCreate, "firstname");
-  console.log("data:", data);
+  const [chefCommentPost] = useChefCommentPostMutation();
 
+
+  const { data: getCommunityPostList, refetch } = useGetCommunityPostListQuery();
+  const communityPost = getCommunityPostList?.results?.data || [];
+  console.log(communityPost, "communityPost");
+  console.log(getCommunityPostList, "getCommunityPostList");
+
+
+  // State for comment box and inputs
+  const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
+  const [selectedPostId, setSelectedPostId] = useState(null);
+  const [commentText, setCommentText] = useState('');
 
   // State for modal, image, form data, and posts
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
   const [content, setcontent] = useState('');
-  const [communityPosts, setCommunityPosts] = useState(initialCommunityPosts);
+
+  const [activeDropdownId, setActiveDropdownId] = useState(null);
+  // delete post function
+  const handleDeletePost = async (postId) => {
+    try {
+      await deletePost(postId).unwrap();
+      toast.success('Post deleted successfully!');
+      setActiveDropdownId(null); // close dropdown
+    } catch (error) {
+      toast.error('Failed to delete the post.');
+      console.error(error);
+    }
+  };
+  const toggleDropdown = (postId) => {
+    setActiveDropdownId((prev) => (prev === postId ? null : postId));
+  };
 
   // Toggle modal visibility
   const toggleAddChefModal = () => {
@@ -68,6 +69,13 @@ const ChefCommunity = () => {
       setcontent('');
     }
   };
+
+
+
+
+
+
+
 
 
 
@@ -108,24 +116,11 @@ const ChefCommunity = () => {
         throw new Error('Failed to share your creation. Please try again.');
       }
 
-      const responseData = await response.json();
 
-      const newPost = {
-        id: responseData.id || communityPosts.length + 1,
-        role: responseData.role || 'User',
-        username: responseData.username || 'CurrentUser',
-        timeAgo: 'Just Now',
-        title: responseData.title || title,
-        content: responseData.content || content,
-        imageUrl: responseData.imageUrl || image.preview,
-        avatarUrl: responseData.avatarUrl || 'https://i.ibb.co.com/60hvPZRS/bannerimg-01.png',
-        likes: 0,
-        comments: 0,
-      };
 
-      setCommunityPosts([newPost, ...communityPosts]);
       toggleAddChefModal();
       toast.success('Your post was shared successfully!');
+      refetch()
     } catch (err) {
       console.error('Error posting to community:', err);
       toast.error(err.message || 'Failed to share your creation. Please try again.');
@@ -134,7 +129,7 @@ const ChefCommunity = () => {
 
 
   return (
-    <div className="px-10 py-4 lora">
+    <div className="px-10 md:w-4/5  w-full py-4 lora mx-auto">
       <div className='flex items-center justify-between'>
         <div>
           <h1 className="text-[#5B21BD] text-4xl md:text-[45px] font-semibold">Community</h1>
@@ -151,18 +146,18 @@ const ChefCommunity = () => {
         </button>
       </div>
 
-      <div className="space-y-8 mt-4">
-        {communityPosts.map((post) => (
+      <div className="space-y-8 mt-4 ">
+        {communityPost.map((post) => (
           <div
             key={post.id}
-            className="border border-white bg-white shadow-md rounded-lg p-4"
+            className="border border-white bg-white shadow-md rounded-lg p-4 "
           >
             {/* Header Section */}
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <img
                   src={post.avatarUrl}
-                  alt="Avatar"
+                  alt="user/chef"
                   className="w-10 h-10 bg-gray-300 rounded-full mr-3"
                 />
                 <div>
@@ -170,14 +165,44 @@ const ChefCommunity = () => {
                   <p className="text-sm text-gray-500">{post.timeAgo}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-6">
+
+
+              <div className="relative flex items-center gap-6">
                 {post.role === 'Chef' && (
                   <span className="flex items-center gap-2 bg-[#EFE9F8] px-2 py-1 rounded text-[#5B21BD]">
                     Chef <PiChefHatFill />
                   </span>
                 )}
-                <PiDotsThreeOutlineFill className="text-[#A2A2A2] cursor-pointer" />
+                <PiDotsThreeOutlineFill
+                  className="text-[#A2A2A2] cursor-pointer"
+                  onClick={() => { toggleDropdown(post.id) }}
+
+                />
+
+
+                {activeDropdownId === post.id && (
+                  <div className="absolute right-0 top-8 bg-white border shadow-md rounded-lg z-50 w-32 ">
+                    <button
+                      className="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 text-sm text-gray-700 cursor-pointer"
+                      onClick={() => {
+
+                        console.log("Edit clicked for post:", post.id);
+                        setActiveDropdownId(null); // close dropdown
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="w-full text-left px-4 py-2 rounded-lg hover:bg-gray-100 text-sm text-red-600 cursor-pointer"
+                      onClick={() => handleDeletePost(post.id)}
+                    >
+                      Delete
+                    </button>
+
+                  </div>
+                )}
               </div>
+
             </div>
 
             {/* Post Content */}
@@ -189,28 +214,97 @@ const ChefCommunity = () => {
             {/* Image Section */}
             <div className="mt-3">
               <img
-                src={post.imageUrl}
+
+                src={`http://192.168.10.124:3000/${post.image}`}
                 alt="Post"
-                className="w-full h-[400px] object-cover rounded-lg"
+                className=" object-cover rounded-lg  w-full max-h-[500px] "
               />
             </div>
 
             {/* Interaction Buttons */}
             <div className="flex justify-center items-center mt-3 text-[#5B21BD] py-6">
               <div className="flex text-3xl space-x-10">
-                <button className="flex items-center space-x-1">
+                <button className="flex items-center space-x-1 cursor-pointer">
                   <IoIosHeartEmpty />
                   <span className="ml-2 text-base">{post.likes}</span>
                 </button>
-                <button className="flex items-center space-x-1">
+                <button
+                  className="flex items-center space-x-1 cursor-pointer"
+                  onClick={() => {
+                    setSelectedPostId(post.id);
+                    setIsCommentModalOpen(true);
+                  }}
+                >
+
                   <FaRegCommentAlt />
-                  <span className="ml-2 text-base">{post.comments}</span>
+                  <span className="ml-2 text-base">{Array.isArray(post.comments) ? post.comments.length : 0}</span>
+                  {Array.isArray(post.comments) && post.comments.map((comment) => (
+                    <div key={comment.id} className="text-sm text-gray-700">
+                      {comment.content}
+                    </div>
+                  ))}
                 </button>
-                <button className="flex items-center gap-2">
-                  <BsSave />
+                {isCommentModalOpen && (
+                  <div className="fixed inset-0  z-50 flex items-center justify-center">
+                    <div className="bg-white rounded-lg shadow w-full max-w-md p-6 relative">
+                      <button
+                        onClick={() => setIsCommentModalOpen(false)}
+                        className="absolute top-2 right-3 text-gray-600 text-xl cursor-pointer"
+                      >
+                        ×
+                      </button>
+                      <h2 className="text-xl font-bold  text-[#5B21BD] mb-4"> Comment</h2>
+
+                      <textarea
+                        value={commentText}
+                        onChange={(e) => setCommentText(e.target.value)}
+                        rows="4"
+                        placeholder="Write your comment "
+                        className="w-full p-3 border text-gray-400 text-xl border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B21BD]"
+                      ></textarea>
+
+                      <div className="mt-4 flex justify-end space-x-2">
+
+                        <button
+                          onClick={async () => {
+                            if (!commentText.trim()) {
+                              toast.error('Comment cannot be empty');
+                              return;
+                            }
+
+                            try {
+                              await chefCommentPost({
+                                id: selectedPostId,
+                                formData: {
+                                  content: commentText,
+                                },
+                              }).unwrap();
+
+
+                              toast.success('Comment posted!');
+                              setCommentText('');
+                              setIsCommentModalOpen(false);
+                              refetch(); // reload posts/comments
+                            } catch (err) {
+                              console.error(err);
+                              toast.error('Failed to post comment.');
+                            }
+                          }}
+                          className="px-2 py-1 bg-[#5B21BD] cursor-pointer text-white rounded-lg"
+                        >
+                          Send
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+
+                <button className="flex items-center gap-2 cursor-pointer">
+                  <FaRegBookmark />
                   <span className="text-base">save</span>
                 </button>
-                <button className="flex items-center gap-2">
+                <button className="flex items-center gap-2 cursor-pointer">
                   <BsShare />
                   <span className="text-base">share</span>
                 </button>
@@ -262,7 +356,7 @@ const ChefCommunity = () => {
                   className="w-full p-6 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer"
                   onClick={() => document.getElementById('fileInput').click()}
                 >
-             
+
 
                   {image?.preview ? (
                     <img
