@@ -1,12 +1,16 @@
 
 
-import React, { useState } from 'react';
+
+
+import { useState } from 'react';
 import { BsSave, BsShare } from 'react-icons/bs';
 
 import { IoIosHeartEmpty, IoMdAdd } from 'react-icons/io';
 import { PiChefHatFill, PiDotsThreeOutlineFill } from 'react-icons/pi';
 import { MdOutlineFileUpload } from "react-icons/md";
 import { FaRegCommentAlt } from 'react-icons/fa';
+import { useChefCommunityPostCreateMutation } from '../../../Rudux/feature/ApiSlice';
+import toast, { Toaster } from 'react-hot-toast';
 
 // JSON Data (can be moved to state or fetched from an API)
 const initialCommunityPosts = [
@@ -36,40 +40,22 @@ const initialCommunityPosts = [
     likes: 41,
     comments: 41,
   },
-  {
-    id: 3,
-    role: 'Chef',
-    username: 'Chef',
-    timeAgo: '1 Day Ago',
-    title: 'New Technique: Mirror Glaze for Bonbons',
-    content:
-      "I'm excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in temperature control!",
-    imageUrl: 'https://i.ibb.co.com/NdC53ZPN/image-1.jpg',
-    avatarUrl: 'https://i.ibb.co.com/60hvPZRS/bannerimg-01.png',
-    likes: 41,
-    comments: 41,
-  },
-  {
-    id: 4,
-    role: 'User',
-    username: 'User',
-    timeAgo: '1 Day Ago',
-    title: 'New Technique: Mirror Glaze for Bonbons',
-    content:
-      "I'm excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in temperature control!",
-    imageUrl: 'https://i.ibb.co.com/NdC53ZPN/image-1.jpg',
-    avatarUrl: 'https://i.ibb.co.com/60hvPZRS/bannerimg-01.png',
-    likes: 41,
-    comments: 41,
-  },
+
 ];
 
 const ChefCommunity = () => {
+
+  const [chefCommunityPostCreate, { data, isLoading, error }] = useChefCommunityPostCreateMutation();
+
+  console.log(chefCommunityPostCreate, "firstname");
+  console.log("data:", data);
+
+
   // State for modal, image, form data, and posts
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [content, setcontent] = useState('');
   const [communityPosts, setCommunityPosts] = useState(initialCommunityPosts);
 
   // Toggle modal visibility
@@ -79,47 +65,73 @@ const ChefCommunity = () => {
     if (isModalOpen) {
       setImage(null);
       setTitle('');
-      setDescription('');
+      setcontent('');
     }
   };
 
-  // Handle image upload
+
+
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImage(imageUrl);
+      setImage({ file, preview: URL.createObjectURL(file) });
     }
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!title || !description || !image) {
-      alert('Please fill in all fields and upload an image.');
+    if (!title || !content || !image?.file) {
+      toast.error('Please fill in all fields and upload an image.');
       return;
     }
 
-    // Create new post (simulating a new post addition)
-    const newPost = {
-      id: communityPosts.length + 1,
-      role: 'User', // Adjust based on user role logic
-      username: 'CurrentUser', // Replace with actual username
-      timeAgo: 'Just Now',
-      title,
-      content: description,
-      imageUrl: image, // In a real app, this would be uploaded to a server
-      avatarUrl: 'https://i.ibb.co.com/60hvPZRS/bannerimg-01.png', // Replace with user avatar
-      likes: 0,
-      comments: 0,
-    };
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    formData.append('image', image.file);
 
-    // Update posts
-    setCommunityPosts([newPost, ...communityPosts]);
+    try {
+      const token = localStorage.getItem('access_token');
 
-    // Close modal and reset form
-    toggleAddChefModal();
+      const response = await fetch('http://192.168.10.124:3000/api/community/v1/post/create/', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to share your creation. Please try again.');
+      }
+
+      const responseData = await response.json();
+
+      const newPost = {
+        id: responseData.id || communityPosts.length + 1,
+        role: responseData.role || 'User',
+        username: responseData.username || 'CurrentUser',
+        timeAgo: 'Just Now',
+        title: responseData.title || title,
+        content: responseData.content || content,
+        imageUrl: responseData.imageUrl || image.preview,
+        avatarUrl: responseData.avatarUrl || 'https://i.ibb.co.com/60hvPZRS/bannerimg-01.png',
+        likes: 0,
+        comments: 0,
+      };
+
+      setCommunityPosts([newPost, ...communityPosts]);
+      toggleAddChefModal();
+      toast.success('Your post was shared successfully!');
+    } catch (err) {
+      console.error('Error posting to community:', err);
+      toast.error(err.message || 'Failed to share your creation. Please try again.');
+    }
   };
+
 
   return (
     <div className="px-10 py-4 lora">
@@ -234,10 +246,10 @@ const ChefCommunity = () => {
               </div>
 
               <div className="mb-4">
-                <label className="block text-gray-700 mb-2">Description</label>
+                <label className="block text-gray-700 mb-2">content</label>
                 <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  value={content}
+                  onChange={(e) => setcontent(e.target.value)}
                   placeholder="Share details about your creation, modifications you made, or tips for others"
                   className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B21BD]"
                   rows="4"
@@ -250,9 +262,11 @@ const ChefCommunity = () => {
                   className="w-full p-6 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer"
                   onClick={() => document.getElementById('fileInput').click()}
                 >
-                  {image ? (
+             
+
+                  {image?.preview ? (
                     <img
-                      src={image}
+                      src={image.preview}
                       alt="Uploaded preview"
                       className="max-w-full max-h-48 object-contain mb-2"
                     />
@@ -262,6 +276,7 @@ const ChefCommunity = () => {
                       <span className="text-gray-500">Upload Image</span>
                     </>
                   )}
+
                   <input
                     id="fileInput"
                     type="file"
@@ -291,6 +306,7 @@ const ChefCommunity = () => {
           </div>
         </div>
       )}
+      <Toaster position='top-right' />
     </div>
   );
 };

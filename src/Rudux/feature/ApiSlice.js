@@ -11,11 +11,10 @@ const baseQuery = fetchBaseQuery({
       headers.set("Authorization", `Bearer ${token}`);
     }
     // Only set Content-Type to application/json for non-file uploads
-    if 
-       (
-			!["recipeCreate", "updateProfile", "aiTraining"].includes(endpoint)
-		)
-      {
+    if
+      (
+      !["recipeCreate", "updateProfile", "aiTraining"].includes(endpoint)
+    ) {
       headers.set("Content-Type", "application/json");
     }
     return headers;
@@ -28,35 +27,35 @@ const baseQuery = fetchBaseQuery({
 export const ApiSlice = createApi({
   reducerPath: "ApiSlice",
   baseQuery,
-  tagTypes: ["Profile", "ChefDashboard","usUserDashboard", "Project", "Employees", "updateRecipes"], // Add 'updateRecipes' to tagTypes
+  tagTypes: ["Profile", "ChefDashboard", "usUserDashboard", "Project", "Employees", "updateRecipes"], // Add 'updateRecipes' to tagTypes
   endpoints: (builder) => ({
 
-    	// Other endpoints remain unchanged
-		getProfile: builder.query({
-			query: () => "/api/auth/v1/profile/",
-			providesTags: ["Profile"],
-		}),
-		updateProfile: builder.mutation({
-			query: (formDataToSend) => ({
-				url: "/api/auth/v1/update-profile/",
-				method: "PUT",
-				body: formDataToSend,
-			}),
-			invalidatesTags: ["Profile"],
-		}),
-		getAllRecipes: builder.query({
-			query: (arg, api) => {
-				const brandId = api.getState().brand.selectedBrandId; // Use api.getState()
-				return brandId
-					? `/api/main/v1/recipes/${brandId}`
-					: "/api/recipe/v1/all/1";
-			},
-			providesTags: ["UserDashboard"],
-		}),
-		getAllBrands: builder.query({
-			query: () => "/api/main/v1/chef/brands/",
-			providesTags: ["UserDashboard"],
-		}),
+    // Other endpoints remain unchanged
+    getProfile: builder.query({
+      query: () => "/api/auth/v1/profile/",
+      providesTags: ["Profile"],
+    }),
+    updateProfile: builder.mutation({
+      query: (formDataToSend) => ({
+        url: "/api/auth/v1/update-profile/",
+        method: "PUT",
+        body: formDataToSend,
+      }),
+      invalidatesTags: ["Profile"],
+    }),
+    getAllRecipes: builder.query({
+      query: (arg, api) => {
+        const brandId = api.getState().brand.selectedBrandId; // Use api.getState()
+        return brandId
+          ? `/api/main/v1/recipes/${brandId}`
+          : "/api/recipe/v1/all/1";
+      },
+      providesTags: ["UserDashboard"],
+    }),
+    getAllBrands: builder.query({
+      query: () => "/api/main/v1/chef/brands/",
+      providesTags: ["UserDashboard"],
+    }),
 
     // chef dashboard
 
@@ -235,14 +234,25 @@ export const ApiSlice = createApi({
     }),
 
     // landing page / main page
-  getManiChefBrandList: builder.query({
+    getManiChefBrandList: builder.query({
       query: () => "/api/main/v1/chef/brands/",
       providesTags: ["ChefDashboard"]
     }),
- getManiChefBrandListById: builder.query({
-  query: (id) => `/api/main/v1/chef/brand/${id}/`,
-  providesTags: ["ChefDashboard"]
-}),
+    getManiChefBrandListById: builder.query({
+      query: (id) => `/api/main/v1/chef/brand/${id}/`,
+      providesTags: ["ChefDashboard"]
+    }),
+
+
+    // chef community section
+    chefCommunityPostCreate: builder.mutation({
+      query: (formData) => ({
+        url: "/api/community/v1/post/create/",
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["ChefDashboard"],
+    }),
 
 
   }),
@@ -252,7 +262,7 @@ export const ApiSlice = createApi({
 export const {
   useRecipeCreateMutation,
 
-  useGetCategoryListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery
+  useGetCategoryListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation
 } = ApiSlice;
 
 export default ApiSlice;
