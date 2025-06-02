@@ -9,12 +9,15 @@ import { GoPaperAirplane } from "react-icons/go";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import aiIcon from '../../../assets/image/ai_icon.png';
-import { useGetCategoryListQuery } from "../../../Rudux/feature/ApiSlice";
+import { useAiMassageCreateMutation, useGetCategoryListQuery } from "../../../Rudux/feature/ApiSlice";
 
 const ChefAiChat = () => {
 
     const { data: categoryList, } = useGetCategoryListQuery();
-     console.log("recipesData", categoryList);
+    console.log("recipesData", categoryList);
+
+    const [AiMassageCreate] = useAiMassageCreateMutation();
+
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -33,13 +36,7 @@ const ChefAiChat = () => {
     const dropdownRef = useRef(null);
     const recipeDropdownRef = useRef(null);
 
-    const recipes = [
-        "Desserts",
-        "Ice-creem",
-        "Cakes",
-        "Pastries",
-        "Cookies"
-    ];
+
 
 
     // Scroll to bottom of messages
@@ -47,12 +44,15 @@ const ChefAiChat = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
+    // useEffect(() => {
+    //     scrollToBottom();
+    //     if (hasUserSentMessage) {
+    //         inputRef.current?.focus();
+    //     }
+    // }, [messages, hasUserSentMessage]);
     useEffect(() => {
         scrollToBottom();
-        if (hasUserSentMessage) {
-            inputRef.current?.focus();
-        }
-    }, [messages, hasUserSentMessage]);
+    }, [messages]);
 
     // Handle clicks outside dropdowns
     useEffect(() => {
@@ -77,7 +77,13 @@ const ChefAiChat = () => {
         setIsLoading(true);
         try {
             let botResponse = "I'm processing your request...";
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            // await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            await AiMassageCreate({
+                message: userMessage,
+                recipe: selectedRecipe,
+                image: selectedImage, // You may need to send the actual File, not just objectURL
+            });
 
             if (userMessage.toLowerCase().includes("hello") || userMessage.toLowerCase().includes("hi")) {
                 botResponse = "Hello! How can I assist you today?";
@@ -219,33 +225,32 @@ const ChefAiChat = () => {
                         <h1 className="text-[#5B21BD] font-bold text-[35px]">AI Chat</h1>
                         <div className="flex space-x-6">
                             <div className="relative" ref={recipeDropdownRef}>
-                              
+
 
                                 <button
-  onClick={toggleRecipeDropdown}
-  className="recipe-dropdown-button border h-full border-[#EFE9F8] text-[#5B21BD] rounded-xl px-4 flex items-center cursor-pointer font-semibold"
->
-  Select Recipe
-  <IoIosArrowDown className={`ml-2 transition-transform ${showRecipeDropdown ? 'rotate-180' : ''}`} />
-</button>
-{showRecipeDropdown && (
-  <div className="absolute top-full mt-2 w-48 bg-white border border-[#EFE9F8] rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
-    {/* Safely access the array */}
-    {(categoryList?.data || categoryList?.results || []).map((category, index) => (
-      <button
-        key={category.id || index}
-        className={`block w-full text-left px-4 py-2 text-[#5B21BD] hover:bg-gray-100 ${
-          selectedRecipe === category.name ? 'bg-[#EFE9F8]' : ''
-        }`}
-        onClick={() => handleRecipeSelect(category.name)}
-      >
-        {category.name}
-      </button>
-    ))}
-  </div>
-)}
+                                    onClick={toggleRecipeDropdown}
+                                    className="recipe-dropdown-button border h-full border-[#EFE9F8] text-[#5B21BD] rounded-xl px-4 flex items-center cursor-pointer font-semibold"
+                                >
+                                    Select Recipe
+                                    <IoIosArrowDown className={`ml-2 transition-transform ${showRecipeDropdown ? 'rotate-180' : ''}`} />
+                                </button>
+                                {showRecipeDropdown && (
+                                    <div className="absolute top-full mt-2 w-48 bg-white border border-[#EFE9F8] rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
+                                        {/* Safely access the array */}
+                                        {(categoryList?.data || categoryList?.results || []).map((category, index) => (
+                                            <button
+                                                key={category.id || index}
+                                                className={`block w-full text-left px-4 py-2 text-[#5B21BD] hover:bg-gray-100 ${selectedRecipe === category.name ? 'bg-[#EFE9F8]' : ''
+                                                    }`}
+                                                onClick={() => handleRecipeSelect(category.name)}
+                                            >
+                                                {category.name}
+                                            </button>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
-                            
+
                             <div className="relative" ref={dropdownRef}>
                                 <button
                                     onClick={toggleDropdown}

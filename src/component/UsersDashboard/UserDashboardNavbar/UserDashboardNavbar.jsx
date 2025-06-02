@@ -6,7 +6,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useGetAllBrandsQuery, useGetProfileQuery } from "../../../Rudux/feature/ApiSlice";
 
 import { setBrandId } from "../../../Rudux/feature/BrandSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const UserDashboardNavbar = () => {
 	const dispatch = useDispatch();
@@ -15,10 +15,10 @@ const UserDashboardNavbar = () => {
 	);
 	const { data: profileList } = useGetProfileQuery();
 	const { data: getAllBrands } = useGetAllBrandsQuery();
-    console.log("Profile List:", profileList);
-    const userData = profileList?.user || {};
-    const brands = getAllBrands?.data || [];
-    console.log("Brands:", brands);
+	console.log("Profile List:", profileList);
+	const userData = profileList?.user || {};
+	const brands = getAllBrands?.data || [];
+	console.log("Brands:", brands);
 	const [userName, setUserName] = useState("");
 
 	useEffect(() => {
@@ -65,7 +65,7 @@ const UserDashboardNavbar = () => {
 							id="brand"
 							className="outline-none bg-transparent text-[#5B21BD] font-medium"
 							onChange={handleBrandChange}
-							// value={selectedBrandId}
+						// value={selectedBrandId}
 						>
 							<option value="" >
 								Select a Brand
@@ -92,12 +92,12 @@ const UserDashboardNavbar = () => {
 				</NavLink>
 
 				<div className="flex items-center space-x-2">
-                    <div className="mr-4">
-                        {userData?.first_name}
+					<div className="mr-4">
+						{userData?.first_name}
 
-                        
 
-                    </div>
+
+					</div>
 					<img
 						src={userImageUrl}
 						alt="User profile"
@@ -106,7 +106,7 @@ const UserDashboardNavbar = () => {
 					<span className="text-[17px] font-medium  text-black">
 						{userName}
 					</span>
-                    
+
 				</div>
 			</div>
 		</div>

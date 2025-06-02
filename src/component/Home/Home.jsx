@@ -7,7 +7,7 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import PreviewGallary from './PreviewGallary';
 import Expertice from './Expertice';
-import { useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery } from '../../Rudux/feature/ApiSlice';
+import { useGetMainSubscriptionQuery, useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery,  } from '../../Rudux/feature/ApiSlice';
 
 const Home = () => {
     const { data: getManiChefBrandList, isLoading, error } = useGetManiChefBrandListQuery();
@@ -16,6 +16,10 @@ const Home = () => {
     const id = getManiChefBrandList?.data?.map((item) => item.brand_id);
     const { data: idOfItems } = useGetManiChefBrandListByIdQuery(id);
     console.log('idOfItems', idOfItems);
+    const {data:getMainSubscription} =useGetMainSubscriptionQuery();
+    console.log('getMainSubscription', getMainSubscription);
+
+ 
 
     // State to control modal visibility, selected chef, search query, filter dropdown, and selected subtitle
     const [isModalOpen, setIsModalOpen] = useState(false);

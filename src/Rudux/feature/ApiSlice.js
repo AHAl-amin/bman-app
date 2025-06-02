@@ -242,6 +242,12 @@ export const ApiSlice = createApi({
       query: (id) => `/api/main/v1/chef/brand/${id}/`,
       providesTags: ["ChefDashboard"]
     }),
+    getMainSubscription: builder.query({
+      query: (id) => `/api/main/v1/user/subscribe/chef/${id}/`,
+      providesTags: ["ChefDashboard"]
+    }),
+
+    
 
 
     // chef community section
@@ -299,6 +305,15 @@ export const ApiSlice = createApi({
       invalidatesTags: ["ChefDashboard"],
     }),
 
+    // chef Ai chat bot
+  AiMassageCreate: builder.mutation({
+      query: () => ({
+        url: "/api/chatbot/v1/chat/message/",
+        method: "POST",
+       
+      }),
+      invalidatesTags: ["ChefDashboard"],
+    }),
 
 
   }),
@@ -309,7 +324,7 @@ export const {
   useRecipeCreateMutation,
 
   useGetCategoryListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation, useGetCommunityPostListQuery, useDeletCommunityPostListMutation, useChefCommentPostMutation,usePostBookmarkMutation,
-  usePostLikeUnlikeMutation, useShareChefPostMutation
+  usePostLikeUnlikeMutation, useShareChefPostMutation, useAiMassageCreateMutation, useGetMainSubscriptionQuery
 } = ApiSlice;
 
 export default ApiSlice;

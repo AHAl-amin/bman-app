@@ -1,68 +1,10 @@
-
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-
-// JSON data for recipes (same as in AllRecipes)
-const recipes = [
-  {
-    id: 1,
-    title: 'joss Chocolate Soufflé',
-    category: 'Chocolate',
-    description: 'A light and airy chocolate dessert with a molten center....',
-    image: 'https://i.ibb.co/NdC53ZPN/image-1.jpg',
-    rating: 4.8,
-    updated: '2023-11-15',
-  },
-  {
-    id: 2,
-    title: 'Classic Chocolate Soufflé',
-    category: 'Chocolate',
-    description: 'A light and airy chocolate dessert with a molten center....',
-    image: 'https://i.ibb.co/XfKX16Nq/image.png',
-    rating: 4.8,
-    updated: '2023-11-15',
-  },
-  {
-    id: 3,
-    title: 'Classic Chocolate Soufflé',
-    category: 'Chocolate',
-    description: 'A light and airy chocolate dessert with a molten center....',
-    image: 'https://i.ibb.co/9k6pmKqJ/image-1.png',
-    rating: 4.8,
-    updated: '2023-11-15',
-  },
-  {
-    id: 4,
-    title: 'dessers Chocolate Soufflé',
-    category: 'Ice-creem',
-    description: 'A light and airy chocolate dessert with a molten center....',
-    image: 'https://i.ibb.co/NdC53ZPN/image-1.jpg',
-    rating: 4.8,
-    updated: '2023-11-15',
-  },
-  {
-    id: 5,
-    title: 'millssic Chocolate Soufflé',
-    category: 'Desserts',
-    description: 'A light and airy chocolate dessert with a molten center....',
-    image: 'https://i.ibb.co/XfKX16Nq/image.png',
-    rating: 4.8,
-    updated: '2023-11-15',
-  },
-  {
-    id: 6,
-    title: 'Classic Chocolate Soufflé',
-    category: 'Chocolate',
-    description: 'A light and airy chocolate dessert with a molten center....',
-    image: 'https://i.ibb.co/9k6pmKqJ/image-1.png',
-    rating: 4.8,
-    updated: '2023-11-15',
-  },
-];
+import { useGetRecipeDettailsQuery } from '../../../../Rudux/feature/ApiSlice';
 
 function RecipesDettails() {
   const { id } = useParams(); // Get the recipe ID from URL
-  const recipe = recipes.find((r) => r.id === parseInt(id)); // Find the recipe by ID
+  const { data: getRecipeDettails, isLoading, isError } = useGetRecipeDettailsQuery(id); // Fetch recipe data
 
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
@@ -125,37 +67,27 @@ function RecipesDettails() {
   };
 
   const renderContent = () => {
+    if (!getRecipeDettails?.data) return null;
+
     switch (activeTab) {
       case 'Ingredients':
         return (
           <div className="px-6 py-4">
             <h2 className="text-xl font-semibold text-[#5B21BD] mb-4">Recipe Ingredients</h2>
             <div className="space-y-6">
-              <div className="flex text-[#CCBAEB] gap-6">
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">Dark chocolate</p>
-                <p className="w-2/10 border border-[#CCBAEB] rounded-[10px] text-center py-3 px-3">200g</p>
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">70% cocoa solids</p>
-              </div>
-              <div className="flex text-[#CCBAEB] gap-6">
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">Dark chocolate</p>
-                <p className="w-2/10 border border-[#CCBAEB] rounded-[10px] text-center py-3 px-3">200g</p>
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">70% cocoa solids</p>
-              </div>
-              <div className="flex text-[#CCBAEB] gap-6">
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">Dark chocolate</p>
-                <p className="w-2/10 border border-[#CCBAEB] rounded-[10px] text-center py-3 px-3">200g</p>
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">70% cocoa solids</p>
-              </div>
-              <div className="flex text-[#CCBAEB] gap-6">
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">Dark chocolate</p>
-                <p className="w-2/10 border border-[#CCBAEB] rounded-[10px] text-center py-3 px-3">200g</p>
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">70% cocoa solids</p>
-              </div>
-              <div className="flex text-[#CCBAEB] gap-6">
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">Dark chocolate</p>
-                <p className="w-2/10 border border-[#CCBAEB] rounded-[10px] text-center py-3 px-3">200g</p>
-                <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">70% cocoa solids</p>
-              </div>
+              {getRecipeDettails.data.ingredients.map((ingredient, index) => (
+                <div key={index} className="flex text-[#CCBAEB] gap-6">
+                  <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">
+                    {ingredient.name}
+                  </p>
+                  <p className="w-2/10 border border-[#CCBAEB] rounded-[10px] text-center py-3 px-3">
+                    {ingredient.quantity}
+                  </p>
+                  <p className="w-4/10 border border-[#CCBAEB] rounded-[10px] py-3 px-3">
+                    {ingredient.unit || 'N/A'}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         );
@@ -164,18 +96,14 @@ function RecipesDettails() {
           <div className="px-6 py-4">
             <h2 className="text-xl font-semibold text-[#5B21BD] mb-4">Recipe Instructions</h2>
             <div className="space-y-6 text-[#CCBAEB]">
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
+              {getRecipeDettails.data.instructions.map((instruction, index) => (
+                <p
+                  key={index}
+                  className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3"
+                >
+                  {`${index + 1}. ${instruction.text}`}
+                </p>
+              ))}
             </div>
           </div>
         );
@@ -184,18 +112,14 @@ function RecipesDettails() {
           <div className="px-6 py-4">
             <h2 className="text-xl font-semibold text-[#5B21BD] mb-4">Chef's Notes</h2>
             <div className="space-y-6 text-[#CCBAEB]">
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
-              <p className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3">
-                1. For the crust: Combine flour, butter, and powdered sugar in a food processor until crumbly.
-              </p>
+              {getRecipeDettails.data.chef_notes.map((note, index) => (
+                <p
+                  key={index}
+                  className="w-full border border-[#CCBAEB] rounded-[10px] py-3 px-3"
+                >
+                  {`${index + 1}. ${note.text}`}
+                </p>
+              ))}
             </div>
           </div>
         );
@@ -290,23 +214,34 @@ function RecipesDettails() {
     }
   };
 
-  // Handle case where recipe is not found
-  if (!recipe) {
+  // Handle loading, error, and not found states
+  if (isLoading) {
     return (
       <div className="py-6 px-10">
-        <p className="text-[#5B21BD] text-xl">Recipe not found.</p>
+        <p className="text-[#5B21BD] text-xl">Loading recipe...</p>
       </div>
     );
   }
+
+  if (isError || !getRecipeDettails?.data) {
+    return (
+      <div className="py-6 px-10">
+        <p className="text-[#5B21BD] text-xl">Recipe not found or an error occurred.</p>
+      </div>
+    );
+  }
+
+  const recipe = getRecipeDettails.data; // Use API data
 
   return (
     <div className="py-6 px-10">
       <div className="rounded-lg overflow-hidden py-3 px-3">
         {/* Header Section */}
         <div
-          className="relative h-[417px] flex items-center justify-center bg-cover bg-center rounded-xl"
-          style={{ backgroundImage: `url('${recipe.image}')` }} // Dynamic background image
+          className="relative h-[600px] flex items-center justify-center bg-cover bg-center rounded-xl"
+          style={{ backgroundImage: `url(http://192.168.10.124:3000/${recipe.image})` }} // Dynamic background image from API
         >
+        
           <div className="absolute inset-0 bg-[#5B21BD78] bg-opacity-50 rounded-xl"></div>
           <h1 className="relative text-5xl font-bold text-white z-10 capitalize">{recipe.title}</h1> {/* Dynamic title */}
         </div>
@@ -315,9 +250,9 @@ function RecipesDettails() {
         <div className="flex justify-between items-center px-2 mt-2 py-4">
           <div>
             <span className="bg-[#CCBAEB] rounded-[29px] px-3 py-1 mr-5 text-[#5B21BD] capitalize">
-              {recipe.category} {/* Dynamic category */}
+              {recipe.category_name} {/* Dynamic category from API */}
             </span>
-            <span>Updated: {recipe.updated}</span> {/* Dynamic updated date */}
+            <span>Updated: {recipe.updated_at.split('T')[0]}</span> {/* Dynamic updated date, formatted */}
           </div>
           <div className="flex gap-6">
             <button className="flex items-center text-[#5B21BD] border border-[#5B21BD] rounded p-1 cursor-pointer px-2">
@@ -376,7 +311,7 @@ function RecipesDettails() {
 
         {/* Description */}
         <p className="px-6 py-4 text-[#696969] text-[16px]">
-          {recipe.description} {/* Dynamic description */}
+          {recipe.description} {/* Dynamic description from API */}
         </p>
 
         {/* Tabs */}
@@ -423,3 +358,7 @@ function RecipesDettails() {
 }
 
 export default RecipesDettails;
+
+
+
+
