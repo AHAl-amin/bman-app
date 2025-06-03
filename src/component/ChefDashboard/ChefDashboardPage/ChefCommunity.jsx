@@ -1,9 +1,9 @@
 
 
 
-import { useEffect, useRef, useState } from 'react';
-import { BsSave, BsShare } from 'react-icons/bs';
-import { IoIosHeartEmpty, IoMdAdd } from 'react-icons/io';
+
+import { useState } from 'react';
+import {  IoMdAdd } from 'react-icons/io';
 import { PiChefHatFill, PiDotsThreeOutlineFill } from 'react-icons/pi';
 import { MdOutlineFileUpload } from "react-icons/md";
 import { FaRegCommentAlt } from 'react-icons/fa';
@@ -13,7 +13,7 @@ import {
   useChefCommunityPostCreateMutation,
   useDeletCommunityPostListMutation,
   useGetCommunityPostListQuery,
-  usePostBookmarkMutation,
+  
 } from '../../../Rudux/feature/ApiSlice';
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
