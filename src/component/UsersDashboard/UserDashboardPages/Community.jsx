@@ -331,7 +331,7 @@ const Community = () => {
               <h2 className="text-xl font-bold text-[#5B21BD]">Share Your Creation</h2>
               <button
                 onClick={toggleAddChefModal}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 cursor-pointer"
               >
                 ×
               </button>
@@ -387,7 +387,7 @@ const Community = () => {
 
               <div className="flex justify-end space-x-3 pt-4">
                 <button
-                  type="button"
+                  type="button cursor-pointer"
                   onClick={toggleAddChefModal}
                   className="px-4 py-2 border border-[#B0BFB6] rounded-[10px] text-[#5B21BD]"
                 >
@@ -395,7 +395,7 @@ const Community = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#5B21BD] text-white rounded-[10px]"
+                  className="px-4 py-2 bg-[#5B21BD] text-white rounded-[10px] cursor-pointer"
                 >
                   Share Post
                 </button>

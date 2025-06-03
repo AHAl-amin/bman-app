@@ -152,8 +152,16 @@ function RecipesDettails() {
             <h3 className="text-[24px] font-medium text-[#5B21BD]">
               {`User ${comment.user}`} {/* Fallback to user ID */}
             </h3>
-            <span className="text-sm text-gray-500">
-              {new Date(comment.created_at).toLocaleDateString()} {/* Format created_at if available */}
+           <span className="text-sm text-gray-500">
+              {new Date(comment.created_at).toLocaleString('en-US', {
+                weekday: 'long', // e.g., "Tuesday"
+                year: 'numeric', // e.g., "2025"
+                month: 'numeric', // e.g., "6"
+                day: 'numeric', // e.g., "3"
+                hour: 'numeric', // e.g., "7"
+                minute: '2-digit', // e.g., "19"
+                hour12: true // Use 12-hour format with AM/PM
+              })}
             </span>
           </div>
           <div className="flex items-center">

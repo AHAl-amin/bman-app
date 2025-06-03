@@ -248,7 +248,7 @@ const ChefCommunity = () => {
             >
               ×
             </button>
-            <h2 className="text-xl font-bold text-[#5B21BD] mb-4">Comment</h2>
+            <h2 className="text-xl font-bold text-[#5B21BD]  mb-4">Comment</h2>
 
             <textarea
               value={commentText}
@@ -335,7 +335,7 @@ const ChefCommunity = () => {
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-gray-700 mb-2">Title</label>
+                <label className="block text-gray-700 mb-2 text-xl">Title</label>
                 <input
                   type="text"
                   value={title}
@@ -345,7 +345,7 @@ const ChefCommunity = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Content</label>
+                <label className="block text-gray-700 mb-2 text-xl">Description</label>
                 <textarea
                   value={content}
                   onChange={(e) => setcontent(e.target.value)}
@@ -355,7 +355,7 @@ const ChefCommunity = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Photo</label>
+                <label className="block text-gray-700 mb-2 text-xl">Photo</label>
                 <div
                   className="w-full p-6 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer"
                   onClick={() => document.getElementById('fileInput').click()}
@@ -386,13 +386,13 @@ const ChefCommunity = () => {
                 <button
                   type="button"
                   onClick={toggleAddChefModal}
-                  className="px-4 py-2 border border-[#B0BFB6] rounded-[10px] text-[#5B21BD]"
+                  className="px-4 py-2 border border-[#B0BFB6] rounded-[10px] text-[#5B21BD] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-[#5B21BD] text-white rounded-[10px]"
+                  className="px-4 py-2 bg-[#5B21BD] text-white rounded-[10px] cursor-pointer"
                 >
                   Share Post
                 </button>
