@@ -4,14 +4,15 @@ import { useGetRecipeDettailsQuery, useRecipeCommentCreateMutation, useGetRecipe
 import toast, { Toaster } from 'react-hot-toast';
 import { IoShareSocialOutline } from 'react-icons/io5';
 import { FaRegCommentDots } from 'react-icons/fa';
-import { IoIosHeartEmpty } from 'react-icons/io';
+
 import RecipeSave from './RecipeSave';
 
 
 function RecipesDettails() {
   const { id } = useParams();
    // Get the recipe ID from URL
-  const { data: getRecipeDettails, isLoading, isError } = useGetRecipeDettailsQuery(id); // Fetch recipe data
+  const { data: getRecipeDettails, isLoading, isError } = useGetRecipeDettailsQuery(id); // Fetch recipe 
+
  console.log( "Recipe Details Data:", getRecipeDettails);
 
   const { data: getRecipeCommentList, isLoading: isCommentsLoading, isError: isCommentsError } = useGetRecipeCommentListQuery(id); 
@@ -279,7 +280,9 @@ function RecipesDettails() {
             <span>Updated: {recipe.updated_at.split('T')[0]}</span> {/* Dynamic updated date, formatted */}
           </div>
           <div className="flex gap-6">
-           <RecipeSave recipeId={recipe.id} />
+           {/* <RecipeSave recipeId={recipe.id} /> */}
+           <RecipeSave recipeId={recipe.id} initiallySaved={recipe.is_bookmarked} />
+
 
             <button className="flex items-center text-[#5B21BD] border border-[#5B21BD] rounded p-1 cursor-pointer px-2">
               <span className='mr-2'> Chat</span>

@@ -45,13 +45,14 @@ function UserSignup() {
       password,
       accountType
     };
+    console.log('signupData:', signupData);
 
     try {
       await register(signupData).unwrap();
 
 
       localStorage.setItem("userEmail", email); // Store email in localStorage
-
+ localStorage.setItem("accountType", accountType); 
       toast.success('Registration successful!');
       
       navigate('/verification');

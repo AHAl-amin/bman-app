@@ -62,39 +62,46 @@ function Verification() {
         }
     };
 
-    const handleSubmit = async () => {
-        try {
-            // Combine OTP digits into a single string
-            const otpCode = otp.join('');
-            // Get email from localStorage
-            const email = localStorage.getItem('userEmail');
 
-            if (!email) {
-                toast.error('Email not found. Please try registering again.');
-                return;
-            }
+    
 
-            if (otpCode.length !== 4) {
-                setOtpError(true);
-                toast.error('Please enter a valid 4-digit OTP.');
-                return;
-            }
 
-            // Call the registerVerification mutation
-            const response = await registerVerification({ email, otp: otpCode }).unwrap();
 
-            // On successful verification
-            toast.success('Verification successful!');
-            // Optionally clear the email from localStorage
-            localStorage.removeItem('userEmail');
-            // Navigate to the desired route (e.g., login or dashboard)
-            navigate('/');
-        } catch (error) {
-            setOtpError(true);
-            toast.error(error?.data?.message || 'Invalid OTP. Please try again.');
+    // Verification কম্পোনেন্টের handleSubmit ফাংশন আপডেট করুন
+const handleSubmit = async () => {
+    try {
+        const otpCode = otp.join('');
+        const email = localStorage.getItem('userEmail');
+        const accountType = localStorage.getItem('accountType'); // নতুন লাইন যোগ করুন
+
+        if (!email) {
+            toast.error('Email not found. Please try registering again.');
+            return;
         }
-    };
 
+        if (otpCode.length !== 4) {
+            setOtpError(true);
+            toast.error('Please enter a valid 4-digit OTP.');
+            return;
+        }
+
+        const response = await registerVerification({ email, otp: otpCode }).unwrap();
+
+        toast.success('Verification successful!');
+        localStorage.removeItem('userEmail');
+        
+        // accountType অনুযায়ী রাউটিং
+        if (accountType === 'chef') {
+            navigate('/chef_dashboard');
+        } else {
+            navigate('/dashboard');
+        }
+        
+    } catch (error) {
+        setOtpError(true);
+        toast.error(error?.data?.message || 'Invalid OTP. Please try again.');
+    }
+};
     const handleResendOtp = async () => {
         try {
             // Get email from localStorage

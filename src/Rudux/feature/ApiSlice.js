@@ -323,7 +323,7 @@ export const ApiSlice = createApi({
     }),
 
 
-    //chef dashboard dettails page
+    //user dashboard dettails page
     
      RecipeSave: builder.mutation({
       query: ({ id }) => ({

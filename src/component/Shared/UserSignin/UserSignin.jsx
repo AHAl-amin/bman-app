@@ -1,13 +1,13 @@
 
 
+
 import { useState } from 'react';
 import login_img from '../../../assets/image/user_login_img.jpg';
 import login_img2 from '../../../assets/image/Admin_login_img.png';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
-// import { useLoginMutation } from '../../../Redux/feature/authApi'; // Fixed typo: Rudux → Redux
-import { toast, Toaster } from 'react-hot-toast';
 import { useLoginMutation } from '../../../Rudux/feature/authApi';
+import { toast, Toaster } from 'react-hot-toast';
 
 // Utility function for email validation
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -39,28 +39,40 @@ function UserSignin() {
 
     try {
       const response = await login(loginData).unwrap();
-      console.log('backendResponse', response);
+      console.log('Login response:', response);
 
       // Store tokens in localStorage
       if (response.access_token) {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
-        console.log('Access Token:', response.access_token);
-        console.log('Refresh Token:', response.refresh_token);
-      } else {
-        console.warn('No access token found in response');
+        
+        // Store user data including accountType
+        if (response.user) {
+          localStorage.setItem('accountType', response.user.accountType);
+          localStorage.setItem('userData', JSON.stringify(response.user));
+        }
       }
 
       // Store tokens only if rememberMe is checked
       if (rememberMe) {
-        localStorage.setItem('authToken', response.access_token); // Consistent with API response
+        localStorage.setItem('authToken', response.access_token);
       }
 
       toast.success('Login successful!');
-      navigate('/'); // Adjusted to a more specific route
+      
+      // Redirect based on accountType
+      const accountType = response.user?.accountType || localStorage.getItem('accountType');
+      if (accountType === 'chef') {
+        navigate('/chef_dashboard');
+      } 
+     
+      else {
+        navigate('/dashboard');
+      }
+
     } catch (err) {
-      const errorMessage =
-        err?.data?.message || err?.message || 'Login failed. Please try again.';
+      console.error('Login error:', err);
+      const errorMessage = err?.data?.message || err?.message || 'Login failed. Please try again.';
       toast.error(errorMessage);
     }
   };
@@ -73,26 +85,26 @@ function UserSignin() {
         <img
           src={login_img}
           alt="Login illustration"
-          className="w-full h-full  md:h-screen"
+          className="w-full h-full md:h-screen object-cover"
         />
       </div>
-      <div className="md:w-1/2 w-full md:px-40">
-        <div className="flex justify-center mb-4">
+      <div className="md:w-1/2 w-full md:px-40 px-4">
+        <div className="flex justify-center mb-6">
           <img
             src={login_img2}
-            className="h-[150px] w-[150px]"
+            className="h-[120px] w-[120px]"
             alt="Admin login illustration"
           />
         </div>
-        <h1 className="text-4xl text-[#5B21BD] font-bold text-center">Welcome Back</h1>
-        <p className="text-[#A8A8A8] text-base text-center mb-6">
+        <h1 className="text-3xl md:text-4xl text-[#5B21BD] font-bold text-center mb-2">Welcome Back</h1>
+        <p className="text-[#A8A8A8] text-sm md:text-base text-center mb-8">
           Enter your email & password to access your account
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-[#5B21BD] mb-1 text-lg">
-              Email
+            <label htmlFor="email" className="block text-[#5B21BD] mb-2 text-md font-medium">
+              Email Address
             </label>
             <input
               id="email"
@@ -100,14 +112,14 @@ function UserSignin() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border bg-[#F8FCFF] border-[#5B21BD] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B21BD]"
+              className="w-full px-4 py-3 border bg-[#F8FCFF] border-[#5B21BD] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B21BD] transition-all"
               required
               disabled={isLoading}
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-[#5B21BD] mb-1 text-lg">
+            <label htmlFor="password" className="block text-[#5B21BD] mb-2 text-md font-medium">
               Password
             </label>
             <div className="relative">
@@ -117,7 +129,7 @@ function UserSignin() {
                 placeholder="Enter your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border bg-[#F8FCFF] border-[#5B21BD] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B21BD] pr-10"
+                className="w-full px-4 py-3 border bg-[#F8FCFF] border-[#5B21BD] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B21BD] pr-12 transition-all"
                 required
                 disabled={isLoading}
               />
@@ -125,10 +137,10 @@ function UserSignin() {
                 type="button"
                 onClick={togglePasswordVisibility}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#5B21BD]"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#5B21BD] hover:text-[#4A1A9C] transition-colors"
                 disabled={isLoading}
               >
-                {showPassword ? <IoEyeOffOutline size={20} /> : <IoEyeOutline size={20} />}
+                {showPassword ? <IoEyeOffOutline size={22} /> : <IoEyeOutline size={22} />}
               </button>
             </div>
           </div>
@@ -140,16 +152,16 @@ function UserSignin() {
                 id="rememberMe"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="mr-2 h-4 w-4 text-[#5B21BD] border-[#5B21BD] rounded focus:ring-[#5B21BD]"
+                className="mr-2 h-5 w-5 text-[#5B21BD] border-[#5B21BD] rounded focus:ring-[#5B21BD] cursor-pointer"
                 disabled={isLoading}
               />
-              <label htmlFor="rememberMe" className="text-[#5B21BD] text-sm">
+              <label htmlFor="rememberMe" className="text-[#5B21BD] text-sm cursor-pointer">
                 Remember me
               </label>
             </div>
             <Link
-              to="/forget_password"
-              className="text-[#5B21BD] text-sm hover:underline"
+              to="/forget-password"
+              className="text-[#5B21BD] text-sm hover:underline transition-all"
             >
               Forgot Password?
             </Link>
@@ -158,17 +170,28 @@ function UserSignin() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-[#5B21BD] text-white rounded-lg px-6 py-2 mt-4 text-lg font-semibold transition-opacity ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#4A1A9C]'
-              }`}
+            className={`w-full bg-[#5B21BD] text-white rounded-lg px-6 py-3 mt-6 text-lg font-semibold transition-all ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#4A1A9C] hover:shadow-md'
+            }`}
           >
-            {isLoading ? 'Signing In...' : 'Sign In'}
+            {isLoading ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Signing In...
+              </span>
+            ) : (
+              'Sign In'
+            )}
           </button>
 
-          <p className="text-base text-[#3E3E3E] text-center py-4">
-            Don’t have an account?{' '}
+          <p className="text-center text-gray-600 mt-6">
+            Don't have an account?{' '}
             <Link
               to="/user_signup"
-              className="text-[#5B21BD] underline hover:text-[#4A1A9C]"
+              className="text-[#5B21BD] font-medium hover:underline transition-all"
             >
               Sign Up
             </Link>
@@ -176,7 +199,17 @@ function UserSignin() {
         </form>
       </div>
 
-      <Toaster position="top-right" />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#fff',
+            color: '#5B21BD',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          },
+        }}
+      />
     </div>
   );
 }
