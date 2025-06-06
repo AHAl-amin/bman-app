@@ -264,7 +264,7 @@ function RecipesDettails() {
         {/* Header Section */}
         <div
           className="relative h-[600px] flex items-center justify-center bg-cover bg-center rounded-xl"
-          style={{ backgroundImage: `url(http://192.168.10.124:3000/${recipe.image})` }} // Dynamic background image from API
+          style={{ backgroundImage: `url(https://bmn1212.duckdns.org/${recipe.image})` }} // Dynamic background image from API
         >
           <div className="absolute inset-0 bg-[#5B21BD78] bg-opacity-50 rounded-xl"></div>
           <h1 className="relative text-5xl font-bold text-white z-10 capitalize">{recipe.title}</h1> {/* Dynamic title */}

@@ -79,7 +79,7 @@ const Branding = () => {
       if (formData.expertice) formDataToSend.append('expertice', formData.expertice);
       if (formData.logo) formDataToSend.append('logo', formData.logo);
 
-      const response = await fetch('http://192.168.10.124:3000/api/chef_dashboard/v1/branding/create/', {
+      const response = await fetch('https://bmn1212.duckdns.org/api/chef_dashboard/v1/branding/create/', {
         method: 'POST',
         body: formDataToSend,
         headers: {

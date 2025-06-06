@@ -60,7 +60,7 @@ function AdminDashboardNavbar() {
           <img
             src={
               user?.image
-                ? `http://192.168.10.124:3000/${user.image}`
+                ? `https://bmn1212.duckdns.org/${user.image}`
                 : 'https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg'
             }
             alt="Profile"

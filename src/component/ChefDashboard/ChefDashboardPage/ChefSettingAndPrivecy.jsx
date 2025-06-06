@@ -22,6 +22,7 @@ function ChefSettingAndPrivecy() {
         photo: "https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg",
     });
 
+
     useEffect(() => {
         if (profileList?.user) {
             setFormData({
@@ -31,7 +32,7 @@ function ChefSettingAndPrivecy() {
                 phone: profileList.user.phone || "",
                 photo:
                     profileList.user.image
-                        ? `http://192.168.10.124:3000/${profileList?.user?.image}`
+                        ? `https://bmn1212.duckdns.org${profileList?.user?.image}`
                         : "https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg",
             });
         }

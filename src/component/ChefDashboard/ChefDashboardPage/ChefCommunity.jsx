@@ -87,7 +87,7 @@ const ChefCommunity = () => {
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://192.168.10.124:3000/api/community/v1/post/create/', {
+      const response = await fetch('https://bmn1212.duckdns.org/api/community/v1/post/create/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -179,7 +179,7 @@ const ChefCommunity = () => {
 
             <div className="mt-3">
               <img
-                src={`http://192.168.10.124:3000/${post.image}`}
+                src={`https://bmn1212.duckdns.org/${post.image}`}
                 alt="Post"
                 className="object-cover rounded-lg w-full max-h-[500px]"
               />

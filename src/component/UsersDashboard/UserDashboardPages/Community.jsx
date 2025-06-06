@@ -31,7 +31,8 @@ const Community = () => {
   const [chefCommentPost] = useChefCommentPostMutation();
   const { data: getCommunityPostList, refetch } = useGetCommunityPostListQuery();
   const communityPost = getCommunityPostList?.results?.data || [];
-
+  console.log(communityPost,"hello")
+const imageBaseUrl = 'https://bmn1212.duckdns.org';
 
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -90,7 +91,7 @@ const Community = () => {
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://192.168.10.124:3000/api/community/v1/post/create/', {
+      const response = await fetch('https://bmn1212.duckdns.org/api/community/v1/post/create/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -132,10 +133,15 @@ const Community = () => {
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <img
-                  src={post.avatarUrl}
+                  src={
+                      post.image?.startsWith('http')
+                        ? post.image
+                        : `${imageBaseUrl}${post.image}`
+                    }
                   alt="user/chef"
                   className="w-10 h-10 bg-gray-300 rounded-full mr-3"
                 />
+              
                 <div>
                   <p className="font-semibold text-[#5B21BD] capitalize">{post.username}</p>
                   <p className="text-sm text-gray-500">{post.timeAgo}</p>
@@ -182,7 +188,11 @@ const Community = () => {
 
             <div className="mt-3">
               <img
-                src={`http://192.168.10.124:3000/${post.image}`}
+                 src={
+                      post.image?.startsWith('http')
+                        ? post.image
+                        : `${imageBaseUrl}${post.image}`
+                    }
                 alt="Post"
                 className="object-cover rounded-lg w-full max-h-[500px]"
               />

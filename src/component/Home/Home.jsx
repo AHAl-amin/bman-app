@@ -246,7 +246,7 @@ const Home = () => {
                         <div className="flex-1 overflow-y-auto relative">
                             <div className="h-[300px] relative">
                                 <img
-                                    src={`http://192.168.10.124:3000/${selectedChef.logo_image}`}
+                                    src={`https://bmn1212.duckdns.org/${selectedChef.logo_image}`}
                                     alt="logo_image"
                                     className="w-full h-full rounded-lg object-cover"
                                 />
