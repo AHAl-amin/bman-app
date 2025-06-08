@@ -10,6 +10,7 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import { FaRegCommentDots } from "react-icons/fa";
 
 import RecipeSave from "./RecipeSave";
+import RecipeComment from "./RecipeComment";
 
 function RecipesDettails() {
   const { id } = useParams();
@@ -329,10 +330,9 @@ function RecipesDettails() {
               initiallySaved={recipe.save_recipe}
             />
 
-            <button className="flex items-center text-[#5B21BD] border border-[#5B21BD] rounded p-1 cursor-pointer px-2">
-              <span className="mr-2"> Chat</span>
-              <FaRegCommentDots />
-            </button>
+            <RecipeComment
+            recipeId={recipe.id}
+            />
             <button className="flex items-center text-[#5B21BD] border border-[#5B21BD] rounded p-1 cursor-pointer px-2">
               <span className="mr-2"> Share</span>
               <IoShareSocialOutline />
