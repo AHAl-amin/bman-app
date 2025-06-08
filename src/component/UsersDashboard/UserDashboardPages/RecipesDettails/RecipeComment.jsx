@@ -1,13 +1,16 @@
 import React, { useState, useRef } from 'react';
 import { FaRegCommentDots } from 'react-icons/fa';
-import { useRecipeCommentMutation } from '../../../../Rudux/feature/ApiSlice';
+import { useGetMainRecipeCommentQuery, useRecipeCommentMutation } from '../../../../Rudux/feature/ApiSlice';
 import toast from 'react-hot-toast';
 
 function RecipeComment({ recipeId }) {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState('');
   const [recipeComment, { isLoading }] = useRecipeCommentMutation();
+
   const containerRef = useRef(null);
+  const { data: getMainRecipeComment} = useGetMainRecipeCommentQuery(recipeId);
+  console.log('getMainRecipeComment:', getMainRecipeComment);
 
   const handleSubmit = async () => {
     if (!content.trim()) {

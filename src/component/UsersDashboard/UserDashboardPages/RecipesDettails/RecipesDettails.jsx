@@ -4,13 +4,18 @@ import {
   useGetMainRecipeDettailsQuery,
   useRecipeCommentCreateMutation,
   useGetRecipeCommentListQuery,
+  
 } from "../../../../Rudux/feature/ApiSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { IoShareSocialOutline } from "react-icons/io5";
-import { FaRegCommentDots } from "react-icons/fa";
+
 
 import RecipeSave from "./RecipeSave";
 import RecipeComment from "./RecipeComment";
+import RecipeShare from "./RecipeShare";
+
+//for  recipe share button or fuction
+
 
 function RecipesDettails() {
   const { id } = useParams();
@@ -296,6 +301,7 @@ function RecipesDettails() {
   }
 
   const recipe = getMainRecipeDettails.data; // Use API data
+ 
 
   return (
     <div className="py-6 px-10">
@@ -333,10 +339,10 @@ function RecipesDettails() {
             <RecipeComment
             recipeId={recipe.id}
             />
-            <button className="flex items-center text-[#5B21BD] border border-[#5B21BD] rounded p-1 cursor-pointer px-2">
-              <span className="mr-2"> Share</span>
-              <IoShareSocialOutline />
-            </button>
+         <RecipeShare  recipeId={recipe.id}/>
+
+   
+
           </div>
         </div>
 
