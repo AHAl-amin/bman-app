@@ -2,7 +2,7 @@
 
 
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { FaUserFriends } from 'react-icons/fa';
 import { FaArrowTrendUp } from 'react-icons/fa6';
 import { GoGraph } from 'react-icons/go';
@@ -35,12 +35,7 @@ const lineChartData = [
     { name: 'Dec', value: 25560 },
 ];
 
-const topRecipes = [
-    { name: "Chocolate Soufflé", width: "80%" },
-    { name: "Vanilla Bean Ice Cream", width: "60%" },
-    { name: "Dark Chocolate Truffles", width: "50%" },
-    { name: "Strawberry Macarons", width: "40%" },
-];
+
 
 
 

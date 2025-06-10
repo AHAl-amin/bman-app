@@ -17,9 +17,12 @@ import {
 } from '../../../Rudux/feature/ApiSlice';
 import toast, { Toaster } from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
-import ChefBookmark from './chefBookmark.jsx';
-import ChefLikeUnlike from './ChefLikeUnlike.jsx';
-import ChefSharePost from './ChefSharePost.jsx';
+import ChefLikeUnlike from '../../ChefDashboard/ChefDashboardPage/ChefLikeUnlike';
+import ChefBookmark from '../../ChefDashboard/ChefDashboardPage/chefBookmark.jsx';
+import ChefSharePost from '../../ChefDashboard/ChefDashboardPage/ChefSharePost.jsx';
+// import ChefBookmark from './chefBookmark.jsx';
+// import ChefLikeUnlike from './ChefLikeUnlike.jsx';
+// import ChefSharePost from './ChefSharePost.jsx';
 
 const ChefCommunity = () => {
   const id = useParams();
@@ -28,7 +31,8 @@ const ChefCommunity = () => {
   const [chefCommentPost] = useChefCommentPostMutation();
   const { data: getCommunityPostList, refetch } = useGetCommunityPostListQuery();
   const communityPost = getCommunityPostList?.results?.data || [];
-
+  console.log(communityPost,"hello")
+const imageBaseUrl = 'https://bmn1212.duckdns.org';
 
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -129,10 +133,15 @@ const ChefCommunity = () => {
             <div className="flex justify-between items-center">
               <div className="flex items-center">
                 <img
-                  src={post.avatarUrl}
+                  src={
+                      post.image?.startsWith('http')
+                        ? post.image
+                        : `${imageBaseUrl}${post.image}`
+                    }
                   alt="user/chef"
                   className="w-10 h-10 bg-gray-300 rounded-full mr-3"
                 />
+              
                 <div>
                   <p className="font-semibold text-[#5B21BD] capitalize">{post.username}</p>
                   <p className="text-sm text-gray-500">{post.timeAgo}</p>
@@ -179,7 +188,11 @@ const ChefCommunity = () => {
 
             <div className="mt-3">
               <img
-                src={`https://bmn1212.duckdns.org/${post.image}`}
+                 src={
+                      post.image?.startsWith('http')
+                        ? post.image
+                        : `${imageBaseUrl}${post.image}`
+                    }
                 alt="Post"
                 className="object-cover rounded-lg w-full max-h-[500px]"
               />
@@ -248,7 +261,7 @@ const ChefCommunity = () => {
             >
               ×
             </button>
-            <h2 className="text-xl font-bold text-[#5B21BD]  mb-4">Comment</h2>
+            <h2 className="text-xl font-bold text-[#5B21BD] mb-4">Comment</h2>
 
             <textarea
               value={commentText}
@@ -328,7 +341,7 @@ const ChefCommunity = () => {
               <h2 className="text-xl font-bold text-[#5B21BD]">Share Your Creation</h2>
               <button
                 onClick={toggleAddChefModal}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 cursor-pointer"
               >
                 ×
               </button>
@@ -345,7 +358,7 @@ const ChefCommunity = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2 text-xl">Description</label>
+                <label className="block text-gray-700 text-xl mb-2">Describtion</label>
                 <textarea
                   value={content}
                   onChange={(e) => setcontent(e.target.value)}
@@ -384,9 +397,9 @@ const ChefCommunity = () => {
 
               <div className="flex justify-end space-x-3 pt-4">
                 <button
-                  type="button"
+                  type="button cursor-pointer"
                   onClick={toggleAddChefModal}
-                  className="px-4 py-2 border border-[#B0BFB6] rounded-[10px] text-[#5B21BD] cursor-pointer"
+                  className="px-4 py-2 border border-[#B0BFB6] rounded-[10px] text-[#5B21BD]"
                 >
                   Cancel
                 </button>

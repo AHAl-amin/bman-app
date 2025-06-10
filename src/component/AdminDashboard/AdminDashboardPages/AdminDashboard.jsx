@@ -1,7 +1,7 @@
 
 
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaUserFriends } from 'react-icons/fa';
 import { FaArrowTrendUp } from 'react-icons/fa6';
 import { GoGraph } from 'react-icons/go';
@@ -16,6 +16,7 @@ import {
     CartesianGrid,
     Tooltip,
 } from 'recharts';
+import { useChefDashboardFirstPartQuery } from '../../../Rudux/feature/ApiSlice';
 
 // Chart data with random values between 5000 and 30000
 const lineChartData = [
@@ -44,42 +45,43 @@ function AdminDashboard() {
     const [selectedMonthRevenue, setSelectedMonthRevenue] = useState('October');
     const [isOpenTotalUsers, setIsOpenTotalUsers] = useState(false);
     const [isOpenMonthlyRevenue, setIsOpenMonthlyRevenue] = useState(false);
-
+    const { data: ChefDashboardFirstPart } = useChefDashboardFirstPartQuery()
     return (
         <div className="px-10 py-6 lora">
             <h2 className="text-[34px] font-semibold  text-gray-400 mb-1">Dashboard</h2>
             <p className="text-xl text-gray-400 mb-8">Welcome to your Culinary AI Platform admin dashboard</p>
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {/* Card Template */}
                 {[
                     {
                         title: "Total AI Interactions",
-                        value: "40,689",
+                        value: ChefDashboardFirstPart ? ChefDashboardFirstPart.total_interactions.toLocaleString() : "0",
                         icon: <PiChefHatFill className="text-[#5B21BD] text-[25px]" />,
-                        note: "+15",
-                        subtext: "From last month"
+                        note: "+15", // You can change this dynamically if needed
+                        subtext: "From last month",
                     },
                     {
                         title: "Active Subscribers",
-                        value: "456",
+                        value: ChefDashboardFirstPart ? ChefDashboardFirstPart.active_subscribers.toLocaleString() : "0",
                         icon: <FaUserFriends className="text-[#5B21BD] text-[25px]" />,
                         note: "3%",
-                        subtext: "From last month"
+                        subtext: "From last month",
                     },
                     {
                         title: "Total Recipes",
-                        value: "50",
+                        value: ChefDashboardFirstPart ? ChefDashboardFirstPart.total_recipes.toLocaleString() : "0",
                         icon: <RiBox3Fill className="text-[#5B21BD] text-[25px]" />,
                         note: "3+",
-                        subtext: "New this week"
+                        subtext: "New this week",
                     },
                     {
                         title: "Monthly revenue",
-                        value: "$4,569",
+                        value: ChefDashboardFirstPart ? `$${ChefDashboardFirstPart.monthly_revenue.toLocaleString()}` : "$0",
                         icon: <GoGraph className="text-[#5B21BD] text-[25px]" />,
                         note: "10%",
-                        subtext: "From last month"
-                    }
+                        subtext: "From last month",
+                    },
                 ].map((item, index) => (
                     <div key={index} className="bg-white p-4 rounded-lg space-y-4 border border-[#D9D9D9]">
                         <div className="flex justify-between items-center">

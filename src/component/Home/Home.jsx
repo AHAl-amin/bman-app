@@ -14,8 +14,13 @@ const Home = () => {
     console.log(getManiChefBrandList, "helllllloooooooo");
 
     const id = getManiChefBrandList?.data?.map((item) => item.brand_id);
+    console.log(id,"id")
     const { data: idOfItems } = useGetManiChefBrandListByIdQuery(id);
     console.log('idOfItems', idOfItems);
+
+
+
+    
     const {data:getMainSubscription} =useGetMainSubscriptionQuery();
     console.log('getMainSubscription', getMainSubscription);
 
