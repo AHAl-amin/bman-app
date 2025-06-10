@@ -17,6 +17,7 @@ import {
     CartesianGrid,
     Tooltip,
 } from 'recharts';
+import { useChefDashboardFirstPartQuery, useChefTopRecipeQuery, useRecentFeedbackQuery } from '../../../Rudux/feature/ApiSlice';
 
 // Chart data with random values between 5000 and 30000
 const lineChartData = [
@@ -42,23 +43,8 @@ const topRecipes = [
 ];
 
 
-const feedback = [
-    {
-        recipe: "Chocolate soufflé",
-        rating: 5,
-        comment: "Amazing recipe! I substituted dairy milk with almond milk and it still turned out perfect!"
-    },
-    {
-        recipe: "Chocolate soufflé",
-        rating: 5,
-        comment: "Perfectly rich and fluffy, my guests loved it!"
-    },
-    {
-        recipe: "Chocolate soufflé",
-        rating: 5,
-        comment: "Great instructions, very easy to follow!"
-    },
-];
+
+
 
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
@@ -71,6 +57,11 @@ function ChefDashboardPage() {
     const [darkMode, setDarkMode] = useState(false);
     const [selectedMonth, setSelectedMonth] = useState('October');
     const [isOpen, setIsOpen] = useState(false);
+    const { data: ChefDashboardFirstPart } = useChefDashboardFirstPartQuery()
+    const { data: RecentFeedback } = useRecentFeedbackQuery()
+    const { data: ChefTopRecipe } = useChefTopRecipeQuery()
+
+
 
     return (
         <div className="px-10 py-6 lora">
@@ -80,32 +71,32 @@ function ChefDashboardPage() {
                 {[
                     {
                         title: "Total AI Interactions",
-                        value: "40,689",
+                        value: ChefDashboardFirstPart ? ChefDashboardFirstPart.total_interactions.toLocaleString() : "0",
                         icon: <PiChefHatFill className="text-[#5B21BD] text-[25px]" />,
-                        note: "+15",
-                        subtext: "From last month"
+                        note: "+15", // You can change this dynamically if needed
+                        subtext: "From last month",
                     },
                     {
                         title: "Active Subscribers",
-                        value: "456",
+                        value: ChefDashboardFirstPart ? ChefDashboardFirstPart.active_subscribers.toLocaleString() : "0",
                         icon: <FaUserFriends className="text-[#5B21BD] text-[25px]" />,
                         note: "3%",
-                        subtext: "From last month"
+                        subtext: "From last month",
                     },
                     {
                         title: "Total Recipes",
-                        value: "50",
+                        value: ChefDashboardFirstPart ? ChefDashboardFirstPart.total_recipes.toLocaleString() : "0",
                         icon: <RiBox3Fill className="text-[#5B21BD] text-[25px]" />,
                         note: "3+",
-                        subtext: "New this week"
+                        subtext: "New this week",
                     },
                     {
                         title: "Monthly revenue",
-                        value: "$4,569",
+                        value: ChefDashboardFirstPart ? `$${ChefDashboardFirstPart.monthly_revenue.toLocaleString()}` : "$0",
                         icon: <GoGraph className="text-[#5B21BD] text-[25px]" />,
                         note: "10%",
-                        subtext: "From last month"
-                    }
+                        subtext: "From last month",
+                    },
                 ].map((item, index) => (
                     <div key={index} className="bg-white p-4 rounded-lg space-y-4 border border-[#D9D9D9]">
                         <div className="flex justify-between items-center">
@@ -128,36 +119,45 @@ function ChefDashboardPage() {
                 ))}
             </div>
 
+
             {/* Top Recipes & Feedback */}
             <div className="flex flex-col md:flex-row gap-6 mt-10">
                 {/* Top Recipes */}
-                <div className="flex-1 bg-white rounded-2xl shadow-md p-6">
-                    <h2 className="text-xl font-semibold text-gray-400 mb-1">Top Queried Recipes</h2>
-                    <p className="text-sm text-gray-400 mb-4">The most popular recipes users are asking about</p>
-                    <ul className="space-y-4">
-                        {topRecipes.map((recipe, index) => (
-                            <li key={index} className="flex items-center">
-                                <span className="w-48 text-gray-400 capitalize">{recipe.name}</span>
-                                <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                    <div className="h-full bg-[#5a21bd9f]" style={{ width: recipe.width }}></div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+               <div className="flex-1 bg-white rounded-2xl shadow-md p-6">
+  <h2 className="text-xl font-semibold text-gray-400 mb-1">Top Queried Recipes</h2>
+  <p className="text-sm text-gray-400 mb-4">The most popular recipes users are asking about</p>
+  <ul className="space-y-4">
+    {(ChefTopRecipe?.data || []).map((recipe, index) => (
+      <li key={index} className="flex items-center">
+        <span className="w-48 text-gray-400 capitalize">{recipe.recipe_name}</span>
+        <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-[#5a21bd9f]"
+            style={{ width: `${recipe.query_percentage}%` }}
+          ></div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
 
                 {/* Feedback */}
                 <div className="flex-1 bg-white rounded-2xl shadow-md p-6">
                     <h2 className="text-xl font-semibold text-gray-400 mb-1">Recent Feedback</h2>
                     <p className="text-sm text-gray-400 mb-4">Latest User Comments On Your Recipes</p>
                     <ul className="space-y-4">
-                        {feedback.map((item, index) => (
+                        {(RecentFeedback?.data || []).map((item, index) => (
                             <li key={index} className="border-b pb-4 border-gray-300">
                                 <div className="flex items-center mb-2">
-                                    <span className="text-gray-400 font-medium capitalize">{item.recipe}</span>
+                                    <span className="text-gray-400 font-medium capitalize">{item.recipe_name}</span>
                                     <div className="ml-2 flex">
                                         {[...Array(item.rating)].map((_, i) => (
-                                            <svg key={i} className="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg
+                                                key={i}
+                                                className="w-4 h-4 text-gray-300"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                            >
                                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.97a1 1 0 00.95.69h4.15c.969 0 1.371 1.24.588 1.81l-3.357 2.44a1 1 0 00-.364 1.118l1.287 3.97c.3.921-.755 1.688-1.54 1.118l-3.357-2.44a1 1 0 00-1.175 0l-3.357 2.44c-.784.57-1.838-.197-1.54-1.118l1.287-3.97a1 1 0 00-.364-1.118L2.312 9.397c-.783-.57-.381-1.81.588-1.81h4.15a1 1 0 00.95-.69l1.286-3.97z" />
                                             </svg>
                                         ))}
@@ -199,7 +199,7 @@ function ChefDashboardPage() {
                         )}
                     </div>
                 </div>
-                
+
                 {/* Added fixed height to the chart container */}
                 <div className="h-[400px]">
                     <ResponsiveContainer width="100%" height="100%">

@@ -114,6 +114,21 @@ export const ApiSlice = createApi({
       }),
       invalidatesTags: ['ChefDashboard'], // Invalidate cache to refresh recipe list
     }),
+
+    
+    ChefDashboardFirstPart: builder.query({
+      query: () => "/api/chef_dashboard/v1/dash/first-part/",
+
+    }),
+    RecentFeedback: builder.query({
+      query: () => "/api/chef_dashboard/v1/dash/recent-feedback/",
+
+    }),
+    ChefTopRecipe: builder.query({
+      query: () => "/api/chef_dashboard/v1/dash/top-queried-recipes/",
+
+    }),
+
 // user feedback
      getUserFeedbackList: builder.query({
       query: () => "/api/chef_dashboard/v1/feedback/list/",
@@ -393,7 +408,7 @@ export const {
 
   useGetCategoryListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation, useGetCommunityPostListQuery, useDeletCommunityPostListMutation, useChefCommentPostMutation, usePostBookmarkMutation,
   usePostLikeUnlikeMutation, useShareChefPostMutation, useAiMassageCreateMutation, useGetMainSubscriptionQuery, useRecipeCommentCreateMutation,useGetRecipeCommentListQuery, useRecipeSaveMutation, useGetMainRecipeDettailsQuery,
-  useRecipeCommentMutation,useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation
+  useRecipeCommentMutation,useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery
 } = ApiSlice;
 
 export default ApiSlice;
