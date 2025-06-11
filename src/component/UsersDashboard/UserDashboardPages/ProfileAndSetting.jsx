@@ -27,7 +27,7 @@ function ProfileAndSetting() {
 				phone: profileList.user.phone || "",
 				photo:
 					profileList.user.image
-						? `https://bmn1212.duckdns.org/${profileList?.user?.image}`
+						? `http://192.168.10.124:3000${profileList?.user?.image}`
 						: "https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg",
 			});
 		}
@@ -185,7 +185,7 @@ function ProfileAndSetting() {
 						<button
 							type="submit"
 							disabled={isLoading}
-							className={`bg-[#5B21BD] text-white rounded-lg px-6 py-2 mt-4 text-lg font-semibold transition-opacity ${isLoading
+							className={`bg-[#5B21BD] text-white rounded-lg px-6 py-2 mt-4 text-lg font-semibold transition-opacity cursor-pointer ${isLoading
 									? "opacity-50 cursor-not-allowed"
 									: "hover:bg-[#4A1A9C]"
 								}`}

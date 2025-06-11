@@ -3,7 +3,7 @@
 
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import img from "../../assets/image/pricing_img.png"; // Light mode image
 import img1 from "../../assets/image/pricing_img.png"; // Dark mode image
 import { Check, ArrowRight } from "lucide-react";
@@ -12,6 +12,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Subscribsion = () => {
     const [billingCycle, setBillingCycle] = useState("monthly");
+    
 
     const monthlyPlans = [
         {
@@ -120,6 +121,9 @@ const Subscribsion = () => {
         exit: { y: -50, opacity: 0, scale: 0.9, transition: { duration: 0.2 } },
     };
 
+    useEffect(()=>{
+
+    },[])
     return (
         <div id="pricing" className="  md:px-4 ">
             <div className="max-w-5xl mx-auto">

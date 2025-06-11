@@ -10,62 +10,7 @@ function PreviewGallary({ recipeData }) {
   console.log(recipeData, "adsfsfsdf")
   const [isModalOpen, setIsModalOpen] = useState(false);
 
- 
-  //   {
-  //     id: 1,
-  //     title: 'joss Chocolate Soufflé',
-  //     category: 'Chocolate',
-  //     description: 'A light and airy chocolate dessert with a molten center....',
-  //     image: 'https://i.ibb.co.com/NdC53ZPN/image-1.jpg',
-  //     rating: 4.8,
-  //     updated: '2023-11-15',
-  //   },
-  //   {
-  //     id: 2,
-  //     title: 'Classic Chocolate Soufflé',
-  //     category: 'Chocolate',
-  //     description: 'A light and airy chocolate dessert with a molten center....',
-  //     image: 'https://i.ibb.co.com/XfKX16Nq/image.png',
-  //     rating: 4.8,
-  //     updated: '2023-11-15',
-  //   },
-  //   {
-  //     id: 3,
-  //     title: 'Classic Chocolate Soufflé',
-  //     category: 'Chocolate',
-  //     description: 'A light and airy chocolate dessert with a molten center....',
-  //     image: 'https://i.ibb.co.com/9k6pmKqJ/image-1.png',
-  //     rating: 4.8,
-  //     updated: '2023-11-15',
-  //   },
-  //   {
-  //     id: 4,
-  //     title: 'dessers Chocolate Soufflé',
-  //     category: 'Chocolate',
-  //     description: 'A light and airy chocolate dessert with a molten center....',
-  //     image: 'https://i.ibb.co.com/NdC53ZPN/image-1.jpg',
-  //     rating: 4.8,
-  //     updated: '2023-11-15',
-  //   },
-  //   {
-  //     id: 5,
-  //     title: 'Classic Chocolate Soufflé',
-  //     category: 'Chocolate',
-  //     description: 'A light and airy chocolate dessert with a molten center....',
-  //     image: 'https://i.ibb.co.com/XfKX16Nq/image.png',
-  //     rating: 4.8,
-  //     updated: '2023-11-15',
-  //   },
-  //   {
-  //     id: 6,
-  //     title: 'Classic Chocolate Soufflé',
-  //     category: 'Chocolate',
-  //     description: 'A light and airy chocolate dessert with a molten center....',
-  //     image: 'https://i.ibb.co.com/9k6pmKqJ/image-1.png',
-  //     rating: 4.8,
-  //     updated: '2023-11-15',
-  //   },
-  // ];
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -87,7 +32,7 @@ function PreviewGallary({ recipeData }) {
             <div className="relative">
               <img
                 className="w-full h-48 object-cover rounded-t-2xl"
-                src={`https://bmn1212.duckdns.org/${recipe.image}`}
+                src={`http://192.168.10.124:3000${recipe.image}`}
                 alt={recipe.title}
               />
             </div>

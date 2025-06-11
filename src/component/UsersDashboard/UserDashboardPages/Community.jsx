@@ -20,9 +20,7 @@ import { useParams } from 'react-router-dom';
 import ChefLikeUnlike from '../../ChefDashboard/ChefDashboardPage/ChefLikeUnlike';
 import ChefBookmark from '../../ChefDashboard/ChefDashboardPage/chefBookmark.jsx';
 import ChefSharePost from '../../ChefDashboard/ChefDashboardPage/ChefSharePost.jsx';
-// import ChefBookmark from './chefBookmark.jsx';
-// import ChefLikeUnlike from './ChefLikeUnlike.jsx';
-// import ChefSharePost from './ChefSharePost.jsx';
+
 
 const Community = () => {
   const id = useParams();
@@ -31,8 +29,8 @@ const Community = () => {
   const [chefCommentPost] = useChefCommentPostMutation();
   const { data: getCommunityPostList, refetch } = useGetCommunityPostListQuery();
   const communityPost = getCommunityPostList?.results?.data || [];
-  console.log(communityPost,"hello")
-const imageBaseUrl = 'https://bmn1212.duckdns.org';
+  console.log(getCommunityPostList,"hello")
+const imageBaseUrl = 'http://192.168.10.124:3000';
 
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -91,7 +89,7 @@ const imageBaseUrl = 'https://bmn1212.duckdns.org';
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('https://bmn1212.duckdns.org/api/community/v1/post/create/', {
+      const response = await fetch('http://192.168.10.124:3000/api/community/v1/post/create/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

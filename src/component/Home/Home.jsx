@@ -21,7 +21,7 @@ const Home = () => {
 
 
     
-    const {data:getMainSubscription} =useGetMainSubscriptionQuery();
+    const {data:getMainSubscription} =useGetMainSubscriptionQuery(id);
     console.log('getMainSubscription', getMainSubscription);
 
  
@@ -220,6 +220,7 @@ const Home = () => {
                                             rating: item.rating,
                                             logo_image: item.logo,
                                             image: item.chef_image,
+
                                         })}
                                     >
                                         Details
@@ -251,7 +252,7 @@ const Home = () => {
                         <div className="flex-1 overflow-y-auto relative">
                             <div className="h-[300px] relative">
                                 <img
-                                    src={`https://bmn1212.duckdns.org/${selectedChef.logo_image}`}
+                                    src={`http://192.168.10.124:3000${selectedChef.logo_image}`}
                                     alt="logo_image"
                                     className="w-full h-full rounded-lg object-cover"
                                 />
@@ -308,7 +309,7 @@ const Home = () => {
                                 {activeButton === 'about' ? (
                                     <>
                                         <p className='text-[26px] font-semibold text-[#5B21BD] mb-4 capitalize'>About chef {selectedChef.title}</p>
-                                        <Expertice expertise={idOfItems?.about?.expertice} />
+                                        <Expertice subscriptionId={id} expertise={idOfItems?.about?.expertice} />
                                         <p className="text-gray-600 mt-4 absolute top-4">{selectedChef.description}</p>
                                     </>
                                 ) : (

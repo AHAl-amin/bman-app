@@ -17,7 +17,7 @@ function AllRecipes() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const imageBaseUrl = 'https://bmn1212.duckdns.org'; // 🔁 Replace with your backend base URL
+  // const imageBaseUrl = 'http://192.168.10.124:3000/api'; // 
 
   // Dynamically generate categories from API data
  const recipeArray = recipesData?.data || [];
@@ -110,7 +110,7 @@ const filteredRecipes = recipeArray.filter((recipe) => {
                     src={
                       recipe.image?.startsWith('http')
                         ? recipe.image
-                        : `${imageBaseUrl}${recipe.image}`
+                        : `http://192.168.10.124:3000${recipe.image}`
                     }
                     alt={recipe.title}
                   />

@@ -193,7 +193,7 @@ function ChefAllRecipes() {
               <div className="relative">
                 <img
                   className="w-full h-48 object-cover"
-                  src={`https://bmn1212.duckdns.org/${recipe.image}`}
+                  src={`http://192.168.10.124:3000${recipe.image}`}
                   alt={recipe.title}
                 />
               </div>

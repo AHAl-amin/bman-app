@@ -46,7 +46,7 @@ function ChefRecipesEditPage() {
         description: getRecipeDettails.data?.description || '',
         image: getRecipeDettails.data?.image || '',
         imagePreview: getRecipeDettails.data?.image
-          ? `https://bmn1212.duckdns.org/${getRecipeDettails.data?.image}`
+          ? `http://192.168.10.124:3000/api${getRecipeDettails.data?.image}`
           : '',
       });
     }
@@ -95,7 +95,7 @@ function ChefRecipesEditPage() {
         form.append('image', formData.image);
       }
 
-      const response = await fetch(`https://bmn1212.duckdns.org/api/recipe/v1/update/${id}/`, {
+      const response = await fetch(`http://192.168.10.124:3000/apirecipe/v1/update/${id}/`, {
         method: 'PUT',
         body: form,
         headers: {

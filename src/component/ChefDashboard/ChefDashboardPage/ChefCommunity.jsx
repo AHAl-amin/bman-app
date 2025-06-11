@@ -32,7 +32,7 @@ const ChefCommunity = () => {
   const { data: getCommunityPostList, refetch } = useGetCommunityPostListQuery();
   const communityPost = getCommunityPostList?.results?.data || [];
   console.log(communityPost,"hello")
-const imageBaseUrl = 'https://bmn1212.duckdns.org';
+const imageBaseUrl = 'http://192.168.10.124:3000';
 
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -91,7 +91,7 @@ const imageBaseUrl = 'https://bmn1212.duckdns.org';
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('https://bmn1212.duckdns.org/api/community/v1/post/create/', {
+      const response = await fetch('http://192.168.10.124:3000/api/community/v1/post/create/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

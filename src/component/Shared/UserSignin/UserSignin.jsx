@@ -46,9 +46,9 @@ function UserSignin() {
         localStorage.setItem('access_token', response.access_token);
         localStorage.setItem('refresh_token', response.refresh_token);
         
-        // Store user data including accountType
+        // Store user data including role
         if (response.user) {
-          localStorage.setItem('accountType', response.user.accountType);
+          localStorage.setItem('role', response.user.role);
           localStorage.setItem('userData', JSON.stringify(response.user));
         }
       }
@@ -60,15 +60,21 @@ function UserSignin() {
 
       toast.success('Login successful!');
       
-      // Redirect based on accountType
-      const accountType = response.user?.accountType || localStorage.getItem('accountType');
-      if (accountType === 'chef') {
+      // Redirect based on role
+      const role = response.user?.role || localStorage.getItem('role');
+      if (role === 'chef') {
         navigate('/chef_dashboard');
       } 
+      else if (role === 'admin') {
+        navigate('/Admin_Dashboard');
+      } 
+     
      
       else {
         navigate('/dashboard');
       }
+
+      
 
     } catch (err) {
       console.error('Login error:', err);

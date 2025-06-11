@@ -67,12 +67,11 @@ function Verification() {
 
 
 
-    // Verification কম্পোনেন্টের handleSubmit ফাংশন আপডেট করুন
 const handleSubmit = async () => {
     try {
         const otpCode = otp.join('');
         const email = localStorage.getItem('userEmail');
-        const accountType = localStorage.getItem('accountType'); // নতুন লাইন যোগ করুন
+        const role = localStorage.getItem('role'); // নতুন লাইন যোগ করুন
 
         if (!email) {
             toast.error('Email not found. Please try registering again.');
@@ -90,8 +89,8 @@ const handleSubmit = async () => {
         toast.success('Verification successful!');
         localStorage.removeItem('userEmail');
         
-        // accountType অনুযায়ী রাউটিং
-        if (accountType === 'chef') {
+        // role অনুযায়ী রাউটিং
+        if (role === 'chef') {
             navigate('/chef_dashboard');
         } else {
             navigate('/dashboard');

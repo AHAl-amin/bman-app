@@ -17,7 +17,7 @@ function UserSignup() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [accountType, setAccountType] = useState('');
+  const [role, setrole] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -27,7 +27,7 @@ function UserSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !phone || !password || !confirmPassword || !accountType) {
+    if (!name || !email || !phone || !password || !confirmPassword || !role) {
       toast.error('Please fill in all required fields.');
       return;
     }
@@ -43,7 +43,7 @@ function UserSignup() {
       email,
       phone,
       password,
-      accountType
+      role
     };
     console.log('signupData:', signupData);
 
@@ -52,7 +52,7 @@ function UserSignup() {
 
 
       localStorage.setItem("userEmail", email); // Store email in localStorage
- localStorage.setItem("accountType", accountType); 
+ localStorage.setItem("role", role); 
       toast.success('Registration successful!');
       
       navigate('/verification');
@@ -173,13 +173,13 @@ function UserSignup() {
             </div>
           </div>
           <div>
-            <label htmlFor="accountType" className="block text-[#5B21BD] mb-1 text-xl">
+            <label htmlFor="role" className="block text-[#5B21BD] mb-1 text-xl">
               Account Type
             </label>
             <select
-              id="accountType"
-              value={accountType}
-              onChange={(e) => setAccountType(e.target.value)}
+              id="role"
+              value={role}
+              onChange={(e) => setrole(e.target.value)}
               className="w-full px-4 py-2 border bg-[#F8FCFF] border-[#5B21BD] rounded-lg"
             >
               <option value="" disabled>Select</option>
