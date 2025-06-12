@@ -61,7 +61,8 @@ function UserSignin() {
       toast.success('Login successful!');
       
       // Redirect based on role
-      const role = response.user?.role || localStorage.getItem('role');
+      const role = response.user?.role ;
+      console.log(role,"dasdf")
       if (role === 'chef') {
         navigate('/chef_dashboard');
       } 
@@ -176,7 +177,7 @@ function UserSignin() {
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full bg-[#5B21BD] text-white rounded-lg px-6 py-3 mt-6 text-lg font-semibold transition-all ${
+            className={`w-full bg-[#5B21BD] text-white rounded-lg px-6 py-3 mt-6 text-lg font-semibold transition-all cursor-pointer ${
               isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#4A1A9C] hover:shadow-md'
             }`}
           >

@@ -9,7 +9,7 @@ function ChefRecipesAddpage() {
     const [recipeCreate] = useRecipeCreateMutation();
     const { data: categoryList, isLoading, error } = useGetCategoryListQuery();
 
-    const { register, control, handleSubmit, setValue, watch } = useForm({
+    const { register, control, handleSubmit, setValue, watch, reset } = useForm({
         defaultValues: {
             title: '',
             category: '',
@@ -74,6 +74,16 @@ function ChefRecipesAddpage() {
             const response = await recipeCreate(formData).unwrap();
             toast.success('Recipe created successfully!', { position: 'top-right' });
             console.log('Recipe created successfully:', response);
+            // 🔁 Reset the form here
+            reset({
+                title: '',
+                category: '',
+                description: '',
+                image: null,
+                ingredients: [],
+                instructions: [],
+                chefNotes: [],
+            });
         } catch (error) {
             toast.error('Failed to create recipe. Please try again.', { position: 'top-right' });
             console.error(error);
@@ -131,7 +141,7 @@ function ChefRecipesAddpage() {
                             <label className="block text-xl font-medium text-[#5B21BD] mb-2">Upload Image</label>
                             <div className="w-full h-24 border bg-[#FFFFFF] border-[#CCBAEB] rounded-md flex items-center justify-center">
                                 {imageFile ? (
-                                    <img src={URL.createObjectURL(imageFile)} alt="Uploaded Preview" className="max-h-full max-w-full object-contain" />
+                                    <img src={URL.createObjectURL(imageFile)} alt="Uploaded Preview" className="max-h-full max-w-full p-2 rounded-2xl object-contain" />
                                 ) : (
                                     <label className="cursor-pointer relative">
                                         <LuUpload className="text-[20px] text-[#5B21BD] absolute bottom-5 left-11" />
@@ -140,7 +150,7 @@ function ChefRecipesAddpage() {
                                             type="file"
                                             accept="image/*"
                                             onChange={handleFileChange}
-                                            className="hidden"
+                                            className="hidden "
                                         />
                                     </label>
                                 )}
@@ -225,10 +235,10 @@ function ChefRecipesAddpage() {
                     </div>
 
                     <div className="space-x-4 mt-10">
-                        <button type="submit" className="text-xl text-white bg-[#5B21BD] py-2 px-5 rounded-[10px]">
+                        <button type="submit" className="text-xl text-white bg-[#5B21BD] py-2 px-5 rounded-[10px] cursor-pointer">
                             Submit
                         </button>
-                        <Link to="/chef_dashboard/ai_training" className="text-xl text-white bg-[#5B21BD] py-2 px-5 rounded-[10px]">
+                        <Link to="/chef_dashboard/ai_training" className="text-xl text-white bg-[#5B21BD] py-2 px-5 rounded-[10px] cursor-pointer">
                             Next
                         </Link>
                     </div>

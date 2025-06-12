@@ -17,6 +17,7 @@ const UserDashboardNavbar = () => {
 	const { data: getAllBrands } = useGetAllBrandsQuery();
 	console.log("Profile List:", profileList);
 	const userData = profileList?.user || {};
+	console.log(userData,"dasdfsdf")
 	const brands = getAllBrands?.data || [];
 	console.log("Brands:", brands);
 	const [userName, setUserName] = useState("");

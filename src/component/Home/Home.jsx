@@ -24,7 +24,9 @@ const Home = () => {
     const {data:getMainSubscription} =useGetMainSubscriptionQuery(id);
     console.log('getMainSubscription', getMainSubscription);
 
- 
+ useEffect(()=>{
+    console.log(getManiChefBrandList)
+ },[getManiChefBrandList])
 
     // State to control modal visibility, selected chef, search query, filter dropdown, and selected subtitle
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,6 +50,7 @@ const Home = () => {
 
     // Filter data based on search query and selected tagline
     const filteredData = useMemo(() => {
+        console.log(idOfItems)
         if (!idOfItems?.about) return [];
         const items = Array.isArray(idOfItems.about) ? idOfItems.about : [idOfItems.about];
         return items.filter(item => {
@@ -220,9 +223,10 @@ const Home = () => {
                                             rating: item.rating,
                                             logo_image: item.logo,
                                             image: item.chef_image,
-
+                                            chepId:item.chef_id || ""
                                         })}
                                     >
+                                        {console.log(item,"this is the items of .................",idOfItems)}
                                         Details
                                     </button>
                                 </div>
@@ -245,7 +249,7 @@ const Home = () => {
                                 className="px-6 py-2 bg-[#5B21BD] text-white font-medium rounded hover:bg-[#5B21BD] transition-colors"
                                 onClick={closeModal}
                             >
-                                Back
+                                Back {console.log(selectedChef)}
                             </button>
                         </div>
 
@@ -257,6 +261,8 @@ const Home = () => {
                                     className="w-full h-full rounded-lg object-cover"
                                 />
                                 <div className='bottom-4 left-6 absolute'>
+                                    {/* {selectedChef.chef_id} */}
+                                    {/* {console.log(selectedChef)} */}
                                     {selectedChef.image.startsWith('http') ? (
                                         <img
                                             src={selectedChef.image}
@@ -309,18 +315,20 @@ const Home = () => {
                                 {activeButton === 'about' ? (
                                     <>
                                         <p className='text-[26px] font-semibold text-[#5B21BD] mb-4 capitalize'>About chef {selectedChef.title}</p>
-                                        <Expertice subscriptionId={id} expertise={idOfItems?.about?.expertice} />
+                                        <Expertice subscriptionId={id} expertise={idOfItems?.about?.expertice} chepId={selectedChef.chepId} />
                                         <p className="text-gray-600 mt-4 absolute top-4">{selectedChef.description}</p>
                                     </>
                                 ) : (
-                                    <PreviewGallary recipeData={idOfItems?.recipe_data} />
+                                    <PreviewGallary recipeData={idOfItems?.recipe_data} chepId={selectedChef.chepId}/>
+                                    
                                 )}
                             </div>
+                            {console.log(selectedChef.chepId)}
                         </div>
                     </div>
                 </div>
             )}
-            <div className='bg-[#5B21BD] text-white text-center mx-10 py-2 lora rounded-xl text-xl'>continue</div>
+        
         </div>
     );
 }

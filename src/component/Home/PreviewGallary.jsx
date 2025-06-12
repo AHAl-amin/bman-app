@@ -6,7 +6,7 @@ import { IoIosHeartEmpty } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import Subscribsion from './Subscribsion';
 
-function PreviewGallary({ recipeData }) {
+function PreviewGallary({ recipeData,chepId }) {
   console.log(recipeData, "adsfsfsdf")
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -97,27 +97,28 @@ function PreviewGallary({ recipeData }) {
       </div>
 
       {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-[#5B21BDCC] bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg h-[96%]  w-4/6">
+   {isModalOpen && (
+  <div className="fixed inset-0 bg-[#5B21BDCC] bg-opacity-50 flex items-center justify-center z-50">
+    <div className="bg-white rounded-lg h-[96%] w-4/6 flex flex-col">
 
-            <div className="flex space-x-4 p-2">
+      {/* Header with back button */}
+      <div className="p-4 border-b border-gray-200">
+        <button
+          onClick={closeModal}
+          className="px-6 py-2 bg-[#5B21BD] text-white rounded-[10px] hover:bg-[#4c1fb0] transition-colors cursor-pointer duration-200"
+        >
+          Back
+        </button>
+      </div>
 
-              <button
-                onClick={() => {
-                  // Add your confirmation logic here
-                  closeModal();
-                }}
-                className="px-6 py-2 bg-[#5B21BD] text-white rounded-[10px] hover:bg-[#5B21BD] transition-colors cursor-pointer duration-200"
-              >
-                Back
-              </button>
-            </div>
+      {/* Scrollable content area */}
+      <div className="overflow-y-auto p-4 flex-1">
+        <Subscribsion chepId={chepId} />
+      </div>
+    </div>
+  </div>
+)}
 
-            <Subscribsion />
-          </div>
-        </div>
-      )}
     </div>
   )
 }

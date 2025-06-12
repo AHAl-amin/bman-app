@@ -1,21 +1,36 @@
 
 
 
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { IoReorderThreeOutline, IoSettingsOutline } from "react-icons/io5";
 
 import login_img2 from '../../../assets/image/Admin_login_img.png';
 import { FaBrain, FaChessQueen, FaCloudRain, FaUsers } from "react-icons/fa";
 import { GiAchievement } from "react-icons/gi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiChefHatFill } from "react-icons/pi";
 import { MdOutlineDashboard } from "react-icons/md";
 import { FaPeopleGroup } from "react-icons/fa6";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { BsFillChatDotsFill } from "react-icons/bs";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { logout } from "../../../Rudux/feature/authSlice";
 
 const ChefDashboardSideber = () => {
+
+    const navigate = useNavigate();
+    const token =
+        useSelector((state) => state.auth.token) ||
+        localStorage.getItem("refresh_token");
+    useEffect(() => {
+        if (!token) {
+            navigate("/user_signin");
+        }
+        console.log("Token:", token);
+    }, [token, navigate]);
+    const dispatch = useDispatch();
     const location = useLocation();
     const isProjectActive = location.pathname.startsWith('/dashboard/user_notifications');
     const isDashboardActive = ["/chef_dashboard", "/chef_all_recipes/chef_recipese_dettails_view", "/dashboard/createBuyerOrder", "/dashboard/buyer_candidate_list"].includes(location.pathname);
@@ -27,6 +42,18 @@ const ChefDashboardSideber = () => {
     // Function to toggle sidebar
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
+    };
+
+    const handleLogout = () => {
+        dispatch(logout());
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("role");
+     
+
+        navigate("/user_signin");
+        toast.success("Logout successful!");
     };
 
     return (
@@ -116,7 +143,7 @@ const ChefDashboardSideber = () => {
                         <h1 className="text-lg font-medium text-white">User Feedback</h1>
                     </NavLink>
 
-                 
+
 
                     <NavLink
                         to="/chef_dashboard/chef_subscribtion"
@@ -168,9 +195,15 @@ const ChefDashboardSideber = () => {
                         <IoSettingsOutline className="h-6 w-6" />
                         <h1 className="text-lg font-medium text-white">Profile & setting</h1>
                     </NavLink>
-                    <NavLink to='/user_signin' className='flex items-center gap-2 justify-center   text-gray-50  h-full '>
+                    {/* <NavLink to='/user_signin' className='flex items-center gap-2 justify-center   text-gray-50  h-full '>
                         <RiLogoutCircleLine /> <p>Logout</p>
-                    </NavLink>
+                    </NavLink> */}
+                    <button
+                        className="w-full flex items-center gap-2 justify-center text-[#5B21BD] h-full cursor-pointer"
+                        onClick={handleLogout}
+                    >
+                        <RiLogoutCircleLine /> <p>Logout</p>
+                    </button>
                 </div>
             </div>
 

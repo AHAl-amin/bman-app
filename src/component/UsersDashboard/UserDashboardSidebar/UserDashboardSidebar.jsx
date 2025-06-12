@@ -45,6 +45,10 @@ const UserDashboardSidebar = () => {
 		dispatch(logout());
 		localStorage.removeItem("access_token");
 		localStorage.removeItem("refresh_token");
+		localStorage.removeItem("authToken");
+		localStorage.removeItem("role");
+		
+		
 		navigate("/user_signin");
 		toast.success("Logout successful!");
 	};

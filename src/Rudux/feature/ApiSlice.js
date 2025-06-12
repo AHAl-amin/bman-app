@@ -61,7 +61,7 @@ export const ApiSlice = createApi({
 
     recipeCreate: builder.mutation({
       query: (formattedData) => ({
-        url: "api/recipe/v1/create/",
+        url: "/recipe/v1/create/",
         method: "POST",
         body: formattedData, // do not stringify!
       }),
@@ -257,9 +257,11 @@ export const ApiSlice = createApi({
       invalidatesTags: ["ChefDashboard"],
     }),
 
+   
     getSubscriptionPlanList: builder.query({
-      query: () => "/subscriptions/v1/chef-plans/list/admin/"
-    }),
+  query: () => "/subscriptions/v1/chef-plans/list/admin/",
+  providesTags: ["ChefDashboard"],
+}),
 
     // landing page / main page
     getManiChefBrandList: builder.query({
@@ -271,7 +273,7 @@ export const ApiSlice = createApi({
       providesTags: ["ChefDashboard"]
     }),
     getMainSubscription: builder.query({
-      query: (id) => `/main/v1/user/subscribe/chef/${id}/`,
+      query: (id) => `/subscriptions/v1/chef-plans/list/${id}/`,
       providesTags: ["ChefDashboard"]
     }),
 
