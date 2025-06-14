@@ -241,11 +241,11 @@ const router = createBrowserRouter([
   // .................user Authentications.................
 
   {
-    path:'/user_signup',
+    path:'/signup',
     element:<UserSignup/>
   },
   {
-    path:'/user_signin',
+    path:'/signin',
     element:<UserSingin/>
   },
   {

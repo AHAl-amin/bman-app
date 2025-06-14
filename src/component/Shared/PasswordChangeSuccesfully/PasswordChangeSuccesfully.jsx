@@ -45,7 +45,7 @@ function PasswordChangeSuccesfully() {
 
               {/* Back to Login Button */}
               <Link
-                to="/user_signin"
+                to="/signin"
                 className="flex items-center justify-center rounded-[8px] bg-[#5B21BD] px-4 py-2 text-[#F6F8FA] w-[194px] transition-colors"
               >
                 <svg

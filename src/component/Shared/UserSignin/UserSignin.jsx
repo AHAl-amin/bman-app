@@ -49,6 +49,7 @@ function UserSignin() {
         // Store user data including role
         if (response.user) {
           localStorage.setItem('role', response.user.role);
+          console.log(response.user.role)
           localStorage.setItem('userData', JSON.stringify(response.user));
         }
       }
@@ -58,22 +59,22 @@ function UserSignin() {
         localStorage.setItem('authToken', response.access_token);
       }
 
-      toast.success('Login successful!');
-      
-      // Redirect based on role
-      const role = response.user?.role ;
-      console.log(role,"dasdf")
-      if (role === 'chef') {
-        navigate('/chef_dashboard');
-      } 
-      else if (role === 'admin') {
-        navigate('/Admin_Dashboard');
-      } 
-     
-     
-      else {
-        navigate('/dashboard');
-      }
+  if (response?.role) {
+  const role = response?.role;
+
+  toast.success('Login successful!');
+
+  if (role === 'chef') {
+    navigate('/chef_dashboard');
+  } else if (role === 'admin') {
+    navigate('/Admin_Dashboard');
+  } else {
+    navigate('/dashboard');
+  }
+} else {
+  toast.error("User role not found in response!");
+}
+
 
       
 
@@ -197,7 +198,7 @@ function UserSignin() {
           <p className="text-center text-gray-600 mt-6">
             Don't have an account?{' '}
             <Link
-              to="/user_signup"
+              to="/signup"
               className="text-[#5B21BD] font-medium hover:underline transition-all"
             >
               Sign Up

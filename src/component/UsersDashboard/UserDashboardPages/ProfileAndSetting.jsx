@@ -10,6 +10,7 @@ import { toast, Toaster } from "react-hot-toast";
 
 function ProfileAndSetting() {
 	const { data: profileList } = useGetProfileQuery();
+	console.log(profileList,"profile")
 	const [formData, setFormData] = useState({
 		firstName: "",
 		lastName: "",
@@ -23,7 +24,7 @@ function ProfileAndSetting() {
 			setFormData({
 				firstName: profileList.user.first_name || "",
 				lastName: profileList.user.last_name || "",
-				email: profileList.user.email || "",
+				email: profileList?.user?.email || "",
 				phone: profileList.user.phone || "",
 				photo:
 					profileList.user.image
@@ -32,6 +33,8 @@ function ProfileAndSetting() {
 			});
 		}
 	}, [profileList]);
+
+	console.log(profileList?.user)
 
 	const {
 		register,
@@ -109,7 +112,7 @@ function ProfileAndSetting() {
 									placeholder="Enter your first name"
 									className="mt-1 p-2 w-full  rounded-md focus:outline-none border border-[#5B21BD] bg-[#FFFFFF]"
 									{...register("firstName", {
-										required: "First name is required",
+									
 									})}
 								/>
 								{errors.firstName && (
@@ -128,7 +131,7 @@ function ProfileAndSetting() {
 									placeholder="Enter your last name"
 									className="mt-1 p-2 w-full  rounded-md focus:outline-none border border-[#5B21BD]  bg-[#FFFFFF]"
 									{...register("lastName", {
-										required: "Last Name is required",
+									
 									})}
 								/>
 								{errors.lastName && (
@@ -151,7 +154,7 @@ function ProfileAndSetting() {
 									name="email"
 									className="mt-1 p-2 w-full  rounded-md focus:outline-none border border-[#5B21BD]  bg-[#FFFFFF]"
 									{...register("email", {
-										required: "Email is required",
+									
 									})}
 								/>
 								{errors.email && (
@@ -170,7 +173,7 @@ function ProfileAndSetting() {
 									placeholder="Enter here"
 									className="mt-1 p-2 w-full  rounded-md focus:outline-none border border-[#5B21BD]  bg-[#FFFFFF]"
 									{...register("phone", {
-										required: "Phone is required",
+										
 									})}
 								/>
 								{errors.phone && (

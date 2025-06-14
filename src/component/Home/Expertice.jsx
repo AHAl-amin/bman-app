@@ -1,12 +1,9 @@
 
 
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import Subscribsion from './Subscribsion';
 
-function Expertice({expertise, chepId}) {
-  console.log(chepId,"adsdfsfsdf")
-
-  
+function Expertice({expertise, chefId}) {
      
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -32,7 +29,7 @@ function Expertice({expertise, chepId}) {
       <h2 className="text-2xl font-bold text-[#5B21BD] pb-2">Expertise</h2>
 
   <div className=" flex items-center gap-6">
-    {Array.isArray(expertise) && expertise.map((item, idx) => (
+    {Array.isArray(expertise) && expertise?.map((item, idx) => (
       <div key={idx}>
         <p className="font-medium flex justify-center items-center text-[#5B21BD] rounded-full px-3 py-1  bg-[#EFE9F8]">{item}</p>
       </div>
@@ -68,7 +65,7 @@ function Expertice({expertise, chepId}) {
 
       {/* Scrollable content area */}
       <div className="overflow-y-auto p-4 flex-1">
-        <Subscribsion chepId={chepId} />
+        <Subscribsion chefId={chefId} />
       </div>
     </div>
   </div>

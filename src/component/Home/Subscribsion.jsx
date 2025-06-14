@@ -1,17 +1,16 @@
 
 
 
-import { useEffect, useState } from "react";
 import img from "../../assets/image/pricing_img.png";
 import { Check, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useGetMainSubscriptionQuery } from "../../Rudux/feature/ApiSlice";
+import PropTypes from "prop-types";
 
-const Subscribsion = ({ chepId }) => {
-  const { data: getMainSubscription, isLoading, isError } = useGetMainSubscriptionQuery(chepId);
+const Subscribsion = ({ chefId }) => {
+  const { data: getMainSubscription, isLoading, isError } = useGetMainSubscriptionQuery(chefId);
 
-  console.log(getMainSubscription,"adssfdf")
-  const [billingCycle, setBillingCycle] = useState("monthly");
+  console.log(getMainSubscription,"chef_data_here........................................")
 
   const cardContainerVariants = {
     hidden: { opacity: 0 },
@@ -68,7 +67,7 @@ const Subscribsion = ({ chepId }) => {
                 animate="show"
                 exit="exit"
               >
-                {plans.map((plan, index) => (
+                {plans.map((plan) => (
                   <motion.div
                     key={`plan-${plan.id}`}
                     className="bg-white hover:bg-[#EFE9F8] transition duration-500 rounded-3xl shadow-lg  w-full min-h-[450px] flex flex-col"
@@ -122,6 +121,9 @@ const Subscribsion = ({ chepId }) => {
       </div>
     </div>
   );
+};
+Subscribsion.propTypes = {
+  chefId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
 export default Subscribsion;

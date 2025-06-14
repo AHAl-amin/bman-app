@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   useGetMainRecipeDettailsQuery,
   useRecipeCommentCreateMutation,
   useGetRecipeCommentListQuery,
-  
+
 } from "../../../../Rudux/feature/ApiSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { IoShareSocialOutline } from "react-icons/io5";
@@ -13,6 +13,7 @@ import { IoShareSocialOutline } from "react-icons/io5";
 import RecipeSave from "./RecipeSave";
 import RecipeComment from "./RecipeComment";
 import RecipeShare from "./RecipeShare";
+import { FaRegCommentDots } from "react-icons/fa";
 
 //for  recipe share button or fuction
 
@@ -170,58 +171,57 @@ function RecipesDettails() {
               )}
               {commentDataInfo && commentDataInfo?.length > 0
                 ? commentDataInfo?.map((comment, index) => (
-                    <div
-                      key={comment.id} // Use comment.id for unique key
-                      className="flex items-start space-x-4 p-4 border border-[#D9E0DC] rounded-[10px]"
-                    >
-                      <img
-                        src="https://randomuser.me/api/portraits/men/5.jpg" // Replace with comment.user.avatar if available
-                        alt={`User ${comment.user}`}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                      <div className="flex-1">
-                        <div className="flex justify-between">
-                          <div className="flex items-center gap-6">
-                            <h3 className="text-[24px] font-medium text-[#5B21BD]">
-                              {`User ${comment.user}`}{" "}
-                              {/* Fallback to user ID */}
-                            </h3>
-                            <span className="text-sm text-gray-500">
-                              {new Date(comment.created_at).toLocaleString(
-                                "en-US",
-                                {
-                                  weekday: "long", // e.g., "Tuesday"
-                                  year: "numeric", // e.g., "2025"
-                                  month: "numeric", // e.g., "6"
-                                  day: "numeric", // e.g., "3"
-                                  hour: "numeric", // e.g., "7"
-                                  minute: "2-digit", // e.g., "19"
-                                  hour12: true, // Use 12-hour format with AM/PM
-                                }
-                              )}
-                            </span>
-                          </div>
-                          <div className="flex items-center">
-                            {[...Array(5)].map((_, i) => (
-                              <svg
-                                key={i}
-                                className={`w-5 h-5 ${
-                                  i < comment.rating
-                                    ? "text-yellow-400"
-                                    : "text-gray-300"
-                                }`}
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
-                          </div>
+                  <div
+                    key={comment.id} // Use comment.id for unique key
+                    className="flex items-start space-x-4 p-4 border border-[#D9E0DC] rounded-[10px]"
+                  >
+                    <img
+                      src="https://randomuser.me/api/portraits/men/5.jpg" // Replace with comment.user.avatar if available
+                      alt={`User ${comment.user}`}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                    <div className="flex-1">
+                      <div className="flex justify-between">
+                        <div className="flex items-center gap-6">
+                          <h3 className="text-[24px] font-medium text-[#5B21BD]">
+                            {`User ${comment.user}`}{" "}
+                            {/* Fallback to user ID */}
+                          </h3>
+                          <span className="text-sm text-gray-500">
+                            {new Date(comment.created_at).toLocaleString(
+                              "en-US",
+                              {
+                                weekday: "long", // e.g., "Tuesday"
+                                year: "numeric", // e.g., "2025"
+                                month: "numeric", // e.g., "6"
+                                day: "numeric", // e.g., "3"
+                                hour: "numeric", // e.g., "7"
+                                minute: "2-digit", // e.g., "19"
+                                hour12: true, // Use 12-hour format with AM/PM
+                              }
+                            )}
+                          </span>
                         </div>
-                        <p className="text-gray-600 mt-1">{comment.content}</p>
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <svg
+                              key={i}
+                              className={`w-5 h-5 ${i < comment.rating
+                                  ? "text-yellow-400"
+                                  : "text-gray-300"
+                                }`}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          ))}
+                        </div>
                       </div>
+                      <p className="text-gray-600 mt-1">{comment.content}</p>
                     </div>
-                  ))
+                  </div>
+                ))
                 : null}
             </div>
             <div className="mt-6 p-4 bg-white rounded-lg shadow-sm">
@@ -242,11 +242,10 @@ function RecipesDettails() {
                           className="hidden"
                         />
                         <svg
-                          className={`w-6 h-6 cursor-pointer ${
-                            ratingValue <= (hover || rating)
+                          className={`w-6 h-6 cursor-pointer ${ratingValue <= (hover || rating)
                               ? "text-yellow-400"
                               : "text-gray-300"
-                          }`}
+                            }`}
                           onMouseEnter={() => setHover(ratingValue)}
                           onMouseLeave={() => setHover(0)}
                           fill="currentColor"
@@ -301,7 +300,7 @@ function RecipesDettails() {
   }
 
   const recipe = getMainRecipeDettails.data; // Use API data
- 
+
 
   return (
     <div className="py-6 px-10">
@@ -336,12 +335,18 @@ function RecipesDettails() {
               initiallySaved={recipe.save_recipe}
             />
 
-            <RecipeComment
-            recipeId={recipe.id}
-            />
-         <RecipeShare  recipeId={recipe.id}/>
+            <Link
 
-   
+              to={`/dashboard/ai_chat`}            
+              className="flex items-center text-[#5B21BD] border border-[#5B21BD] rounded p-1 cursor-pointer px-2"
+            >
+              <span className="mr-2">Chat</span>
+              <FaRegCommentDots />
+            </Link>
+
+            <RecipeShare recipeId={recipe.id} />
+
+
 
           </div>
         </div>
@@ -354,41 +359,37 @@ function RecipesDettails() {
         {/* Tabs */}
         <div className="flex bg-[#EFE9F8] py-2 justify-around text-[20px] rounded-[10px]">
           <button
-            className={`px-20 py-2 rounded-[10px] ${
-              activeTab === "Ingredients"
+            className={`px-20 py-2 rounded-[10px] ${activeTab === "Ingredients"
                 ? "bg-[#5B21BD] text-white"
                 : "text-gray-600"
-            }`}
+              }`}
             onClick={() => handleTabClick("Ingredients")}
           >
             Ingredients
           </button>
           <button
-            className={`px-20 py-2 rounded-[10px] ${
-              activeTab === "Instructions"
+            className={`px-20 py-2 rounded-[10px] ${activeTab === "Instructions"
                 ? "bg-[#5B21BD] text-white"
                 : "text-gray-600"
-            }`}
+              }`}
             onClick={() => handleTabClick("Instructions")}
           >
             Instructions
           </button>
           <button
-            className={`px-20 py-2 rounded-[10px] ${
-              activeTab === "Chef's Notes"
+            className={`px-20 py-2 rounded-[10px] ${activeTab === "Chef's Notes"
                 ? "bg-[#5B21BD] text-white"
                 : "text-gray-600"
-            }`}
+              }`}
             onClick={() => handleTabClick("Chef's Notes")}
           >
             Chef's Notes
           </button>
           <button
-            className={`px-20 py-2 rounded-[10px] ${
-              activeTab === "Comments"
+            className={`px-20 py-2 rounded-[10px] ${activeTab === "Comments"
                 ? "bg-[#5B21BD] text-white"
                 : "text-gray-600"
-            }`}
+              }`}
             onClick={() => handleTabClick("Comments")}
           >
             Comments

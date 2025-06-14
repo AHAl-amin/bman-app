@@ -15,6 +15,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 function ChefAllRecipes() {
 
+
   const [recipes, setRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -24,9 +25,10 @@ function ChefAllRecipes() {
   const filterRef = useRef(null);
 
   // Fetch recipes using the RTK Query hook
-  const { data: recipesData, isLoading, isError, error } = useGetCreateRecipeQuery();
+  const { data: recipesData, isLoading, isError, error  } = useGetCreateRecipeQuery();
  
   console.log("asdfsfdf", recipesData);
+  
   const [deleteChefRecipe, { isLoading: isDeleting }] = useDeleteChefRecipeMutation();
   const { data: categoryList, } = useGetCategoryListQuery();
   console.log("categoryList", categoryList);

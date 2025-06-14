@@ -197,7 +197,7 @@ function UserSignup() {
           </button>
           <p className="text-base text-[#3E3E3E] text-center py-4">
             Already have an account?{' '}
-            <Link to="/user_signin" className="text-[#5B21BD] underline">
+            <Link to="/signin" className="text-[#5B21BD] underline">
               Sign In
             </Link>
           </p>

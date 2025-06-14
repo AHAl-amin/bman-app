@@ -24,7 +24,7 @@ const UserDashboardNavbar = () => {
 
 	useEffect(() => {
 		if (profileList?.user) {
-			setUserName(profileList.user.username || "");
+			setUserName(profileList?.user?.username || "");
 			setUserImageUrl(
 				profileList.user.image
 					? `http://192.168.10.124:3000${profileList.user.image}`

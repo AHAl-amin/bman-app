@@ -22,7 +22,7 @@ const UserDashboardSidebar = () => {
 		localStorage.getItem("refresh_token");
 	useEffect(() => {
 		if (!token) {
-			navigate("/user_signin");
+			navigate("/signin");
 		}
 		console.log("Token:", token);
 	}, [token, navigate]);
@@ -49,7 +49,7 @@ const UserDashboardSidebar = () => {
 		localStorage.removeItem("role");
 		
 		
-		navigate("/user_signin");
+		navigate("/signin");
 		toast.success("Logout successful!");
 	};
 
@@ -141,7 +141,7 @@ const UserDashboardSidebar = () => {
           </NavLink>
         </div>
 
-        {/* <NavLink to='/user_signin' className="flex items-center gap-2 justify-center text-[#5B21BD] h-full">
+        {/* <NavLink to='/signin' className="flex items-center gap-2 justify-center text-[#5B21BD] h-full">
           <RiLogoutCircleLine /> <p>Logout</p>
         </NavLink> */}
 

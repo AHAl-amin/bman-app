@@ -7,7 +7,7 @@ const store = configureStore({
     reducer: {
         auth: authReducer,
         [authApi.reducerPath]: authApi.reducer,
-        [ApiSlice.reducerPath]: ApiSlice.reducer
+        [ApiSlice.reducerPath]: ApiSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(authApi.middleware, ApiSlice.middleware), //  Add API middleware

@@ -1,13 +1,10 @@
-
-
-
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { IoIosHeartEmpty } from 'react-icons/io';
-import { Link } from 'react-router-dom';
 import Subscribsion from './Subscribsion';
 
-function PreviewGallary({ recipeData,chepId }) {
+function PreviewGallary({ recipeData, chefId }) {
   console.log(recipeData, "adsfsfsdf")
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
@@ -113,7 +110,7 @@ function PreviewGallary({ recipeData,chepId }) {
 
       {/* Scrollable content area */}
       <div className="overflow-y-auto p-4 flex-1">
-        <Subscribsion chepId={chepId} />
+        <Subscribsion chefId={chefId} />
       </div>
     </div>
   </div>
@@ -122,5 +119,12 @@ function PreviewGallary({ recipeData,chepId }) {
     </div>
   )
 }
+
+import PropTypes from 'prop-types';
+
+PreviewGallary.propTypes = {
+  recipeData: PropTypes.array.isRequired,
+  chefId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};
 
 export default PreviewGallary

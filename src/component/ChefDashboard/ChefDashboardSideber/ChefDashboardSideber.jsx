@@ -26,7 +26,7 @@ const ChefDashboardSideber = () => {
         localStorage.getItem("refresh_token");
     useEffect(() => {
         if (!token) {
-            navigate("/user_signin");
+            navigate("/signin");
         }
         console.log("Token:", token);
     }, [token, navigate]);
@@ -52,7 +52,7 @@ const ChefDashboardSideber = () => {
         localStorage.removeItem("role");
      
 
-        navigate("/user_signin");
+        navigate("/signin");
         toast.success("Logout successful!");
     };
 
@@ -195,7 +195,7 @@ const ChefDashboardSideber = () => {
                         <IoSettingsOutline className="h-6 w-6" />
                         <h1 className="text-lg font-medium text-white">Profile & setting</h1>
                     </NavLink>
-                    {/* <NavLink to='/user_signin' className='flex items-center gap-2 justify-center   text-gray-50  h-full '>
+                    {/* <NavLink to='/signin' className='flex items-center gap-2 justify-center   text-gray-50  h-full '>
                         <RiLogoutCircleLine /> <p>Logout</p>
                     </NavLink> */}
                     <button

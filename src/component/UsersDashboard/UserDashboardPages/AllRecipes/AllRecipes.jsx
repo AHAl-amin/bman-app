@@ -17,7 +17,7 @@ function AllRecipes() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  // const imageBaseUrl = 'http://192.168.10.124:3000/api'; // 
+ 
 
   // Dynamically generate categories from API data
  const recipeArray = recipesData?.data || [];
