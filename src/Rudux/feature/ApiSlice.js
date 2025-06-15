@@ -307,11 +307,15 @@ export const ApiSlice = createApi({
       }),
       invalidatesTags: ["ChefDashboard"],
     }),
-    getCommunityPostList: builder.query({
-      query: () => "/community/v1/posts/",
-      providesTags: ["CommunityPosts"],
-    }),
+    // getCommunityPostList: builder.query({
+    //   query: () => "/community/v1/posts/",
+    //   providesTags: ["CommunityPosts"],
+    // }),
 
+    getCommunityPostList: builder.query({
+  query: (args) => `/community/v1/posts/?page=${args.page}`,
+  providesTags: ['CommunityPost'],
+}),
     DeletCommunityPostList: builder.mutation({
       query: (id) => ({
         url: `/community/v1/post/delete/${id}/`,

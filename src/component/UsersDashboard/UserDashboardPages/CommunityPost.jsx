@@ -1,109 +1,51 @@
+import { Link, useNavigate } from "react-router-dom";
 
-
-function CommunityPost() {
-
-
-
-
-    return (
-        <div className='px-10 py-4 lora'>
-
-            <div className="flex items-center justify-center gap-6 py-10 ">
-                <div className=" rounded-lg  overflow-hidden shadow">
-                    {/* Background Image */}
-                    <div>
-                        <img src="https://i.ibb.co.com/PZHThmVf/Elegant-Morning-Treats-1.png" alt="" />
-                    </div>
-
-                    {/* Overlay and Content */}
-                    <div className="    p-6 flex flex-col justify-between h-full">
-                        {/* Text Content */}
-                        <div>
-                            <h2 className="text-xl font-bold text-[#5B21BD]">Chef Bonbon Lina</h2>
-                            <h3 className="text-lg font-semibold text-[#9A9A9A]">Mirror Glaze for Bonbons</h3>
-                            <p className="mt-2 text-[#9A9A9A]">
-                                I'M excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in the temperature
-                            </p>
-                        </div>
-
-                        {/* Button */}
-                        <button className="mt-4 bg-[#5B21BD] text-white font-semibold rounded-[29px] py-2 px-4 cursor-pointer ">
-                            view post
-                        </button>
-                    </div>
-                </div>
-                <div className=" rounded-lg  overflow-hidden shadow">
-                    {/* Background Image */}
-                    <div>
-                        <img src="https://i.ibb.co.com/PZHThmVf/Elegant-Morning-Treats-1.png" alt="" />
-                    </div>
-
-                    {/* Overlay and Content */}
-                    <div className="    p-6 flex flex-col justify-between h-full">
-                        {/* Text Content */}
-                        <div>
-                            <h2 className="text-xl font-bold text-[#5B21BD]">Chef Bonbon Lina</h2>
-                            <h3 className="text-lg font-semibold text-[#9A9A9A]">Mirror Glaze for Bonbons</h3>
-                            <p className="mt-2 text-[#9A9A9A]">
-                                I'M excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in the temperature
-                            </p>
-                        </div>
-
-                        {/* Button */}
-                        <button className="mt-4 bg-[#5B21BD] text-white font-semibold rounded-[29px] py-2 px-4 cursor-pointer ">
-                            view post
-                        </button>
-                    </div>
-                </div>
-                <div className=" rounded-lg  overflow-hidden shadow">
-                    {/* Background Image */}
-                    <div>
-                        <img src="https://i.ibb.co.com/PZHThmVf/Elegant-Morning-Treats-1.png" alt="" />
-                    </div>
-
-                    {/* Overlay and Content */}
-                    <div className="    p-6 flex flex-col justify-between h-full">
-                        {/* Text Content */}
-                        <div>
-                            <h2 className="text-xl font-bold text-[#5B21BD]">Chef Bonbon Lina</h2>
-                            <h3 className="text-lg font-semibold text-[#9A9A9A]">Mirror Glaze for Bonbons</h3>
-                            <p className="mt-2 text-[#9A9A9A]">
-                                I'M excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in the temperature
-                            </p>
-                        </div>
-
-                        {/* Button */}
-                        <button className="mt-4 bg-[#5B21BD] text-white font-semibold rounded-[29px] py-2 px-4 cursor-pointer ">
-                            view post
-                        </button>
-                    </div>
-                </div>
-                <div className=" rounded-lg  overflow-hidden shadow">
-                    {/* Background Image */}
-                    <div>
-                        <img src="https://i.ibb.co.com/PZHThmVf/Elegant-Morning-Treats-1.png" alt="" />
-                    </div>
-
-                    {/* Overlay and Content */}
-                    <div className="    p-6 flex flex-col justify-between h-full">
-                        {/* Text Content */}
-                        <div>
-                            <h2 className="text-xl font-bold text-[#5B21BD]">Chef Bonbon Lina</h2>
-                            <h3 className="text-lg font-semibold text-[#9A9A9A]">Mirror Glaze for Bonbons</h3>
-                            <p className="mt-2 text-[#9A9A9A]">
-                                I'M excited to share this new technique I've been perfecting for creating mirror-glazed bonbons. The secret is in the temperature
-                            </p>
-                        </div>
-
-                        {/* Button */}
-                        <button className="mt-4 bg-[#5B21BD] text-white font-semibold rounded-[29px] py-2 px-4 cursor-pointer ">
-                            view post
-                        </button>
-                    </div>
-                </div>
+function CommunityPost({ posts }) {
+  console.log("posts", posts);
+const navigate = useNavigate();
+  return (
+    <div className="px-10 py-4 lora">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 py-10">
+        {posts?.map((post) => (
+          <div
+            key={post.id}
+            className="rounded-lg overflow-hidden shadow bg-white"
+          >
+            {/* Post Image */}
+            <div>
+              <img
+                src={`http://192.168.10.124:3000${post.image}`}
+                alt={post.title}
+                className="w-full h-48 object-cover"
+              />
             </div>
-        </div>
-    )
+
+            {/* Content */}
+            <div className="p-6 ">
+              <div>
+                <h2 className="text-xl font-bold text-[#5B21BD]">{post.user}</h2>
+                <h3 className="text-lg font-semibold text-[#9A9A9A]">
+                  {post.title}
+                </h3>
+                <p className="mt-2 text-[#9A9A9A] line-clamp-3">
+                  {post.content}
+                </p>
+              </div>
+
+              <Link
+               onClick={() => navigate('/dashboard/community')}
+                className="mt-4 text-white py-2 rounded-[29px] cursor-pointer"
+              >
+                <div className="mt-4 font-semibold w-full text-center text-white  bg-[#5B21BD] rounded-[29px] py-2 px-4 cursor-pointer">
+                View Post
+              </div>
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default CommunityPost
+export default CommunityPost;
