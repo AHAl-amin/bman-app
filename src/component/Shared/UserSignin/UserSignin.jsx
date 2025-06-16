@@ -134,7 +134,7 @@ try {
         <img
           src={login_img}
           alt="Login illustration"
-          className="w-full h-full md:h-screen object-cover"
+          className="md:h-screen w-full"
         />
       </div>
       <div className="md:w-1/2 w-full md:px-40 px-4">

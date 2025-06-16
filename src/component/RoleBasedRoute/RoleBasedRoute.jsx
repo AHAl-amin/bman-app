@@ -6,7 +6,7 @@ const RoleBasedRoute = ({ children, allowedRoles }) => {
   const role = localStorage.getItem("role");
 
   if (!token) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/signin" replace />;
   }
 
   if (!allowedRoles.includes(role)) {

@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import PreviewGallary from './PreviewGallary';
 import Expertice from './Expertice';
 import { useGetMainSubscriptionQuery, useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery } from '../../Rudux/feature/ApiSlice';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +16,8 @@ const Home = () => {
   const [selectedSubTitle, setSelectedSubTitle] = useState('');
   const [currentBrandId, setCurrentBrandId] = useState(null);
   const filterRef = useRef(null);
+ 
+ const navigate = useNavigate();
 
   const { data: getManiChefBrandList, isLoading, error } = useGetManiChefBrandListQuery();
   const { data: idOfItems } = useGetManiChefBrandListByIdQuery(currentBrandId);
@@ -58,6 +61,14 @@ const Home = () => {
     setIsFilterOpen(false);
   };
 
+// for route handle
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+  
+    if (!token) {
+      navigate("/signin");
+    }
+  }, [navigate]);
   // Close dropdown on outside click
   useEffect(() => {
     const handleOutsideClick = (event) => {

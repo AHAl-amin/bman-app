@@ -7,6 +7,7 @@ import { useGetAllBrandsQuery, useGetProfileQuery } from "../../../Rudux/feature
 
 import { setBrandId } from "../../../Rudux/feature/BrandSlice";
 import { useDispatch } from "react-redux";
+import { FaUserTie } from "react-icons/fa";
 
 const UserDashboardNavbar = () => {
 	const dispatch = useDispatch();
@@ -14,21 +15,23 @@ const UserDashboardNavbar = () => {
 		"https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg"
 	);
 	const { data: profileList } = useGetProfileQuery();
+	console.log("profileList", profileList);
 	const { data: getAllBrands } = useGetAllBrandsQuery();
-	console.log("Profile List:", profileList);
+	// console.log("Profile List:", profileList);
 	const userData = profileList?.user || {};
-	console.log(userData,"dasdfsdf")
+	// console.log(userData, "dasdfsdf")
 	const brands = getAllBrands?.data || [];
-	console.log("Brands:", brands);
+	// console.log("Brands:", brands);
 	const [userName, setUserName] = useState("");
 
 	useEffect(() => {
 		if (profileList?.user) {
-			setUserName(profileList?.user?.username || "");
+			setUserName(profileList?.user?.first_name
+ || "");
 			setUserImageUrl(
 				profileList.user.image
 					? `http://192.168.10.124:3000${profileList.user.image}`
-					: "https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg"
+					: ""
 			);
 		}
 	}, [profileList]);
@@ -92,23 +95,30 @@ const UserDashboardNavbar = () => {
 					</div>
 				</NavLink>
 
-				<div className="flex items-center space-x-2">
-					<div className="mr-4">
-						{userData?.first_name}
+				<div className="flex items-center space-x-4">
 
+					{/* Username */}
+					{userName && (
+						<span className="text-[17px] font-medium text-black">
+							{userName}
+						</span>
+					)}
+					{/* Image or fallback icon */}
+					{userImageUrl ? (
+						<img
+							src={userImageUrl}
+							alt="User profile"
+							className="h-10 w-10 rounded-full cursor-pointer"
+						/>
+					) : (
+						<div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
+							<FaUserTie className="text-xl text-gray-600" />
+						</div>
+					)}
 
-
-					</div>
-					<img
-						src={userImageUrl}
-						alt="User profile"
-						className="h-10 w-10 rounded-full hidden md:block"
-					/>
-					<span className="text-[17px] font-medium  text-black">
-						{userName}
-					</span>
 
 				</div>
+
 			</div>
 		</div>
 	);

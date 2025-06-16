@@ -31,7 +31,7 @@ const ChefInspiration = () => {
 
     console.log("chatId", chatId)
     const [inspirationChat] = useInspirationChatMutation();
-    const { data: getChat } = useGetInspirationChatListQuery(chatId);
+    const { data: getChat} = useGetInspirationChatListQuery(chatId);
     console.log("getChat", getChat)
 
 

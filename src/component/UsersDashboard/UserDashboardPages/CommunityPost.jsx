@@ -16,7 +16,7 @@ const navigate = useNavigate();
               <img
                 src={`http://192.168.10.124:3000${post.image}`}
                 alt={post.title}
-                className="w-full h-48 object-cover"
+                className="w-full h-54 "
               />
             </div>
 

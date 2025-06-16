@@ -158,9 +158,9 @@ const Community = () => {
         </div>
         <button
           onClick={toggleAddChefModal}
-          className="flex items-center gap-2 px-4 py-2 text-white bg-[#5B21BD] rounded-[10px]"
+          className="flex items-center gap-2 px-4 py-2 text-white bg-[#5B21BD] rounded-[10px] cursor-pointer"
         >
-          <span className="font-medium">Share Creation</span>
+          <span className="font-medium ">Share Creation</span>
           <IoMdAdd />
         </button>
       </div>
@@ -175,14 +175,17 @@ const Community = () => {
                     src={
                       post.image?.startsWith('http')
                         ? post.image
-                        : `${imageBaseUrl}${post.image}`
+                        : `${imageBaseUrl}${post.user.image}`
                     }
                     alt="user/chef"
                     className="w-10 h-10 bg-gray-300 rounded-full mr-3"
                   />
                   <div>
                     <p className="font-semibold text-[#5B21BD] capitalize">{post.user}</p>
-                    <p className="text-sm text-gray-500">{new Date(post.created_at).toLocaleString()}</p>
+                    {/* <p className="text-sm text-gray-500">{new Date(post.created_at).toLocaleString()}</p> */}
+                    <p className="text-sm text-gray-500">
+  {new Date(post.created_at).toLocaleString('en-US', { timeZone: 'Asia/Dhaka', hour12: true })}
+</p>
                   </div>
                 </div>
                 <div className="relative flex items-center gap-6">
@@ -220,7 +223,7 @@ const Community = () => {
                 <p className="text-[#5B21BD] font-semibold capitalize">{post.title}</p>
                 <p className="text-[#A2A2A2] text-sm mt-1">{post.content}</p>
               </div>
-              <div className="mt-3">
+              <div className="mt-3 flex justify-center">
                 <img
                   src={
                     post.image?.startsWith('http')
@@ -228,7 +231,7 @@ const Community = () => {
                       : `${imageBaseUrl}${post.image}`
                   }
                   alt="Post"
-                  className="object-cover rounded-lg w-full max-h-[500px]"
+                  className=" rounded-lg lg:w-1/2 lg:h-1/2 w-full h-full  "
                 />
               </div>
               <div className="flex justify-center items-center mt-3 text-[#5B21BD] py-6">

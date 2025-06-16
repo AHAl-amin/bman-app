@@ -1,6 +1,7 @@
 import { GoBellFill } from 'react-icons/go';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useGetProfileQuery } from '../../../Rudux/feature/ApiSlice';
+import { FaUserTie } from 'react-icons/fa';
 
 function ChefDashboardNavber() {
   const { data: profileList } = useGetProfileQuery();
@@ -26,15 +27,17 @@ function ChefDashboardNavber() {
             <span className="text-[17px] font-medium md:block hidden text-gray-400">
               {user?.first_name || 'Chef'}
             </span>
-            <img
-              src={
-                user?.image
-                  ? `http://192.168.10.124:3000/api${user.image}`
-                  : "https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg"
-              }
-              alt="User profile"
-              className="h-10 w-10 rounded-full cursor-pointer"
-            />
+            {user?.image ? (
+              <img
+                src={`http://192.168.10.124:3000${user.image}`}
+                alt="User profile"
+                className="h-10 w-10 rounded-full cursor-pointer"
+              />
+            ) : (
+              <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center cursor-pointer">
+                <FaUserTie className="text-xl text-gray-600" />
+              </div>
+            )}
           </div>
         </div>
       </div>
