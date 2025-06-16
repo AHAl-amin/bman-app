@@ -1,13 +1,12 @@
 
 
-
-
 import { useState } from 'react';
 import img from '../../../assets/image/cercalImg.png';
 import { IoEyeOutline } from 'react-icons/io5';
 import Select from 'react-select';
 import { SiVerizon } from 'react-icons/si';
 import { useAiTrainingMutation, useGetCreateRecipeQuery } from '../../../Rudux/feature/ApiSlice';
+// import { useAiTrainingMutation, useGetCreateRecipeQuery } from '../../../Redux/feature/ApiSlice';
 
 const AiTraining = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -20,12 +19,11 @@ const AiTraining = () => {
     tags: '',
     recipeId: '',
   });
-  console.log
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [apiResponse, setApiResponse] = useState(null);
 
-  const [aiTraining, { isLoading, isSuccess, isError, error }] = useAiTrainingMutation();
+  const [aiTraining, { isLoading, isSuccess }] = useAiTrainingMutation();
   const { data: recipesData, isLoading: isRecipesLoading, isError: isRecipesError } = useGetCreateRecipeQuery();
 
   const totalSteps = 4;
@@ -65,6 +63,8 @@ const AiTraining = () => {
           'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
           'application/vnd.ms-excel',
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          'image/jpeg',
+          'image/png',
         ].includes(file.type)
       ) {
         alert('Invalid file type');
@@ -112,36 +112,36 @@ const AiTraining = () => {
       return;
     }
 
+    if (!['recipe', 'calculation', 'other'].includes(selectedOption)) {
+      alert('Invalid content type selected.');
+      return;
+    }
+
     const formDataToSend = new FormData();
     formDataToSend.append('type', sanitizeString(selectedOption));
     formDataToSend.append('file_title', sanitizeString(formData.fileTitle));
-    formDataToSend.append('category', selectedOption === 'recipe' ? sanitizeString(formData.recipeId) : sanitizeString(formData.Recipe));
-    if (files.length > 0) {
+    formDataToSend.append('category', selectedOption === 'recipe' ? String(formData.recipeId) : sanitizeString(formData.Recipe));
+    if (files.length > 0 && files[0] instanceof File) {
       formDataToSend.append('file', files[0]);
     }
     if (formData.tags) {
       formDataToSend.append('tags', sanitizeString(formData.tags));
     }
 
-    console.log('FormData entries:');
+    console.log('FormData entries before sending:');
     for (let [key, value] of formDataToSend.entries()) {
-      console.log(`${key}:`, value);
+      console.log(`${key}: ${value instanceof File ? value.name : value}`);
     }
 
     try {
-      const response = await aiTraining({ formDataToSend, id: sanitizeString(formData.recipeId) });
-      console.log('Raw response:', response);
-      const contentType = response?.headers?.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Server did not return JSON response');
-      }
+      const response = await aiTraining({ formDataToSend, id: String(formData.recipeId) });
       const data = await response.unwrap();
       setApiResponse(data);
       setIsModalOpen(true);
     } catch (err) {
       console.error('Failed to submit:', err);
       console.error('Error details:', err.data, err.status);
-      setApiResponse({ error: err.message || 'Failed to submit' });
+      setApiResponse({ error: err.data?.error || err.message || 'Failed to submit' });
       setIsModalOpen(true);
     }
   };
@@ -164,6 +164,10 @@ const AiTraining = () => {
   const getStepImage = () => img;
 
   const handleOptionClick = (option) => {
+    if (!option) {
+      console.error('No option provided');
+      return;
+    }
     setSelectedOption(option);
     nextStep();
   };
@@ -174,51 +178,9 @@ const AiTraining = () => {
         <h1 className="text-[34px] text-[#5B21BD]">AI Training</h1>
         <p className="text-[#9E9E9E] text-xl mb-4">Upload and manage your culinary content</p>
 
-        {/* Progress Steps */}
-        {/* <div className="relative mb-8 px-6">
-          <div className="flex justify-between relative">
-            <div
-              className="absolute bottom-8 left-0 h-1 bg-[#5B21BD] z-10 transition-all duration-300"
-              style={{
-                width: `${((maxStepReached - 1) / (totalSteps - 1)) * 100}%`,
-                transform: 'translateY(-50%)',
-              }}
-            ></div>
-            <div className="absolute bottom-8 left-0 right-0 h-1 bg-gray-200 transform -translate-y-1/2"></div>
-
-            {[1, 2, 3, 4].map((step) => (
-              <div key={step} className="relative z-10">
-                <div
-                  className={`relative w-14 h-14 mx-auto mb-2 ${maxStepReached >= step ? 'bg-[#5B21BD] rounded-full' : ''}`}
-                >
-                  <img
-                    src={getStepImage()}
-                    alt={`Step ${step}`}
-                    className={`w-14 h-14 ${maxStepReached >= step ? 'opacity-100 filter-blue' : 'opacity-50'}`}
-                  />
-                  <span
-                    className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold
-                      ${maxStepReached >= step ? 'text-white' : 'text-gray-500'}`}
-                  >
-                    {step}
-                  </span>
-
-                </div>
-                <p>Select content type</p>
-                <p>SUpload files</p>
-                <p>Add metadata</p>
-                <p>Review & confirm</p>
-              </div>
-            ))}
-          </div>
-        </div> */}
-
-
         <div className="relative mb-8 px-6">
           <div className="flex justify-between relative">
-            {/* Progress bar background */}
             <div className="absolute bottom-13 left-0 right-0 h-1 bg-gray-200 transform -translate-y-1/2"></div>
-            {/* Progress bar foreground */}
             <div
               className="absolute bottom-13 left-0 h-1 bg-[#5B21BD] z-10 transition-all duration-300"
               style={{
@@ -227,7 +189,6 @@ const AiTraining = () => {
               }}
             ></div>
 
-            {/* Steps */}
             {[
               { step: 1, label: 'Select content type', image: '/path/to/step1-image.png' },
               { step: 2, label: 'Upload files', image: '/path/to/step2-image.png' },
@@ -235,28 +196,22 @@ const AiTraining = () => {
               { step: 4, label: 'Review & confirm', image: '/path/to/step4-image.png' },
             ].map(({ step, label, image }) => (
               <div key={step} className="relative z-10 flex flex-col items-center">
-                {/* Step Circle and Image */}
                 <div
-                  className={`relative w-14 h-14 mx-auto mb-2 rounded-full ${maxStepReached >= step ? 'bg-[#5B21BD]' : 'bg-gray-200'
-                    }`}
+                  className={`relative w-14 h-14 mx-auto mb-2 rounded-full ${maxStepReached >= step ? 'bg-[#5B21BD]' : 'bg-gray-200'}`}
                 >
                   <img
-                    src={img} // Replace with your image source logic
+                    src={img}
                     alt={`Step ${step}`}
-                    className={`w-14 h-14 object-cover rounded-full ${maxStepReached >= step ? 'opacity-100' : 'opacity-50'
-                      }`}
+                    className={`w-14 h-14 object-cover rounded-full ${maxStepReached >= step ? 'opacity-100' : 'opacity-50'}`}
                   />
                   <span
-                    className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold ${maxStepReached >= step ? 'text-white' : 'text-gray-500'
-                      }`}
+                    className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs font-bold ${maxStepReached >= step ? 'text-white' : 'text-gray-500'}`}
                   >
                     {step}
                   </span>
                 </div>
-                {/* Step Label */}
                 <p
-                  className={`text-sm font-medium ${maxStepReached >= step ? 'text-[#5B21BD]' : 'text-gray-500'
-                    }`}
+                  className={`text-sm font-medium ${maxStepReached >= step ? 'text-[#5B21BD]' : 'text-gray-500'}`}
                 >
                   {label}
                 </p>
@@ -265,12 +220,6 @@ const AiTraining = () => {
           </div>
         </div>
 
-
-
-
-
-
-        {/* Step Content */}
         {currentStep === 1 && (
           <div className="border rounded-xl p-10 bg-[#FFFFFF] border-[#EFE9F8]">
             <h2 className="text-xl text-[#5B21BD] font-bold mb-4">Select Content Type</h2>
@@ -301,7 +250,7 @@ const AiTraining = () => {
           <div className="border border-[#5B21BD] p-10 rounded-xl bg-[#FFFFFF]">
             <h2 className="text-xl text-[#5B21BD] font-bold mb-4">Upload Files</h2>
             <p className="mb-6 text-[#9E9E9E]">
-              Drag and drop your file or click to browse. We accept PDF, DOC, DOCX, XLS, and XLSX files up to 50MB.
+              Drag and drop your file or click to browse. We accept PDF, DOC, DOCX, XLS, XLSX, JPEG, and PNG files up to 50MB.
             </p>
             <div
               className={`border-2 border-dashed rounded-lg p-8 h-[250px] text-center mb-6 transition-all
@@ -316,7 +265,7 @@ const AiTraining = () => {
                 id="file-upload"
                 className="hidden"
                 multiple={false}
-                accept=".pdf,.doc,.docx,.xls,.xlsx"
+                accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
                 onChange={handleFileChange}
               />
               <label
@@ -347,13 +296,13 @@ const AiTraining = () => {
             )}
             <div className="flex justify-between mt-8">
               <button
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer"
                 onClick={prevStep}
               >
                 Previous
               </button>
               <button
-                className="px-4 py-2 bg-[#5B21BD] text-white rounded disabled:opacity-50"
+                className="px-4 py-2 bg-[#5B21BD] text-white rounded disabled:opacity-50 cursor-pointer"
                 onClick={nextStep}
                 disabled={files.length === 0}
               >
@@ -388,9 +337,9 @@ const AiTraining = () => {
                   value={
                     formData.recipeId && recipesData?.data
                       ? {
-                        value: String(formData.recipeId),
-                        label: recipesData.data.find((recipe) => String(recipe.id) === String(formData.recipeId))?.title || 'Select a recipe',
-                      }
+                          value: String(formData.recipeId),
+                          label: recipesData.data.find((recipe) => String(recipe.id) === String(formData.recipeId))?.title || 'Select a recipe',
+                        }
                       : null
                   }
                   onChange={(selectedOption) => {
@@ -404,8 +353,8 @@ const AiTraining = () => {
                     isRecipesLoading
                       ? [{ value: '', label: 'Loading...', isDisabled: true }]
                       : isRecipesError || !recipesData?.data
-                        ? [{ value: '', label: 'No categories available', isDisabled: true }]
-                        : recipesData.data.map((recipe) => ({
+                      ? [{ value: '', label: 'No categories available', isDisabled: true }]
+                      : recipesData.data.map((recipe) => ({
                           value: String(recipe.id),
                           label: recipe.title,
                         }))
@@ -416,16 +365,15 @@ const AiTraining = () => {
                   className="w-full text-[#999999]"
                   classNames={{
                     control: ({ isFocused }) =>
-                      `h-[45px] border border-[#5B21BD] rounded-md ${isFocused ? 'ring-2 ring-[#5B21BD] shadow-[0_0_0_2px_rgba(91,33,189,0.2)]' : ''
-                      } p-2`,
+                      `h-[45px] border border-[#5B21BD] rounded-md ${isFocused ? 'ring-2 ring-[#5B21BD] shadow-[0_0_0_2px_rgba(91,33,189,0.2)]' : ''} p-2`,
                     menu: () =>
                       'max-h-[20vh] overflow-y-auto absolute top-full left-0 right-0 bg-white border border-[#5B21BD] rounded-b-md shadow-md z-20',
                     option: ({ isSelected, isFocused }) =>
                       `text-[#999999] p-2 ${isSelected
                         ? 'bg-[#5B21BD] text-white'
                         : isFocused
-                          ? 'bg-[#5B21BD]/10 text-[#5B21BD]'
-                          : 'hover:bg-[#5B21BD]/10'
+                        ? 'bg-[#5B21BD]/10 text-[#5B21BD]'
+                        : 'hover:bg-[#5B21BD]/10'
                       }`,
                   }}
                 />
@@ -449,13 +397,13 @@ const AiTraining = () => {
             </div>
             <div className="flex justify-between mt-8">
               <button
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer"
                 onClick={prevStep}
               >
                 Previous
               </button>
               <button
-                className="px-4 py-2 bg-[#5B21BD] text-white rounded disabled:opacity-50"
+                className="px-4 py-2 bg-[#5B21BD] text-white rounded disabled:opacity-50 cursor-pointer"
                 onClick={nextStep}
                 disabled={!formData.fileTitle || !formData.recipeId}
               >
@@ -525,28 +473,22 @@ const AiTraining = () => {
             </div>
             <div className="flex justify-between mt-8">
               <button
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300 cursor-pointer"
                 onClick={prevStep}
               >
                 Previous
               </button>
               <button
-                className="px-4 py-2 bg-[#5B21BD] text-white rounded cursor-pointer"
+                className="px-4 py-2 bg-[#5B21BD] text-white rounded cursor-pointer cursor-pointer"
                 onClick={submitForm}
                 disabled={isLoading || files.length === 0 || !formData.recipeId || !formData.fileTitle}
               >
                 {isLoading ? 'Submitting...' : 'Confirm & Submit for Training'}
               </button>
             </div>
-            {isError && (
-              <p className="text-red-500 mt-4">
-                Error: {error?.data?.message || error?.error || 'Failed to submit'}
-              </p>
-            )}
           </div>
         )}
 
-        {/* Modal for Submission Confirmation */}
         {isModalOpen && (
           <div className="fixed inset-0 bg-[#5B21BDCC] flex justify-center items-center z-100">
             <div className="bg-white rounded-lg p-6 w-full max-w-lg">
@@ -599,4 +541,3 @@ const AiTraining = () => {
 };
 
 export default AiTraining;
-

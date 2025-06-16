@@ -1,6 +1,6 @@
 
 import { GoBellFill } from 'react-icons/go';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink,  } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useGetProfileQuery, useUpdateProfileMutation } from '../../../Rudux/feature/ApiSlice';
 import { FaUserTie } from 'react-icons/fa';
