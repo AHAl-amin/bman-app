@@ -1,10 +1,10 @@
 
 
-import  { useState } from 'react';
+import { useState } from 'react';
 import Subscribsion from './Subscribsion';
 
-function Expertice({expertise, chefId}) {
-     
+function Expertice({ expertise, chefId }) {
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -24,17 +24,18 @@ function Expertice({expertise, chefId}) {
   );
 
   return (
-    <div className="space-y-2 mt-[60px]">
+    <div className="space-y-2 mt-[20px]">
       {/* Expertise Header */}
       <h2 className="text-2xl font-bold text-[#5B21BD] pb-2">Expertise</h2>
 
-  <div className=" flex items-center gap-6">
-    {Array.isArray(expertise) && expertise?.map((item, idx) => (
-      <div key={idx}>
-        <p className="font-medium flex justify-center items-center text-[#5B21BD] rounded-full px-3 py-1  bg-[#EFE9F8]">{item}</p>
+      <div className=" flex items-center gap-6">
+        {Array.isArray(expertise) && expertise?.map((item, idx) => (
+          <div key={idx}>
+            <p className="font-medium flex justify-center items-center text-[#5B21BD] rounded-full px-3 py-1  bg-[#EFE9F8]">{item}</p>
+          </div>
+        ))}
       </div>
-    ))}
-  </div>
+      
 
       <div>
         <button
@@ -46,30 +47,30 @@ function Expertice({expertise, chefId}) {
       </div>
 
       {/* Modal */}
-   
 
 
-       {isModalOpen && (
-  <div className="fixed inset-0 bg-[#5B21BDCC] bg-opacity-50 flex items-center justify-center z-50">
-    <div className="bg-white rounded-lg h-[96%] w-4/6 flex flex-col">
 
-      {/* Header with back button */}
-      <div className="p-4 border-b border-gray-200">
-        <button
-          onClick={closeModal}
-          className="px-6 py-2 bg-[#5B21BD] text-white rounded-[10px] hover:bg-[#4c1fb0] transition-colors cursor-pointer duration-200"
-        >
-          Back
-        </button>
-      </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-[#5B21BDCC] bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg h-[96%] w-4/6 flex flex-col">
 
-      {/* Scrollable content area */}
-      <div className="overflow-y-auto p-4 flex-1">
-        <Subscribsion chefId={chefId} />
-      </div>
-    </div>
-  </div>
-)}
+            {/* Header with back button */}
+            <div className="p-4 border-b border-gray-200">
+              <button
+                onClick={closeModal}
+                className="px-6 py-2 bg-[#5B21BD] text-white rounded-[10px] hover:bg-[#4c1fb0] transition-colors cursor-pointer duration-200"
+              >
+                Back
+              </button>
+            </div>
+
+            {/* Scrollable content area */}
+            <div className="overflow-y-auto p-4 flex-1">
+              <Subscribsion chefId={chefId} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -307,15 +307,12 @@ export const ApiSlice = createApi({
       }),
       invalidatesTags: ["ChefDashboard"],
     }),
-    // getCommunityPostList: builder.query({
-    //   query: () => "/community/v1/posts/",
-    //   providesTags: ["CommunityPosts"],
-    // }),
+
 
     getCommunityPostList: builder.query({
-  query: (args) => `/community/v1/posts/?page=${args.page}`,
-  providesTags: ['CommunityPost'],
-}),
+      query: (args) => `/community/v1/posts/?page=${args.page}`,
+      providesTags: ['CommunityPost'],
+    }),
     DeletCommunityPostList: builder.mutation({
       query: (id) => ({
         url: `/community/v1/post/delete/${id}/`,
@@ -396,11 +393,11 @@ export const ApiSlice = createApi({
 
 
     // user dashboard save recipe and community
-   getSaveRecipeList: builder.query({
+    getSaveRecipeList: builder.query({
       query: () => "/main/v1/recipe/save/list/",
       providesTags: ["UserDashboard"],
     }),
-   getSaveCummunityList: builder.query({
+    getSaveCummunityList: builder.query({
       query: () => "/community/v1/post/bookmark/list/",
       providesTags: ["UserDashboard"],
     }),
@@ -431,7 +428,20 @@ export const ApiSlice = createApi({
       providesTags: ["ChefDashboard"],
     }),
 
+    inspirationChat: builder.mutation({
+      query: (formData) => ({
+        url: "/chatbot/v1/inspire/message/",
+        method: "POST",
+        body: formData, // Send only content
+      }),
+      invalidatesTags: ["ChefDashboard"],
+    }),
 
+    getInspirationChatList: builder.query({
+      query: (chatId) => `/chatbot/v1/inspire/history/${chatId}/`,
+
+      providesTags: ["ChefDashboard"],
+    }),
 
   }),
 });
@@ -442,7 +452,7 @@ export const {
 
   useGetCategoryListQuery, useGetSaveCummunityListQuery, useGetSaveRecipeListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation, useGetCommunityPostListQuery, useDeletCommunityPostListMutation, useChefCommentPostMutation, usePostBookmarkMutation,
   usePostLikeUnlikeMutation, useShareChefPostMutation, useAiMassageCreateMutation, useGetMainSubscriptionQuery, useRecipeCommentCreateMutation, useGetRecipeCommentListQuery, useRecipeSaveMutation, useGetMainRecipeDettailsQuery,
-  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery
+  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useInspirationChatMutation, useGetInspirationChatListQuery
 } = ApiSlice;
 
 export default ApiSlice;

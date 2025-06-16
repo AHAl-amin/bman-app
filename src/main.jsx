@@ -64,6 +64,10 @@ import UserFeedback from './component/ChefDashboard/ChefDashboardPage/UserFeedba
 import ChefRecipesAddpage from './component/ChefDashboard/ChefDashboardPage/ChefRecipesAddpage.jsx';
 import ChefRecipesEditPage from './component/ChefDashboard/ChefDashboardPage/ChefRecipesEditPage.jsx';
 import AddNewPlan from './component/ChefDashboard/ChefDashboardPage/AddNewPlan.jsx';
+import ChefInspiration from './component/ChefDashboard/ChefDashboardPage/ChefInspiration.jsx';
+import PrivateRoute from './component/PrivateRoute/PrivateRoute.jsx';
+import Unauthorized from './component/Unauthorized/Unauthorized.jsx';
+
 // import ConfirmEmail from './component/Shared/ConfirmEmail/ConfirmEmail.jsx';
 // import UserSingin from './component/Shared/UserSignin/UserSignin.jsx';
 
@@ -79,130 +83,148 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+       {
+        path: "/unauthorized",
+        element: <Unauthorized />,
+      },
     ],
   },
   // ----------user dashboard---------
   {
     path: "/dashboard",
-    element: (<UserDashboardLayout />),
+    element: (<PrivateRoute allowedRoles={['user']}>
+      <UserDashboardLayout />
+    </PrivateRoute>),
+
     children: [
       {
         index: true,
-        element: <AllRecipes/>
+        element: <AllRecipes />
       },
       {
-        path:'ai_chat',
-        element:<AiChat/>
+        path: 'ai_chat',
+        element: <AiChat />
       },
       {
-        path:'recipes_dettails/:id',
-        element:<RecipesDettails/>
+        path: 'recipes_dettails/:id',
+        element: <RecipesDettails />
       },
 
       {
-        path:'community',
-        element:<Community/>
+        path: 'community',
+        element: <Community />
       },
       {
-        path:'save_recipes',
-        element:<SaveRecipes/>
+        path: 'save_recipes',
+        element: <SaveRecipes />
       },
-     
+
       {
-        path:'community_post',
-        element:<CommunityPost/>
+        path: 'community_post',
+        element: <CommunityPost />
       },
-     
+
       {
-        path:'profile_settings',
-        element:<ProfileAndSetting/>
+        path: 'profile_settings',
+        element: <ProfileAndSetting />
       },
-      
+
       {
-        path:"inspiration_chat",
-        element:<UserInspirationChat/>
+        path: "inspiration_chat",
+        element: <UserInspirationChat />
       },
-     
-     
-      
-     
-      
-     
+
+
+
+
+
+
     ]
   },
 
   //.................Chef Dashboard.............
 
 
-{
-  path: "/chef_dashboard",
-  element: (<ChefDashboardLayout/>),
-  children:[
+  {
+    path: "/chef_dashboard",
+    element: (
 
-    {
-      index: true,
-      element: <ChefDashboardPage/>
-    },
+       <PrivateRoute allowedRoles={['chef']}>
+      <ChefDashboardLayout />
+    </PrivateRoute>
+  ),
+    children: [
 
-    {
-      path:'chef_all_recipes',
-      element: <ChefAllRecipes/>
-    },
-    {
-      path:'chef_recipese_edit_page/:id',
-      element: <ChefRecipesEditPage/>
-    },
-    {
-      path:'chef_recipese_addd_page',
-      element: <ChefRecipesAddpage/>
-    },
-    {
-      path:'ai_training',
-      element: <AiTraining/>
-    },
-    {
-      path:'chef_settings_privecy',
-      element: <ChefSettingAndPrivecy/>
-    },
-    {
-      path:'branding',
-      element: <Branding/>
-    },
-    {
-      path:'chef_subscribtion',
-      element: <ChefSubscribtion/>
-    },
-    {
-      path:'user_feedback',
-      element: <UserFeedback/>
-    },
+      {
+        index: true,
+        element: <ChefDashboardPage />
+      },
 
-    {
-      path:'chef_community',
-      element:<ChefCommunity/>
-    },
-    {
-      path:'chef_ai_chat',
-      element:<ChefAiChat/>
-    },
-    {
-      path:'add_new_plan',
-      element:<AddNewPlan/>
-    },
-    
+      {
+        path: 'chef_all_recipes',
+        element: <ChefAllRecipes />
+      },
+      {
+        path: 'chef_recipese_edit_page/:id',
+        element: <ChefRecipesEditPage />
+      },
+      {
+        path: 'chef_recipese_addd_page',
+        element: <ChefRecipesAddpage />
+      },
+      {
+        path: 'ai_training',
+        element: <AiTraining />
+      },
+      {
+        path: 'chef_settings_privecy',
+        element: <ChefSettingAndPrivecy />
+      },
+      {
+        path: 'branding',
+        element: <Branding />
+      },
+      {
+        path: 'chef_subscribtion',
+        element: <ChefSubscribtion />
+      },
+      {
+        path: 'user_feedback',
+        element: <UserFeedback />
+      },
+
+      {
+        path: 'chef_community',
+        element: <ChefCommunity />
+      },
+      {
+        path: 'chef_ai_chat',
+        element: <ChefAiChat />
+      },
+      {
+        path: 'add_new_plan',
+        element: <AddNewPlan />
+      },
+      {
+        path: 'chef_inspiration',
+        element: <ChefInspiration />
+      },
 
 
 
-  ]
-}
-,
+
+    ]
+  }
+  ,
 
 
   //--------------admin dashboard----------
 
   {
     path: "/Admin_Dashboard",
-    element: <AdminDashboardLayout />,
+    element:   (<PrivateRoute allowedRoles={['admin']}>
+      <AdminDashboardLayout />
+    </PrivateRoute>),
     children: [
       {
         index: true,
@@ -210,29 +232,29 @@ const router = createBrowserRouter([
       },
       {
         path: "chefs", // Relative path under /Admin_Dashboard
-        element: <AdminDashboardChefs/>,
+        element: <AdminDashboardChefs />,
         children: [
-          
+
           {
-            path:"chatbot",
-            element:<AdminDashboardAiChat/>
+            path: "chatbot",
+            element: <AdminDashboardAiChat />
           }
         ]
       },
-   
+
       {
-        path:"users",
-        element:<AdminDashboardUser/>
+        path: "users",
+        element: <AdminDashboardUser />
       },
       {
-        path:"subscriber",
-        element:<AdminDashboardSubscription/>
+        path: "subscriber",
+        element: <AdminDashboardSubscription />
       },
       {
-        path:"settings_privecy",
-        element:<AdminDashboardSettingPrivecy/>
+        path: "settings_privecy",
+        element: <AdminDashboardSettingPrivecy />
       },
-    
+
     ]
   },
 
@@ -241,62 +263,62 @@ const router = createBrowserRouter([
   // .................user Authentications.................
 
   {
-    path:'/signup',
-    element:<UserSignup/>
+    path: '/signup',
+    element: <UserSignup />
   },
   {
-    path:'/signin',
-    element:<UserSingin/>
+    path: '/signin',
+    element: <UserSingin />
   },
   {
-    path:'/forget_password',
-    element:<ForgetPassword/>
+    path: '/forget_password',
+    element: <ForgetPassword />
   },
   {
-    path:'/verification',
-    element:<Verification/>
+    path: '/verification',
+    element: <Verification />
   },
   {
-    path:'/forget_password_verification',
-    element:<ForgetPasswordVerification/>
+    path: '/forget_password_verification',
+    element: <ForgetPasswordVerification />
   },
   {
-    path:'/new_password',
-    element:<NewPassword/>
+    path: '/new_password',
+    element: <NewPassword />
   },
 
 
   {
-    path:'/password_change_succesfull',
-    element:<PasswordChangeSuccesfully/>
+    path: '/password_change_succesfull',
+    element: <PasswordChangeSuccesfully />
   },
   // .................Admin Authentications.................
-  
+
 
   {
-    path:'/Admin_login',
-    element:<Admin_login/>
+    path: '/Admin_login',
+    element: <Admin_login />
   },
   {
-    path:'/admin_confirmPassword',
-    element:<Admin_ConfirmPassword/>
+    path: '/admin_confirmPassword',
+    element: <Admin_ConfirmPassword />
   },
- 
+
   {
-    path:'/confirm_password',
-    element:<ConfirmPassword/>
+    path: '/confirm_password',
+    element: <ConfirmPassword />
   },
-  
+
 
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <Provider store={store}>
-    <React.StrictMode>
-     {/* Wrap everything */}
-      <RouterProvider router={router} />
-    </React.StrictMode>
-   </Provider>
+    <Provider store={store}>
+      <React.StrictMode>
+        {/* Wrap everything */}
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </Provider>
   </StrictMode>,
 )

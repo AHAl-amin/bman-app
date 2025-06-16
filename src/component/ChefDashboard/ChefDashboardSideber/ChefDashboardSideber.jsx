@@ -105,9 +105,9 @@ const ChefDashboardSideber = () => {
                     <NavLink
                         to="/chef_dashboard/chef_ai_chat"
                         className={() =>
-                            location.pathname.startsWith('/chef_dashboard/chef_ai_chat')
-                                // location.pathname.startsWith('/chef_dashboard/chef_recipese_dettails_view') ||
-                                // location.pathname.startsWith('/chef_dashboard/chef_recipese_edit_page')
+                           
+                                location.pathname.startsWith('/chef_dashboard/chef_ai_chat') ||
+                                location.pathname.startsWith('/chef_dashboard/chef_inspiration')
                                 ? 'flex items-center gap-3 px-3 py-2 bg-[#5B21BD] text-white rounded-md w-full'
                                 : 'flex items-center gap-3 px-3 py-2 text-[#5B21BD] hover:bg-[#9f7addef] hover:text-white rounded-md w-full'
                         }

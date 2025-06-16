@@ -202,6 +202,7 @@ function ChefAllRecipes() {
               <div className="p-4 rounded-b-xl space-y-2">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-semibold text-[#5B21BD] lora capitalize">{recipe.title}</h2>
+                  <p>{recipe.description}</p>
                   <div
                     className="relative inline-block text-left"
                     ref={(el) => (dropdownRefs.current[recipe.id] = el)}
@@ -256,7 +257,9 @@ function ChefAllRecipes() {
                   <Link className="text-white text-sm bg-[#91E2CE] px-2 py-1 rounded-full">
                     Published
                   </Link>
-                  <Link className="text-white text-sm bg-[#CCBAEB] px-2 py-1 rounded-full">
+                  <Link
+                  to="/chef_dashboard/ai_training"
+                  className="text-white text-sm bg-[#CCBAEB] px-2 py-1 rounded-full">
                     AI train
                   </Link>
                 </div>

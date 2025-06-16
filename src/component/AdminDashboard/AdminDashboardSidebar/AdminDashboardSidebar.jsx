@@ -1,20 +1,36 @@
 
 
 
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { IoReorderThreeOutline, IoSettingsOutline } from "react-icons/io5";
 
 import login_img2 from '../../../assets/image/Admin_login_img.png';
-import { FaChessQueen, FaCloudRain, FaUser, FaUsers } from "react-icons/fa";
-import { GiAchievement } from "react-icons/gi";
-import { useState } from "react";
+import { FaChessQueen, FaUser } from "react-icons/fa";
+
+import { useEffect, useState } from "react";
 import { PiChefHatFill } from "react-icons/pi";
 import { MdOutlineDashboard } from "react-icons/md";
-import { FaPeopleGroup } from "react-icons/fa6";
+
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../Rudux/feature/authSlice";
+import toast from "react-hot-toast";
 
 const AdminDashboardSidebar = () => {
+
+      const navigate = useNavigate();
+	const token =
+		useSelector((state) => state.auth.token) ||
+		localStorage.getItem("refresh_token");
+	useEffect(() => {
+		if (!token) {
+			navigate("/signin");
+		}
+		console.log("Token:", token);
+	}, [token, navigate]);
+	const dispatch = useDispatch();
+  
     const location = useLocation();
     const isProjectActive = location.pathname.startsWith('/dashboard/user_notifications');
     const isDashboardActive = ["/Admin_Dashboard", "/chef_all_recipes/chef_recipese_dettails_view", "/dashboard/createBuyerOrder", "/dashboard/buyer_candidate_list"].includes(location.pathname);
@@ -26,6 +42,17 @@ const AdminDashboardSidebar = () => {
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+    const handleLogout = () => {
+            dispatch(logout());
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("role");
+            
+            
+            navigate("/signin");
+            toast.success("Logout successful!");
+        };
 
     return (
         <div className="lora">
@@ -126,7 +153,9 @@ const AdminDashboardSidebar = () => {
 
 
                 </div>
-                <NavLink to='/Admin_login' className='flex items-center gap-2 justify-center text-gray-50  h-full '>
+                <NavLink 
+                onClick={handleLogout}
+                 className='flex items-center gap-2 justify-center text-gray-50  h-full '>
                     <RiLogoutCircleLine /> <p>Logout</p>
                 </NavLink>
             </div>

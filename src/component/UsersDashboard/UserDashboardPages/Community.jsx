@@ -94,37 +94,6 @@ const Community = () => {
   };
 
 
-  //   e.preventDefault();
-  //   if (!title || !content || !image?.file) {
-  //     toast.error('Please fill in all fields and upload an image.');
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append('title', title);
-  //   formData.append('content', content);
-  //   formData.append('image', image.file);
-
-  //   try {
-  //     const token = localStorage.getItem('access_token');
-  //     const response = await fetch('http://192.168.10.124:3000/api/community/v1/post/create/', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`,
-  //       },
-  //       body: formData,
-  //     });
-
-  //     if (!response.ok) throw new Error('Failed to share your creation.');
-
-  //     toggleAddChefModal();
-  //     toast.success('Your post was shared successfully!');
-  //     refetch();
-  //     setPage(1);
-  //   } catch (err) {
-  //     toast.error(err.message || 'Failed to share your creation.');
-  //   }
-  // };
 
 
   const handleSubmit = async (e) => {

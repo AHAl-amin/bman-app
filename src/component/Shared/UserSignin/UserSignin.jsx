@@ -35,54 +35,95 @@ function UserSignin() {
       return;
     }
 
-    const loginData = { email, password };
+    const loginData = { email, password};
 
-    try {
-      const response = await login(loginData).unwrap();
-      console.log('Login response:', response);
+//     try {
+//       const response = await login(loginData).unwrap();
+//       console.log('Login response:', response);
 
-      // Store tokens in localStorage
-      if (response.access_token) {
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
+//       // Store tokens in localStorage
+//       if (response.access_token) {
+//         localStorage.setItem('access_token', response.access_token);
+//         localStorage.setItem('refresh_token', response.refresh_token);
         
-        // Store user data including role
-        if (response.user) {
-          localStorage.setItem('role', response.user.role);
-          console.log(response.user.role)
-          localStorage.setItem('userData', JSON.stringify(response.user));
-        }
-      }
+//         // Store user data including role
+//         if (response.user) {
+//           localStorage.setItem('role', response.user.role);
+//           console.log(response.user.role)
+//           localStorage.setItem('userData', JSON.stringify(response.user));
+//         }
+//       }
 
-      // Store tokens only if rememberMe is checked
-      if (rememberMe) {
-        localStorage.setItem('authToken', response.access_token);
-      }
+//       // Store tokens only if rememberMe is checked
+//       if (rememberMe) {
+//         localStorage.setItem('authToken', response.access_token);
+//       }
 
-  if (response?.role) {
-  const role = response?.role;
+//   if (response?.role) {
+//   const role = response?.role;
 
-  toast.success('Login successful!');
+//   toast.success('Login successful!');
 
-  if (role === 'chef') {
-    navigate('/chef_dashboard');
-  } else if (role === 'admin') {
-    navigate('/Admin_Dashboard');
-  } else {
-    navigate('/dashboard');
-  }
-} else {
-  toast.error("User role not found in response!");
-}
+//   if (role === 'chef') {
+//     navigate('/chef_dashboard');
+//   } else if (role === 'admin') {
+//     navigate('/Admin_Dashboard');
+//   } else {
+//     navigate('/dashboard');
+//   }
+// } else {
+//   toast.error("User role not found in response!");
+// }
 
 
       
 
-    } catch (err) {
-      console.error('Login error:', err);
-      const errorMessage = err?.data?.message || err?.message || 'Login failed. Please try again.';
-      toast.error(errorMessage);
+//     } catch (err) {
+//       console.error('Login error:', err);
+//       const errorMessage = err?.data?.message || err?.message || 'Login failed. Please try again.';
+//       toast.error(errorMessage);
+//     }
+
+
+try {
+  const response = await login(loginData).unwrap();
+  console.log('Login response:', response);
+
+  if (response.access_token) {
+  
+    localStorage.setItem('access_token', response.access_token);
+    localStorage.setItem('refresh_token', response.refresh_token);
+
+    //  Role and User Data Save
+    if (response) {
+      const  role  = response.role;
+      localStorage.setItem('role', response.role); 
+      
+      toast.success('Login successful!');
+
+      //  Role-based navigation
+      if (role === 'chef') {
+        navigate('/chef_dashboard');
+      } else if (role === 'admin') {
+        navigate('/Admin_Dashboard');
+      } else {
+        navigate('/'); // user
+      }
+    } else {
+      toast.error('User info missing in response!');
     }
+  }
+
+  if (rememberMe) {
+    localStorage.setItem('authToken', response.access_token);
+  }
+
+} catch (err) {
+  console.error('Login error:', err);
+  const errorMessage = err?.data?.message || err?.message || 'Login failed. Please try again.';
+  toast.error(errorMessage);
+}
+
   };
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
