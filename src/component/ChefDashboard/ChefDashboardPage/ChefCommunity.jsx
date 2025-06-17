@@ -218,23 +218,27 @@ const ChefCommunity = () => {
           paginatedPosts.map((post) => (
             <div key={post.id} className="border border-white bg-white shadow-md rounded-lg p-4">
               <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <img
-                    src={
-                      post.user.image?.startsWith('http')
-                        ? post.user.image
-                        : `${imageBaseUrl}${post.user.image}`
-                    }
-                    alt="user/chef"
-                    className="w-10 h-10 bg-gray-300 rounded-full mr-3"
-                  />
-                  <div>
-                    <p className="font-semibold text-[#5B21BD] capitalize">{post.user.username || post.user}</p>
-                    <p className="text-sm text-gray-500">
-                      {new Date(post.created_at).toLocaleString('en-US', { timeZone: 'Asia/Dhaka', hour12: true })}
-                    </p>
-                  </div>
-                </div>
+               <div className="flex items-center">
+  <img
+    src={
+      post.user.profile_image?.startsWith('http')
+        ? post.user.profile_image
+        : `${imageBaseUrl}${post.user.profile_image}`
+    }
+    alt="user/chef"
+    className="w-10 h-10 bg-gray-300 rounded-full mr-3"
+    onError={(e) => {
+      e.target.onerror = null; 
+      e.target.src = '/default-avatar.png';
+    }}
+  />
+  <div>
+    <p className="font-semibold text-[#5B21BD] capitalize">{post.user.username}</p>
+    <p className="text-sm text-gray-500">
+      {new Date(post.created_at).toLocaleString('en-US', { timeZone: 'Asia/Dhaka', hour12: true })}
+    </p>
+  </div>
+</div>
                 <div className="relative flex items-center gap-6">
                   {post.user.role === 'Chef' && (
                     <span className="flex items-center gap-2 bg-[#EFE9F8] px-2 py-1 rounded text-[#5B21BD]">
@@ -270,8 +274,7 @@ const ChefCommunity = () => {
               <div className="mt-3 flex justify-center">
                 <img
                   src={
-                    post.image?.startsWith('http')
-                      ? post.image
+                    post.image? post.image
                       : `${imageBaseUrl}${post.image}`
                   }
                   alt="Post"

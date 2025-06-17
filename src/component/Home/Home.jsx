@@ -4,8 +4,8 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import PreviewGallary from './PreviewGallary';
 import Expertice from './Expertice';
-import { useGetMainSubscriptionQuery, useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery, useSubscribtionPaymentMutation } from '../../Rudux/feature/ApiSlice';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useGetMainSubscriptionQuery, useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery,  } from '../../Rudux/feature/ApiSlice';
+import {  useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

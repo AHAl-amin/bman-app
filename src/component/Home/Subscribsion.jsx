@@ -105,17 +105,7 @@ const Subscribsion = ({ chefId }) => {
                       <h2 className="text-lg md:text-2xl font-bold text-[#5B21BD] mb-4 md:mb-8 text-center">
                         {plan.name}
                       </h2>
-                      {/* <div className="md:-mx-8 md:p-8 text-gray-100 dark:text-gray-100 md:mb-8 relative">
-                        <img
-                          src={img}
-                          className="absolute hidden md:block md:h-32 md:top-2 md:-ml-[70px]"
-                          alt=""
-                        />
-                        <div className="flex items-baseline justify-start z-10 relative">
-                          <span className="md:text-3xl font-bold">${parseFloat(plan.price).toFixed(2)}</span>
-                          <span className="ml-2 md:text-xl">/month</span>
-                        </div>
-                      </div> */}
+                    
 
                       <div className="md:-mx-8 md:p-8 text-gray-100 md:mb-8 relative">
                         <img
@@ -139,7 +129,7 @@ const Subscribsion = ({ chefId }) => {
                         {/* Discounted Price (only if discount > 0) */}
                         {plan.discount > 0 && (
                           <div className="flex items-baseline justify-start mt-1">
-                            <p className="md:text-xl md:font-semibold text-gray-300 z-50">
+                            <p className="md:text-xl md:font-semibold text-gray-300 z-50 ">
                                 ${Number(plan.discount_price).toFixed(2)}
                             </p>
                             <span className="md:text-sm ml-2 z-50 text-gray-300 ">/month</span>
