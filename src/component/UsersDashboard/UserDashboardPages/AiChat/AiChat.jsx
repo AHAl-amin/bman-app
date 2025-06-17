@@ -793,7 +793,7 @@ const AiChat = () => {
                 {showDropdown && (
                   <div className="absolute top-full mt-2 w-40 bg-white border border-[#EFE9F8] rounded-lg shadow-lg z-10">
                     <Link
-                      to='/dashboard/ai_chat'
+                      to='/dashboard/inspiration_chat'
                       onClick={handleInspirationClick}
                       className="block w-full text-left px-4 py-2 text-[#5B21BD] hover:bg-gray-100"
                     >

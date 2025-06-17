@@ -4,7 +4,7 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import PreviewGallary from './PreviewGallary';
 import Expertice from './Expertice';
-import { useGetMainSubscriptionQuery, useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery } from '../../Rudux/feature/ApiSlice';
+import { useGetMainSubscriptionQuery, useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery, useSubscribtionPaymentMutation } from '../../Rudux/feature/ApiSlice';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -16,13 +16,15 @@ const Home = () => {
   const [selectedSubTitle, setSelectedSubTitle] = useState('');
   const [currentBrandId, setCurrentBrandId] = useState(null);
   const filterRef = useRef(null);
- 
- const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   const { data: getManiChefBrandList, isLoading, error } = useGetManiChefBrandListQuery();
   const { data: idOfItems } = useGetManiChefBrandListByIdQuery(currentBrandId);
   console.log("idOfItems", idOfItems)
   const { data: getMainSubscription } = useGetMainSubscriptionQuery(idOfItems?.about?.chef_id);
+ 
+
 
   // Compute unique taglines for filter dropdown
   const uniqueSubTitles = useMemo(() => {
@@ -61,10 +63,10 @@ const Home = () => {
     setIsFilterOpen(false);
   };
 
-// for route handle
+  // for route handle
   useEffect(() => {
     const token = localStorage.getItem("access_token");
-  
+
     if (!token) {
       navigate("/signin");
     }
@@ -196,7 +198,7 @@ const Home = () => {
                 <h3 className="text-lg font-medium text-[#515151] mb-3 capitalize">
                   {item.tagline || "Chef's Branding"}
                 </h3>
-                <p className="text-gray-600 mb-4">{item.about || 'No description available'}</p>
+                <p className="text-gray-600 mb-4">{item.description || 'No description available'}</p>
                 <div className="flex justify-between">
                   <div className="flex items-center px-2 py-1 rounded">
                     <svg
@@ -217,7 +219,8 @@ const Home = () => {
                         id: item.brand_id,
                         title: item.brand_name,
                         category: item.tagline || "Chef's Branding",
-                        description: item.about || 'No description available',
+                        description: item.description
+                          || 'No description available',
                         rating: item.rating,
                         logo_image: item.logo,
                         image: item.chef_image,
@@ -249,7 +252,7 @@ const Home = () => {
                 className="px-6 py-2 bg-[#5B21BD] text-white font-medium rounded hover:bg-[#5B21BD] transition-colors"
                 onClick={closeModal}
               >
-                Back 
+                Back
               </button>
             </div>
 
@@ -311,7 +314,8 @@ const Home = () => {
                 {activeButton === 'about' ? (
                   <>
                     <p className='text-[26px] font-semibold text-[#5B21BD] mb-2 capitalize'>About chef {selectedChef.title} </p>
-                    <p className='text-gray-500 '>{selectedChef?.description} </p>
+                    <p className='text-gray-500 '>{selectedChef?.description
+                    } </p>
 
                     <Expertice expertise={idOfItems?.about?.expertice} chefId={idOfItems?.about?.chef_id} />
                     {/* <p className="text-gray-600 mt-4">{selectedChef.description}</p> */}

@@ -202,7 +202,7 @@ function ChefAllRecipes() {
               <div className="p-4 rounded-b-xl space-y-2">
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-semibold text-[#5B21BD] lora capitalize">{recipe.title}</h2>
-                  <p>{recipe.description}</p>
+                  
                   <div
                     className="relative inline-block text-left"
                     ref={(el) => (dropdownRefs.current[recipe.id] = el)}
@@ -251,7 +251,7 @@ function ChefAllRecipes() {
                 </div>
                 <div className="flex gap-4 py-2">
                   <p className="text-sm text-white bg-[#5B21BD] inline-block px-2 py-1 rounded-[29px] capitalize">
-                    {recipe.category_name}
+                    {recipe.category}
                   </p>
 
                   <Link className="text-white text-sm bg-[#91E2CE] px-2 py-1 rounded-full">
@@ -263,7 +263,7 @@ function ChefAllRecipes() {
                     AI train
                   </Link>
                 </div>
-                <p className="mt-2 text-[#676767] bg-red-500 text-[16px]">{recipe?.description}</p>
+                <p className="mt-2 text-[#676767]  text-[16px]">{recipe?.description}</p>
                 <div className="mt-3 flex justify-between items-center">
                   <div className="flex items-center">
                     <svg

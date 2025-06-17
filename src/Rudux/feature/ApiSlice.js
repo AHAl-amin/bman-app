@@ -92,6 +92,9 @@ export const ApiSlice = createApi({
       }),
       invalidatesTags: ["ChefDashboard"],
     }),
+  getMonthlyRevenue: builder.query({
+  query: (month) => `/chef_dashboard/v1/dash/monthly-revenue/${month}/`,
+}),
 
 
 
@@ -260,6 +263,23 @@ export const ApiSlice = createApi({
     getSubscriptionPlanList: builder.query({
       query: () => "/subscriptions/v1/chef-plans/list/admin/",
       providesTags: ["ChefDashboard"],
+    }),
+
+    subscribtionDiscount: builder.mutation({
+      query: ({ plan_id, discount }) => ({
+        url: "/subscriptions/v1/chef-plans/discount/",
+        method: "POST",
+        body: JSON.stringify({ plan_id, discount }),
+      }),
+      invalidatesTags: ["ChefDashboard"],
+    }),
+    subscribtionPayment: builder.mutation({
+      query: ({ plan_id, plan_type }) => ({
+        url: "/subscriptions/v1/create-checkout-session/",
+        method: "POST",
+        body: JSON.stringify({ plan_id, plan_type }),
+      }),
+      invalidatesTags: ["ChefDashboard"],
     }),
 
     // landing page / main page
@@ -460,7 +480,7 @@ export const {
 
   useGetCategoryListQuery, useGetSaveCummunityListQuery, useGetSaveRecipeListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation, useGetCommunityPostListQuery, useDeletCommunityPostListMutation, useChefCommentPostMutation, usePostBookmarkMutation,
   usePostLikeUnlikeMutation, useShareChefPostMutation, useAiMassageCreateMutation, useGetMainSubscriptionQuery, useRecipeCommentCreateMutation, useGetRecipeCommentListQuery, useRecipeSaveMutation, useGetMainRecipeDettailsQuery,
-  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useInspirationChatMutation, useGetInspirationChatListQuery, useUpdateCommunityPostMutation
+  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useInspirationChatMutation, useGetInspirationChatListQuery, useUpdateCommunityPostMutation, useSubscribtionDiscountMutation, useSubscribtionPaymentMutation, useGetMonthlyRevenueQuery
 } = ApiSlice;
 
 export default ApiSlice;

@@ -4,13 +4,41 @@
 import img from "../../assets/image/pricing_img.png";
 import { Check, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useGetMainSubscriptionQuery } from "../../Rudux/feature/ApiSlice";
+import { useGetMainSubscriptionQuery, useSubscribtionPaymentMutation } from "../../Rudux/feature/ApiSlice";
 import PropTypes from "prop-types";
 
 const Subscribsion = ({ chefId }) => {
   const { data: getMainSubscription, isLoading, isError } = useGetMainSubscriptionQuery(chefId);
+  // console.log(getMainSubscription, "chef_data_here........................................")
 
-  console.log(getMainSubscription,"chef_data_here........................................")
+ const [subscribtionPayment] = useSubscribtionPaymentMutation();
+  const handleGetStarted = async (plan) => {
+  if (!plan?.id) {
+    console.log("No plan selected");
+    return;
+  }
+
+  const getstartedData = {
+    plan_id: plan.id,
+    plan_type: "chef_subscription", 
+  };
+
+  try {
+    const response = await subscribtionPayment(getstartedData).unwrap();
+    console.log("Stripe response:", response);
+
+    //  Redirect to Stripe Checkout if URL exists
+    if (response?.checkout_url) {
+      window.location.href = response.checkout_url;
+    } else {
+      console.warn("No checkout URL received");
+    }
+
+  } catch (error) {
+    console.error("Error during subscription payment:", error);
+  }
+};
+
 
   const cardContainerVariants = {
     hidden: { opacity: 0 },
@@ -77,7 +105,7 @@ const Subscribsion = ({ chefId }) => {
                       <h2 className="text-lg md:text-2xl font-bold text-[#5B21BD] mb-4 md:mb-8 text-center">
                         {plan.name}
                       </h2>
-                      <div className="md:-mx-8 md:p-8 text-gray-100 dark:text-gray-100 md:mb-8 relative">
+                      {/* <div className="md:-mx-8 md:p-8 text-gray-100 dark:text-gray-100 md:mb-8 relative">
                         <img
                           src={img}
                           className="absolute hidden md:block md:h-32 md:top-2 md:-ml-[70px]"
@@ -87,6 +115,36 @@ const Subscribsion = ({ chefId }) => {
                           <span className="md:text-3xl font-bold">${parseFloat(plan.price).toFixed(2)}</span>
                           <span className="ml-2 md:text-xl">/month</span>
                         </div>
+                      </div> */}
+
+                      <div className="md:-mx-8 md:p-8 text-gray-100 md:mb-8 relative">
+                        <img
+                          src={img}
+                          className="absolute md:h-32 md:top-3 md:-ml-[70px] z-50"
+                          alt={`${plan.name} subscription plan`}
+                        />
+
+                        {/* Original Price */}
+                        <div className="flex items-baseline justify-start">
+                          <span className={`md:text-2xl md:font-bold z-50 ${plan.discount > 0 ? "line-through text-gray-200" : "text-gray-200"
+                            }`}>
+                            ${plan.price}
+                          </span>
+                          <span className={`md:text-xl ml-2 z-50 ${plan.discount > 0 ? " text-gray-200" : "text-gray-200"
+                            }`}>
+                            /month
+                          </span>
+                        </div>
+
+                        {/* Discounted Price (only if discount > 0) */}
+                        {plan.discount > 0 && (
+                          <div className="flex items-baseline justify-start mt-1">
+                            <p className="md:text-xl md:font-semibold text-gray-300 z-50">
+                                ${Number(plan.discount_price).toFixed(2)}
+                            </p>
+                            <span className="md:text-sm ml-2 z-50 text-gray-300 ">/month</span>
+                          </div>
+                        )}
                       </div>
                       <ul className="space-y-2 md:space-y-4 flex-grow">
                         <li className="flex items-center">
@@ -108,7 +166,9 @@ const Subscribsion = ({ chefId }) => {
                           </span>
                         </li>
                       </ul>
-                      <button className="mt-4 md:mt-8 w-full bg-[#5B21BD] text-white py-2 md:py-3 px-4 md:px-6 rounded-full font-medium flex items-center justify-center transition-colors duration-300 text-sm md:text-base cursor-pointer">
+                      <button 
+                       onClick={() => handleGetStarted(plan)}
+                      className="mt-4 md:mt-8 w-full bg-[#5B21BD] text-white py-2 md:py-3 px-4 md:px-6 rounded-full font-medium flex items-center justify-center transition-colors duration-300 text-sm md:text-base cursor-pointer">
                         Get Started <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
                       </button>
                     </div>

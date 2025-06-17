@@ -123,7 +123,7 @@ const filteredRecipes = recipeArray.filter((recipe) => {
                     <IoIosHeartEmpty className="text-[#5B21BD] w-[16px] h-[16px]" />
                   </div>
                   <p className="mt-1 text-sm text-[#5B21BD] bg-[#CCBAEB] inline-block px-4 py-1 rounded-[29px] capitalize">
-                    {recipe.category_name}
+                    {recipe.category}
                   </p>
                   <p className="mt-2 text-[#676767] text-[16px]">
                     {recipe.description || 'No description available.'}

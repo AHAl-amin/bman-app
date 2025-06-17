@@ -209,7 +209,7 @@ try {
               </label>
             </div>
             <Link
-              to="/forget-password"
+              to="/forget_password"
               className="text-[#5B21BD] text-sm hover:underline transition-all"
             >
               Forgot Password?
