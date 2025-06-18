@@ -60,7 +60,7 @@ function AdminDashboardNavbar() {
           </span>
           {user?.image ? (
             <img
-              src={`http://192.168.10.124:3000${user.image}`}
+              src={`https://bmn1212.duckdns.org${user.image}`}
               alt="User profile"
               className="h-10 w-10 rounded-full cursor-pointer"
             />

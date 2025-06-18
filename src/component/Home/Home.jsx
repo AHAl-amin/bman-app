@@ -4,8 +4,8 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import PreviewGallary from './PreviewGallary';
 import Expertice from './Expertice';
-import { useGetMainSubscriptionQuery, useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery,  } from '../../Rudux/feature/ApiSlice';
-import {  useNavigate } from 'react-router-dom';
+import { useGetManiChefBrandListByIdQuery, useGetManiChefBrandListQuery, } from '../../Rudux/feature/ApiSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,8 +22,9 @@ const Home = () => {
   const { data: getManiChefBrandList, isLoading, error } = useGetManiChefBrandListQuery();
   const { data: idOfItems } = useGetManiChefBrandListByIdQuery(currentBrandId);
   console.log("idOfItems", idOfItems)
-  const { data: getMainSubscription } = useGetMainSubscriptionQuery(idOfItems?.about?.chef_id);
- 
+  // const { data: getMainSubscription } = useGetMainSubscriptionQuery(idOfItems?.about?.chef_id);
+  // console.log("getMainSubscription", getMainSubscription)
+
 
 
   // Compute unique taglines for filter dropdown
@@ -171,11 +172,18 @@ const Home = () => {
               key={item.brand_id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow relative lora"
             >
+               {item.is_active && (
+    <div className="absolute top-4 right-4 z-10">
+      <button className="bg-green-400 text-white text-sm font-semibold px-4 py-1 rounded-full shadow">
+        Subscribe
+      </button>
+    </div>
+  )}
               <div className="h-52 relative">
                 <img
                   src={
                     item.logo
-                      ? `http://192.168.10.124:3000${item.logo}`
+                      ? `https://bmn1212.duckdns.org${item.logo}`
                       : landingPageIcon
                   }
                   alt={item.brand_name}
@@ -184,7 +192,7 @@ const Home = () => {
                 <div className="absolute top-4 left-4">
                   <img
                     className="w-10 h-10 bg-gray-300 rounded-full z-50"
-                    src={`http://192.168.10.124:3000${item?.chef_image}`}
+                    src={`https://bmn1212.duckdns.org${item?.chef_image}`}
                     alt="chef_image"
                   />
                 </div>
@@ -259,14 +267,14 @@ const Home = () => {
             <div className="flex-1 overflow-y-auto relative">
               <div className="h-[300px] relative">
                 <img
-                  src={`http://192.168.10.124:3000${selectedChef.logo_image}`}
+                  src={`https://bmn1212.duckdns.org${selectedChef.logo_image}`}
                   alt="logo_image"
                   className="w-full h-full rounded-lg object-cover"
                 />
                 <div className='bottom-4 left-6 absolute'>
                   {selectedChef.image ? (
                     <img
-                      src={`http://192.168.10.124:3000${selectedChef.image}`}
+                      src={`https://bmn1212.duckdns.org${selectedChef.image}`}
                       alt="chef_image"
                       className="w-10 h-10 rounded-full object-cover"
                     />

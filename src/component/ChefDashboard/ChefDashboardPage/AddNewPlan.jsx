@@ -13,7 +13,7 @@ function AddNewPlan() {
         storage_gb: '',
         features: '',
         ai_query_limit: '',
-        message_limit: ''
+        
     });
 
     // Get the mutation function
@@ -42,7 +42,7 @@ const handleSubmit = async (e) => {
             storage_gb: formData.storage_gb,
             features: formData.features, // Convert features string to array
             ai_query_limit: formData.ai_query_limit,
-            message_limit: formData.message_limit
+          
         };
 
         // Call the mutation
@@ -55,7 +55,7 @@ const handleSubmit = async (e) => {
             storage_gb: '',
             features: '',
             ai_query_limit: '',
-            message_limit: ''
+           
         });
         
         // Show success toast
@@ -143,19 +143,7 @@ const handleSubmit = async (e) => {
                             required
                         />
                     </div>
-                    <div>
-                        <label className="block text-[#5B21BD] mb-2 text-xl">Message Limit</label>
-                        <input
-                            type="number"
-                            name="message_limit"
-                            value={formData.message_limit}
-                            onChange={handleInputChange}
-                            className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#5B21BD]"
-                            placeholder="Enter message limit"
-                            min="0"
-                            required
-                        />
-                    </div>
+              
                     <button
                         type="submit"
                         disabled={isLoading}

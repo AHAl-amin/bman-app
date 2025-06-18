@@ -67,6 +67,8 @@ import AddNewPlan from './component/ChefDashboard/ChefDashboardPage/AddNewPlan.j
 import ChefInspiration from './component/ChefDashboard/ChefDashboardPage/ChefInspiration.jsx';
 import PrivateRoute from './component/PrivateRoute/PrivateRoute.jsx';
 import Unauthorized from './component/Unauthorized/Unauthorized.jsx';
+import PaymentSuccess from './component/Payment/PaymentSuccess.jsx';
+import PaymentCancel from './component/Payment/PaymentCancel.jsx';
 
 // import ConfirmEmail from './component/Shared/ConfirmEmail/ConfirmEmail.jsx';
 // import UserSingin from './component/Shared/UserSignin/UserSignin.jsx';
@@ -86,6 +88,14 @@ const router = createBrowserRouter([
        {
         path: "/unauthorized",
         element: <Unauthorized />,
+      },
+       {
+        path: "/success",
+        element: <PaymentSuccess />,
+      },
+       {
+        path: "/cancel",
+        element: <PaymentCancel />,
       },
     ],
   },
@@ -308,6 +318,8 @@ const router = createBrowserRouter([
     path: '/confirm_password',
     element: <ConfirmPassword />
   },
+
+  
 
 
 ]);

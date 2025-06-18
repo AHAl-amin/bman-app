@@ -1,16 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+// Rudux/feature/brandSlice.js
+
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  selectedBrandId: null,
+};
 
 const brandSlice = createSlice({
-	name: "brand",
-	initialState: {
-		selectedBrandId: null, // Initial state for brand_id
-	},
-	reducers: {
-		setBrandId: (state, action) => {
-			state.selectedBrandId = action.payload;
-		},
-	},
+  name: 'brand',
+  initialState,
+  reducers: {
+    setSelectedBrandId: (state, action) => {
+      state.selectedBrandId = action.payload;
+    },
+  },
 });
 
-export const { setBrandId } = brandSlice.actions;
+export const { setSelectedBrandId } = brandSlice.actions;
 export default brandSlice.reducer;

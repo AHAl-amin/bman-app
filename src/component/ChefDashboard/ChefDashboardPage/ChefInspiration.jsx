@@ -240,13 +240,13 @@ const ChefInspiration = () => {
                                         <span className="text-gray-300">Empty message</span>
                                     )}
                                 </div>
-                                <div className="rounded-full bg-gray-300 flex items-center justify-center">
+                                {/* <div className="rounded-full bg-gray-300 flex items-center justify-center">
                                     <img
                                         src={message.userAvatar || "https://via.placeholder.com/40"}
                                         alt="User avatar"
                                         className="rounded-full h-10 w-10 object-cover"
                                     />
-                                </div>
+                                </div> */}
                             </div>
 
                             {/* Bot Answer (Left Aligned) */}

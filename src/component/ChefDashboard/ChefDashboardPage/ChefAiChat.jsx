@@ -414,13 +414,13 @@ const ChefAiChat = () => {
                         </div>
                       </div>
                     )}
-                    <div className="rounded-full bg-gray-300 flex items-center justify-center">
+                    {/* <div className="rounded-full bg-gray-300 flex items-center justify-center">
                       <img
                         src="https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg"
                         alt="User"
                         className="rounded-full h-10 min-w-10"
                       />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               ) : (

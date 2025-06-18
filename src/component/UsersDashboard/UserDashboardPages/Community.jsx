@@ -37,7 +37,7 @@ const ChefCommunity = () => {
   const paginatedPosts = communityPost;
   console.log("paginatedPosts", paginatedPosts)
 
-  const imageBaseUrl = 'http://192.168.10.124:3000';
+  const imageBaseUrl = 'https://bmn1212.duckdns.org';
 
   const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
   const [selectedPostId, setSelectedPostId] = useState(null);
@@ -101,7 +101,7 @@ const ChefCommunity = () => {
 
     try {
       const token = localStorage.getItem('access_token');
-      const response = await fetch('http://192.168.10.124:3000/api/community/v1/post/create/', {
+      const response = await fetch('https://bmn1212.duckdns.org/api/community/v1/post/create/', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -150,7 +150,7 @@ const ChefCommunity = () => {
     try {
       const token = localStorage.getItem('access_token');
       const response = await fetch(
-        `http://192.168.10.124:3000/api/community/v1/post/update/${editPost.id}/`,
+        `https://bmn1212.duckdns.org/api/community/v1/post/update/${editPost.id}/`,
         {
           method: 'PUT',
           headers: {

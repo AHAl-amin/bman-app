@@ -37,7 +37,7 @@ function AdminDashboardSettingPrivecy() {
         email: profileList.user.email || "",
         phone: profileList.user.phone || "",
         photo: profileList.user.image
-          ? `http://192.168.10.124:3000${profileList.user.image}`
+          ? `https://bmn1212.duckdns.org${profileList.user.image}`
           : "https://i.ibb.co/jVcFCQf/businessman-icon-600nw-564112600.webp",
       };
       setFormData(newFormData);

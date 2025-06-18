@@ -107,7 +107,7 @@ try {
       } else if (role === 'admin') {
         navigate('/Admin_Dashboard');
       } else {
-        navigate('/'); // user
+        navigate('/dashboard'); // user
       }
     } else {
       toast.error('User info missing in response!');

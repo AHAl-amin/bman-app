@@ -31,7 +31,7 @@
 //                     <div className="relative">
 //                         <img
 //                             className="w-full h-48 object-cover"
-//                             src={`http://192.168.10.124:3000${recipe.image}`}
+//                             src={`https://bmn1212.duckdns.org${recipe.image}`}
 //                             alt={recipe.title}
 //                         />
 //                     </div>
@@ -176,7 +176,7 @@ console.log("getSaveCummunityList", getSaveCummunityList)
                     <div className="relative">
                         <img
                             className="w-full h-48 object-cover"
-                            src={`http://192.168.10.124:3000${recipe.image}`}
+                            src={`https://bmn1212.duckdns.org${recipe.image}`}
                             alt={recipe.title}
                         />
                     </div>

@@ -309,7 +309,7 @@ function RecipesDettails() {
         <div
           className="relative lg:h-[600px] md:h-[500px] flex items-center justify-center bg-cover bg-center rounded-xl"
           style={{
-            backgroundImage: `url(http://192.168.10.124:3000${recipe.image})`,
+            backgroundImage: `url(https://bmn1212.duckdns.org${recipe.image})`,
           }} // Dynamic background image from API
         >
           <div className="absolute inset-0 bg-[#5B21BD78] bg-opacity-50 rounded-xl"></div>

@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://192.168.10.124:3000/api",
+  baseUrl: "https://bmn1212.duckdns.org/api",
 
   prepareHeaders: (headers, { getState, endpoint }) => {
     const accessToken = localStorage.getItem("access_token");
@@ -43,13 +43,20 @@ export const ApiSlice = createApi({
       }),
       invalidatesTags: ["Profile"],
     }),
-    getAllRecipes: builder.query({
-      query: (arg, api) => {
-        const brandId = api.getState().brand.selectedBrandId; // Use api.getState()
-        return brandId
-          ? `/main/v1/recipes/${brandId}`
-          : "/recipe/v1/all/1";
-      },
+   getAllRecipes: builder.query({
+  query: () => '/main/v1/recipes/',
+  providesTags: ["UserDashboard"],
+}),
+
+// getAllRecipes: builder.query({
+//   query: (brandId) => brandId ? `/main/v1/recipes/${brandId}/` : '/main/v1/recipes/',
+//   providesTags: ["UserDashboard"],
+// })
+// ,
+
+
+    getAllBrandsName: builder.query({
+      query: () => "/main/v1/user/subscribed/brands/",
       providesTags: ["UserDashboard"],
     }),
     getAllBrands: builder.query({
@@ -480,7 +487,7 @@ export const {
 
   useGetCategoryListQuery, useGetSaveCummunityListQuery, useGetSaveRecipeListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation, useGetCommunityPostListQuery, useDeletCommunityPostListMutation, useChefCommentPostMutation, usePostBookmarkMutation,
   usePostLikeUnlikeMutation, useShareChefPostMutation, useAiMassageCreateMutation, useGetMainSubscriptionQuery, useRecipeCommentCreateMutation, useGetRecipeCommentListQuery, useRecipeSaveMutation, useGetMainRecipeDettailsQuery,
-  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useInspirationChatMutation, useGetInspirationChatListQuery, useUpdateCommunityPostMutation, useSubscribtionDiscountMutation, useSubscribtionPaymentMutation, useGetMonthlyRevenueQuery
+  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useInspirationChatMutation, useGetInspirationChatListQuery, useUpdateCommunityPostMutation, useSubscribtionDiscountMutation, useSubscribtionPaymentMutation, useGetMonthlyRevenueQuery, useGetAllBrandsNameQuery
 } = ApiSlice;
 
 export default ApiSlice;

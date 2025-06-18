@@ -5,7 +5,7 @@ import { PiChefHatFill } from "react-icons/pi";
 import { Link, NavLink } from "react-router-dom";
 import { useGetAllBrandsQuery, useGetProfileQuery } from "../../../Rudux/feature/ApiSlice";
 
-import { setBrandId } from "../../../Rudux/feature/BrandSlice";
+// import { setBrandId } from "../../../Rudux/feature/BrandSlice";
 import { useDispatch } from "react-redux";
 import { FaUserTie } from "react-icons/fa";
 
@@ -30,7 +30,7 @@ const UserDashboardNavbar = () => {
  || "");
 			setUserImageUrl(
 				profileList.user.image
-					? `http://192.168.10.124:3000${profileList.user.image}`
+					? `https://bmn1212.duckdns.org${profileList.user.image}`
 					: ""
 			);
 		}
@@ -62,28 +62,7 @@ const UserDashboardNavbar = () => {
 						<IoMdAdd />
 					</Link>
 
-					<div className="flex items-center gap-2 text-[#5B21BD] px-4 py-2 border-[#CCBAEB] border rounded-[10px] font-medium">
-						<PiChefHatFill className="text-2xl" />
-						<select
-							name="brand"
-							id="brand"
-							className="outline-none bg-transparent text-[#5B21BD] font-medium"
-							onChange={handleBrandChange}
-						// value={selectedBrandId}
-						>
-							<option value="" >
-								Select a Brand
-							</option>
-							{brands.map((brand) => (
-								<option
-									key={brand.brand_id}
-									value={brand.brand_id}
-								>
-									{brand.brand_name}
-								</option>
-							))}
-						</select>
-					</div>
+				
 				</div>
 
 				<NavLink to="/dashboard/user_notifications">

@@ -14,7 +14,7 @@ const navigate = useNavigate();
             {/* Post Image */}
             <div>
               <img
-                src={`http://192.168.10.124:3000${post.image}`}
+                src={`https://bmn1212.duckdns.org${post.image}`}
                 alt={post.title}
                 className="w-full h-54 "
               />

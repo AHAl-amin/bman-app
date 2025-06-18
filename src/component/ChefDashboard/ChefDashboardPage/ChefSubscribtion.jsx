@@ -180,12 +180,12 @@ const ChefSubscribtion = () => {
                               {plan.ai_query_limit} AI Queries
                             </span>
                           </li>
-                          <li className="flex items-center">
+                          {/* <li className="flex items-center">
                             <Check className="h-4 w-4 md:h-5 md:w-5 p-[2px] md:p-[3px] rounded-full bg-gray-200 text-[#5B21BD] dark:text-[#5B21BD] mr-2" />
                             <span className="text-[#5B21BD] text-xs md:text-base">
                               {plan.message_limit} Messages
                             </span>
-                          </li>
+                          </li> */}
                         </ul>
                         <button
                           onClick={() => handleSubscribtionPlan(plan)}
