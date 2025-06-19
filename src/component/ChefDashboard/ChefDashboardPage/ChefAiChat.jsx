@@ -3,17 +3,24 @@
 
 
 
+
+
 import { useState, useRef, useEffect } from "react";
 import { PaperclipIcon, SendIcon, ThumbsUp, ThumbsDown, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { IoIosArrowDown } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import aiIcon from '../../../assets/image/ai_icon.png';
-import { useAiMassageCreateMutation, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useGetCreateRecipeQuery } from "../../../Rudux/feature/ApiSlice";
+import { useAiMassageCreateMutation, useAiMassageReactCreateMutation, useGetAiRecipeListQuery, useGetChatMessageListQuery, useGetCreateRecipeQuery } from "../../../Rudux/feature/ApiSlice";
+
+// import { useAiMassageCreateMutation, useAiMassageReactCreateMutation, useGetAiRecipeListQuery, useGetChatMessageListQuery, useGetCreateRecipeQuery } from "../../../../Rudux/feature/ApiSlice";
 
 const ChefAiChat = () => {
   const { data: recipesData, isLoading: isRecipesLoading, error: recipesError } = useGetCreateRecipeQuery();
-  
+  console.log("recipesData", recipesData);
+const { data: getAiRecipeList } = useGetAiRecipeListQuery();
+console.log("getAiRecipeList", getAiRecipeList);
+const RecipeList = getAiRecipeList?.data || [];
   const [AiMassageCreate] = useAiMassageCreateMutation();
   const [AiMassageReactCreate] = useAiMassageReactCreateMutation();
   const [messages, setMessages] = useState([]);
@@ -322,7 +329,7 @@ const ChefAiChat = () => {
                 </button>
                 {showRecipeDropdown && (
                   <div className="absolute top-full mt-2 w-48 bg-white border border-[#EFE9F8] rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
-                    {(recipesData?.data || []).map((recipe, index) => (
+                    {(RecipeList || []).map((recipe, index) => (
                       <button
                         key={recipe.id || index}
                         className={`block w-full text-left px-4 py-2 text-[#5B21BD] hover:bg-gray-100 ${
@@ -348,7 +355,7 @@ const ChefAiChat = () => {
                 {showDropdown && (
                   <div className="absolute top-full mt-2 w-40 bg-white border border-[#EFE9F8] rounded-lg shadow-lg z-10">
                     <Link
-                      to='/chef_dashboard/chef_inspiration'
+                       to='/chef_dashboard/chef_inspiration'
                       onClick={handleInspirationClick}
                       className="block w-full text-left px-4 py-2 text-[#5B21BD] hover:bg-gray-100"
                     >
@@ -365,7 +372,7 @@ const ChefAiChat = () => {
           <div className="border w-screen mt-4 border-[#CCBAEB]"></div>
           <div className="py-2">
             <p className="font-semibold text-[24px] text-[#5B21BD]">
-              {recipesData?.data?.find(recipe => recipe.id === selectedRecipe)?.title || "Select a Recipe"}
+              {RecipeList?.find(recipe => recipe.id === selectedRecipe)?.title || "Select a Recipe"}
             </p>
             <p className="text-[#A2A2A2]">Ask questions specific to this recipe</p>
           </div>
@@ -414,13 +421,7 @@ const ChefAiChat = () => {
                         </div>
                       </div>
                     )}
-                    {/* <div className="rounded-full bg-gray-300 flex items-center justify-center">
-                      <img
-                        src="https://i.ibb.co.com/x2wkVkr/Whats-App-Image-2024-07-04-at-10-43-40-AM.jpg"
-                        alt="User"
-                        className="rounded-full h-10 min-w-10"
-                      />
-                    </div> */}
+                   
                   </div>
                 </div>
               ) : (

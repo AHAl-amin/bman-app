@@ -20,6 +20,7 @@ function AllRecipes() {
 
   const brandList = getAllBrandsName || []; // Get brands from API
   const recipeList = getAllRecipes?.data || [];
+  
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
@@ -33,15 +34,20 @@ function AllRecipes() {
   const toggleFilterDropdown = () => {
     setIsFilterOpen(!isFilterOpen);
   };
+const categories = ['All', ...new Set(recipeList.map(item => item.category).filter(Boolean))];
 
-  const categories = ['All', ...new Set(recipeList.map((item) => item.category).filter(Boolean))];
 
-  const filteredRecipes = recipeList.filter((recipe) => {
-    const matchSearch = recipe.title.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchCategory = selectedCategory === 'All' || recipe.category === selectedCategory;
-    const matchBrand = !selectedBrand || recipe.brand_id?.toString() === selectedBrand;
-    return matchSearch && matchCategory && matchBrand;
-  });
+
+const filteredRecipes = recipeList.filter((recipe) => {
+  const matchSearch = recipe.title.toLowerCase().includes(searchTerm.toLowerCase());
+  const matchCategory =
+    selectedCategory === 'All' || recipe.category === selectedCategory; // <-- Exact match
+  const matchBrand =
+    !selectedBrand || recipe.brand_id?.toString() === selectedBrand;
+
+  return matchSearch && matchCategory && matchBrand;
+});
+
 
   return (
     <div className="md:px-10 py-6 lora">
@@ -86,28 +92,32 @@ function AllRecipes() {
           </div>
 
           {/* Category Filter */}
-          <div className="relative w-[25%]">
-            <button
-              className="text-[#5B21BD] w-full py-3 border border-[#CCBAEB] rounded-[10px] flex justify-center items-center gap-2 cursor-pointer"
-              onClick={toggleFilterDropdown}
-            >
-              <CiFilter />
-              <span>Filter</span>
-            </button>
-            {isFilterOpen && (
-              <div className="absolute top-15 left-0 w-full bg-white border border-[#CCBAEB] rounded-[10px] shadow-lg z-10">
-                {categories.map((category) => (
-                  <div
-                    key={category}
-                    className="px-4 py-2 hover:bg-[#CCBAEB] cursor-pointer text-[#5B21BD]"
-                    onClick={() => handleCategorySelect(category)}
-                  >
-                    {category}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+<div className="relative w-[25%]">
+  <button
+    className="text-[#5B21BD] w-full py-3 border border-[#CCBAEB] rounded-[10px] flex justify-center items-center gap-2 cursor-pointer"
+    onClick={toggleFilterDropdown}
+  >
+    <CiFilter />
+    <span>{selectedCategory}</span>
+  </button>
+
+  {isFilterOpen && (
+    <div className="absolute top-15 left-0 w-full bg-white border border-[#CCBAEB] rounded-[10px] shadow-lg z-10 max-h-60 overflow-y-auto">
+   {categories.map((category) => (
+  <div
+    key={category}
+    className="px-4 py-2 hover:bg-[#CCBAEB] cursor-pointer text-[#5B21BD]"
+    onClick={() => handleCategorySelect(category)}
+  >
+    {category}
+  </div>
+))}
+
+    </div>
+  )}
+</div>
+
+
         </div>
       </div>
 
@@ -182,7 +192,7 @@ function AllRecipes() {
           ) : (
             <div className="col-span-full text-center py-10">
               <p className="text-[#5B21BD] text-xl">
-                No recipes found matching your filters.
+                No recipes found matching your Search.
               </p>
             </div>
           )}

@@ -26,6 +26,7 @@ const ChefCommunity = () => {
   const [chefCommentPost] = useChefCommentPostMutation();
   const [page, setPage] = useState(1);
   const { data: getCommunityPostList, refetch, isLoading } = useGetCommunityPostListQuery({ page });
+  console.log('getCommunityPostList:', getCommunityPostList);
 
   const communityPost = getCommunityPostList?.results?.data || [];
   const totalPosts = getCommunityPostList?.count || 0;

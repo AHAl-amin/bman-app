@@ -172,13 +172,13 @@ const Home = () => {
               key={item.brand_id}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow relative lora"
             >
-               {item.is_active && (
-    <div className="absolute top-4 right-4 z-10">
-      <button className="bg-green-400 text-white text-sm font-semibold px-4 py-1 rounded-full shadow">
-        Subscribe
-      </button>
-    </div>
-  )}
+              {item.is_active && (
+                <div className="absolute top-4 right-4 z-10">
+                  <button className="bg-green-400 text-white text-sm font-semibold px-4 py-1 rounded-full shadow">
+                    Subscribe
+                  </button>
+                </div>
+              )}
               <div className="h-52 relative">
                 <img
                   src={
@@ -206,7 +206,7 @@ const Home = () => {
                 <h3 className="text-lg font-medium text-[#515151] mb-3 capitalize">
                   {item.tagline || "Chef's Branding"}
                 </h3>
-                <p className="text-gray-600 mb-4">{item.description || 'No description available'}</p>
+                <p className="text-gray-600 mb-4 line-clamp-2">{item.description || 'No description available'}</p>
                 <div className="flex justify-between">
                   <div className="flex items-center px-2 py-1 rounded">
                     <svg

@@ -477,6 +477,11 @@ export const ApiSlice = createApi({
 
       providesTags: ["ChefDashboard"],
     }),
+    getAiRecipeList: builder.query({
+      query: () => `/chatbot/v1/chat/recipe/list/`,
+
+      providesTags: ["ChefDashboard"],
+    }),
 
   }),
 });
@@ -487,7 +492,7 @@ export const {
 
   useGetCategoryListQuery, useGetSaveCummunityListQuery, useGetSaveRecipeListQuery, useGetCreateRecipeQuery, useDeleteChefRecipeMutation, useAiTrainingMutation, useRecipeUpdateMutation, useGetRecipeDettailsQuery, useChefPlanCreateMutation, useGetIngradientsDataQuery, useGetInstructionDataQuery, useGetChefNoteDataQuery, usePutIngradientsDataMutation, usePutInstructionDataMutation, usePutChefNoteDataMutation, useDeletIngradientsDataMutation, useDeletInstructionsDataMutation, usePustIngradientsDataMutation, usePustInstructionsDataMutation, usePustChefNoteDataMutation, useDeletChefNoteDataMutation, useChefBrandingCreateMutation, useGetChefBrandingListQuery, useChefSubscriptionPlanCreateMutation, useGetSubscriptionPlanListQuery, useGetManiChefBrandListQuery, useGetManiChefBrandListByIdQuery, useGetProfileQuery, useUpdateProfileMutation, useGetAllRecipesQuery, useGetAllBrandsQuery, useChefCommunityPostCreateMutation, useGetCommunityPostListQuery, useDeletCommunityPostListMutation, useChefCommentPostMutation, usePostBookmarkMutation,
   usePostLikeUnlikeMutation, useShareChefPostMutation, useAiMassageCreateMutation, useGetMainSubscriptionQuery, useRecipeCommentCreateMutation, useGetRecipeCommentListQuery, useRecipeSaveMutation, useGetMainRecipeDettailsQuery,
-  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useInspirationChatMutation, useGetInspirationChatListQuery, useUpdateCommunityPostMutation, useSubscribtionDiscountMutation, useSubscribtionPaymentMutation, useGetMonthlyRevenueQuery, useGetAllBrandsNameQuery
+  useRecipeCommentMutation, useGetMainRecipeCommentQuery, useMainRecipeShareQuery, useGetUserFeedbackListQuery, useUserFeedbackDeleteMutation, useChefDashboardFirstPartQuery, useRecentFeedbackQuery, useChefTopRecipeQuery, useAiMassageReactCreateMutation, useGetChatMessageListQuery, useInspirationChatMutation, useGetInspirationChatListQuery, useUpdateCommunityPostMutation, useSubscribtionDiscountMutation, useSubscribtionPaymentMutation, useGetMonthlyRevenueQuery, useGetAllBrandsNameQuery, useGetAiRecipeListQuery
 } = ApiSlice;
 
 export default ApiSlice;
